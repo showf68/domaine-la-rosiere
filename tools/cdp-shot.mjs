@@ -6,7 +6,7 @@ import { writeFileSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-const [url, width, outFile, scrollY] = process.argv.slice(2);
+const [url, width, outFile, scrollY, evalJs] = process.argv.slice(2);
 const W = parseInt(width, 10);
 const mobile = W < 700;
 const port = 9400 + Math.floor(Math.random() * 400);
@@ -56,6 +56,7 @@ try {
   }
   await send('Runtime.evaluate', { expression: `window.scrollTo(0,${scrollY || 0})` });
   await sleep(1800);
+  if (evalJs) { await send('Runtime.evaluate', { expression: evalJs, awaitPromise: true }); await sleep(1200); }
   const metricsExpr = "JSON.stringify({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,h:document.documentElement.scrollHeight,over:[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>document.documentElement.clientWidth+1).slice(0,6).map(e=>e.tagName+'.'+e.className+' '+Math.round(e.getBoundingClientRect().right))})";
   const metrics = (await send('Runtime.evaluate', { expression: metricsExpr, returnByValue: true })).result.value;
   const full = scrollY === undefined;
