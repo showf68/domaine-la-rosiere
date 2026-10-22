@@ -32,6 +32,12 @@ try {
     document.querySelector('[data-lbnav="1"]').click();o.lb2=document.querySelector('[data-lbcap]').textContent;document.querySelector('#dlg-lb [data-close]').click();
     document.getElementById('t2').click();o.tab=!document.getElementById('p2').hidden&&document.getElementById('p0').hidden&&document.querySelectorAll('#p2 li').length;
     const b=document.querySelector('[data-burger]');if(getComputedStyle(b).display!=='none'){b.click();o.burger=document.getElementById('nav').classList.contains('open');document.querySelector('#nav a').click();o.burgerClosed=!document.getElementById('nav').classList.contains('open')}
+    const f=document.querySelector('[data-form]'),e=f.elements;
+    f.querySelector('.send').click();o.errs=[...f.querySelectorAll('.err')].map(x=>x.textContent).join(' | ');
+    e.arrival.value='2027-06-10';e.arrival.dispatchEvent(new Event('change'));e.departure.value='2027-06-13';e.departure.dispatchEvent(new Event('change'));
+    f.querySelector('[data-stepbtn="1"]').click();o.stay=f.querySelector('[data-stay]').textContent;
+    e.name.value='Test Essai';e.email.value='test@exemple.fr';f.querySelector('.send').click();
+    o.done=!f.querySelector('[data-done]').hidden;
     return o})()`);
   await ev(`document.getElementById('piscine').scrollIntoView()`); await sleep(2500);
   const vstate = await ev(`(()=>{const v=document.querySelector('#piscine video');return {src:v.currentSrc.split('/').pop(),t:+v.currentTime.toFixed(2),paused:v.paused}})()`);
