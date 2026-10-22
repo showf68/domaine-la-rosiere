@@ -39,3 +39,12 @@ Brainstorm Codex (`thread 01a16576-36b7-7300-a9fe-609c6cf01292`) puis variante u
   occasions (4 textes visibles, plus d'accordéon) · accès et pratique (fusionnés) · demande ;
 - 3 espacements seulement (96 / 40 / 16–24 px) ; FR/DE visible sur téléphone ; barre basse
   « Demander un séjour » sur téléphone, masquée au-dessus du formulaire.
+
+## Rounds 11 à 18 — de A2 à A4 (choix final, envoyée au propriétaire le 22/10)
+- Héros : voile calibré au contraste (titre ≥ 6,6:1 sur toute la vidéo), lieu, titre en deux temps, bouton plein.
+- Vidéo de la piscine en boucle juste sous le héros (Yossef Haim n'aime pas le bouton « voir la vidéo »).
+- Colonne centrale ivoire bordée de filets fins, bandes sable alternées entre sections, ornement laiton.
+- A3 : revue section par section (coupe des niveaux, onglets d'étages, carte schématique, 3 étapes de réservation).
+- A4 : un tiers plus courte (9 832 → 6 382 px sur ordinateur) ; chambres en tableau Chambre / Lits / Salle d'eau ;
+  coupe du sous-sol vers le 2e ; visionneuse et galerie refaites (fermeture au clic hors photo) ; récapitulatif
+  Arrivée / Départ / Séjour ; pied de page centré dans la même colonne et le même vert que la réservation.

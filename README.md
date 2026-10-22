@@ -6,20 +6,38 @@ avec piscine intérieure chauffée, à Diemeringen (Alsace). Projet client isol�
 ## Structure
 - `src/index.template.html` : gabarit de la page (design v3b « Les occasions », choisi par Yossef Haim) ; `{{cle}}` = texte traduit. `src/v1.template.html` + `src/v1.css` : ancienne piste v1, archivée.
 - `src/i18n/fr.json`, `src/i18n/de.json` : tous les textes. Une clé ajoutée en FR doit exister en DE (le build refuse sinon).
-- `src/site.css`, `src/site.js` : style et comportements (en-tête, arche, visionneuse, demande de séjour).
+- `src/site.css`, `src/site.js` : style et comportements de la page intégrée (piste v3b, à remplacer par A4).
 - `tools/build.mjs` : `node tools/build.mjs` produit `docs/index.html` (FR), `docs/de/index.html` (DE) et la maquette `docs/maquettes/2026-10-22_site/v3b.html`.
 - `tools/form-test.mjs` : teste onglets, visionneuse, menu et demande de séjour sans rien envoyer.
 - `tools/cdp-shot.mjs` : capture pleine page à vraie largeur (390 px) via Chrome headless ; rapporte débordement horizontal et erreurs console. (`--window-size` de Chrome headless ne descend pas sous 500 px.)
 - `docs/` : ce qui est publié (GitHub Pages). `docs/assets/img/` : photos du propriétaire (album Google Photos), WebP 1920 px et 900 px (`-s`).
 - `docs/maquettes/2026-10-22_site/` : les trois pistes de design, galerie `index.html`, choix argumenté `PICK.md`.
 
-## État (22/10/2026)
-- Version 1 en aperçu, `noindex` : le domaine `domainelarosiere.com` n'est pas touché (site actuel chez Goliday).
-- **Demande de séjour** : sans serveur, le formulaire rédige la demande et ouvre la messagerie du visiteur vers
-  le propriétaire. À remplacer par un envoi direct quand l'hébergement définitif sera choisi.
-- **Calendrier synchronisé (import Abritel / export GrandsGites, iCal)** : exigé par le propriétaire, **pas encore construit**.
-  Il demande un petit serveur (abonnement aux flux, stockage des blocages, flux sortant). Étape suivante.
-- Tarifs volontairement absents : ils varient selon la saison et la durée ; à valider avec le propriétaire avant affichage.
+## État (23/10/2026)
+- **Design retenu par Yossef Haim : `docs/maquettes/2026-10-22_haute-classe/a4-demeure.html`** (« Demeure », compacte),
+  envoyée au propriétaire le 22/10 au soir (mail y68 `1a165bb41f38cfd7`). C'est une **maquette en français** :
+  la page `docs/index.html` (gabarit `src/`) porte encore l'ancienne piste v3b et doit être reconstruite depuis A4.
+- Historique des pistes : `docs/maquettes/2026-10-22_site/` (v1–v3, v3b) puis `docs/maquettes/2026-10-22_haute-classe/`
+  (A, B, C, A2, A3, A4) ; choix et raisons dans les deux `PICK.md`.
+- Médias : `docs/assets/img/` (58 photos étalonnées par `tools/grade.py`, WebP 2200 + 1000 px `-s`),
+  `docs/assets/vid/` (4 boucles muettes : drone maison, drone champs, drone coucher, piscine ; 1920 + 960 px + poster).
+- Aperçu `noindex` : le domaine `domainelarosiere.com` (registrar OVH, DNS Cloudflare, site actuel Goliday) n'est pas touché.
+
+## Reste à faire (dans cet ordre)
+1. Intégrer A4 dans `src/` (gabarit + `i18n/fr.json` / `de.json`) → `docs/index.html` et `docs/de/`.
+2. Version allemande relue (titres plus longs : vérifier les retours à la ligne).
+3. Envoi réel du formulaire (aujourd'hui simulé dans A4 ; l'ancienne page ouvrait un mail prérempli).
+4. Calendrier synchronisé iCal : import Abritel, export GrandsGites (serveur nécessaire).
+5. Validation du propriétaire : couchages chambre par chambre, acompte 30 %, prix draps/serviettes, tarifs.
+6. Bascule du domaine, quand il le décide.
+
+## Outils de contrôle
+- `node tools/cdp-shot.mjs <url> <largeur> <png> [scrollY] [script]` : capture à largeur réelle (390 px compris),
+  liste les éléments qui débordent et les erreurs console. Forcer `document.documentElement.style.scrollBehavior='auto'`
+  dans le script avant de défiler.
+- `node tools/section-heights.mjs <url> <largeur>` : hauteur de chaque section (pour tenir la page compacte).
+- `node tools/ui-test-a4.mjs <url> <largeur>` : coupe, visionneuse, galerie, récapitulatif des dates, envoi simulé.
+- `node tools/form-test.mjs` : formulaire de l'ancienne page intégrée.
 
 ## Sources du contenu
 Descriptif 2026, livret d'accueil, carnet de sorties et logo envoyés par le propriétaire ; album photo partagé ;
