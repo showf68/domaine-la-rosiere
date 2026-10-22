@@ -27,3 +27,15 @@ Retour de Yossef Haim sur v3b : « moche comme tout » / « je veux haute classe
 **Emprunt à B** : les cartes photo des occasions, plus parlantes sur téléphone que la liste.
 **B si** il veut l'effet le plus spectaculaire (soirées, séminaires, clientèle jeune).
 **C si** il préfère la sobriété absolue d'une galerie d'architecture, avec un minimum de texte.
+
+## Round 10 — Yossef Haim : « plutôt A, mais c'est trop gros : plus fin, plus beau, mieux organisé » (+ /brain)
+Brainstorm Codex (`thread 01a16576-36b7-7300-a9fe-609c6cf01292`) puis variante unique **A2** :
+- échelle typographique au ratio 1,2 (titre 3,58rem au lieu de 5,6 ; titres de section 2,49rem au lieu de 4,2 ;
+  corps 16 px Jost 400) ; capitales espacées à 0,08–0,1em au lieu de 0,24–0,5em ; italique réservé ;
+- **une seule vidéo automatique** (le drone) ; la piscine en photo, sa vidéo à la demande ; galerie de
+  24 photos à la demande ; 13 photos visibles dans la page au lieu d'une vingtaine ;
+- 9 séquences : héros · présentation · piscine · maison · chambres (+ détail des couchages chambre par
+  chambre, repris du descriptif du propriétaire) · jardins (vraies photos, plus le drone des champs) ·
+  occasions (4 textes visibles, plus d'accordéon) · accès et pratique (fusionnés) · demande ;
+- 3 espacements seulement (96 / 40 / 16–24 px) ; FR/DE visible sur téléphone ; barre basse
+  « Demander un séjour » sur téléphone, masquée au-dessus du formulaire.
