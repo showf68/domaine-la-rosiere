@@ -30,7 +30,7 @@ try {
     document.querySelector('#dlg-album [data-close]').click();
     document.querySelector('[data-lb]').click();o.lb=document.getElementById('dlg-lb').open+' '+document.querySelector('[data-lbcap]').textContent;
     document.querySelector('[data-lbnav="1"]').click();o.lb2=document.querySelector('[data-lbcap]').textContent;document.querySelector('#dlg-lb [data-close]').click();
-    document.getElementById('t2').click();o.tab=!document.getElementById('p2').hidden&&document.getElementById('p0').hidden&&document.querySelectorAll('#p2 li').length;
+    document.getElementById('t2').click();o.tab=!document.getElementById('p2').hidden&&document.getElementById('p0').hidden&&document.querySelectorAll('#p2 tbody tr, #p2 li').length;
     const b=document.querySelector('[data-burger]');if(getComputedStyle(b).display!=='none'){b.click();o.burger=document.getElementById('nav').classList.contains('open');document.querySelector('#nav a').click();o.burgerClosed=!document.getElementById('nav').classList.contains('open')}
     const f=document.querySelector('[data-form]'),e=f.elements;
     f.querySelector('.send').click();o.errs=[...f.querySelectorAll('.err')].map(x=>x.textContent).join(' | ');
