@@ -163,5 +163,7 @@
   "g9": "Le four professionnel de la cuisine",
   "g10": "Le baby-foot de la salle de jeux",
   "g11": "Le terrain de tennis et de basket",
-  "g12": "L’aire de jeux des enfants"
+  "g12": "L’aire de jeux des enfants",
+  "form_colon": " : ",
+  "form_datesep": "/"
 }

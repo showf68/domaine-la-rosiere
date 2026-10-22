@@ -163,10 +163,10 @@ section{position:relative}
 .outings b{font:500 1.18rem/1.3 var(--serif);color:var(--green)}
 .outings span{font-size:.92rem;color:var(--muted)}
 
-.gallery__grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:12px;margin-top:28px}
+.gallery__grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;grid-auto-flow:dense;gap:12px;margin-top:28px}
 .gallery__grid img{width:100%;height:100%;object-fit:cover;border-radius:2px;cursor:zoom-in;transition:opacity .4s var(--ease)}
 .gallery__grid img:nth-child(1),.gallery__grid img:nth-child(6){grid-row:span 2}
-.gallery__grid img:nth-child(2){grid-column:span 2}
+.gallery__grid img:nth-child(2),.gallery__grid img:nth-child(12){grid-column:span 2}
 .gallery__grid:hover img{opacity:.82}.gallery__grid img:hover{opacity:1}
 
 .info__list{display:grid;grid-template-columns:1fr 1fr;gap:0 48px;margin:12px 0 0;border-top:1px solid var(--line)}
@@ -498,7 +498,7 @@ section{position:relative}
     </div>
     <form class="form" novalidate data-form
       data-err-dates="La date de départ doit être après la date d’arrivée." data-err-people="Indiquez un nombre entre 1 et 50." data-err-required="Ce champ est nécessaire." data-err-email="Cette adresse e-mail semble incomplète."
-      data-subject="Demande de séjour" data-intro="Bonjour, je souhaiterais séjourner au Domaine La Rosière." data-nights="nuits"
+      data-subject="Demande de séjour" data-intro="Bonjour, je souhaiterais séjourner au Domaine La Rosière." data-nights="nuits" data-colon=" : " data-datesep="/"
       data-l-arrival="Arrivée" data-l-departure="Départ" data-l-people="Nombre de personnes" data-l-type="Occasion" data-l-name="Nom et prénom" data-l-email="E-mail" data-l-phone="Téléphone">
       <div class="form__row">
         <label class="field"><span>Arrivée</span><input type="date" name="arrival" required></label>
@@ -671,7 +671,7 @@ section{position:relative}
     }
   }
   function fmt(d) {
-    var p = d.split('-'); return p[2] + '/' + p[1] + '/' + p[0];
+    var p = d.split('-'); return p[2] + ds.datesep + p[1] + ds.datesep + p[0];
   }
 
   form.addEventListener('submit', function (ev) {
@@ -691,15 +691,15 @@ section{position:relative}
     var nights = Math.round((new Date(el.departure.value) - new Date(el.arrival.value)) / 86400000);
     var lines = [
       ds.intro, '',
-      ds.lArrival + ' : ' + fmt(el.arrival.value),
-      ds.lDeparture + ' : ' + fmt(el.departure.value) + ' (' + nights + ' ' + ds.nights + ')',
-      ds.lPeople + ' : ' + ppl,
-      ds.lType + ' : ' + el.type.value,
+      ds.lArrival + ds.colon + fmt(el.arrival.value),
+      ds.lDeparture + ds.colon + fmt(el.departure.value) + ' (' + nights + ' ' + ds.nights + ')',
+      ds.lPeople + ds.colon + ppl,
+      ds.lType + ds.colon + el.type.value,
       '',
-      ds.lName + ' : ' + el.name.value.trim(),
-      ds.lEmail + ' : ' + el.email.value.trim()
+      ds.lName + ds.colon + el.name.value.trim(),
+      ds.lEmail + ds.colon + el.email.value.trim()
     ];
-    if (el.phone.value.trim()) lines.push(ds.lPhone + ' : ' + el.phone.value.trim());
+    if (el.phone.value.trim()) lines.push(ds.lPhone + ds.colon + el.phone.value.trim());
     if (el.message.value.trim()) lines.push('', el.message.value.trim());
     var subject = ds.subject + ' — ' + fmt(el.arrival.value) + ' — ' + ppl;
     var href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));

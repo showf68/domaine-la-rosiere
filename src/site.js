@@ -111,7 +111,7 @@
     }
   }
   function fmt(d) {
-    var p = d.split('-'); return p[2] + '/' + p[1] + '/' + p[0];
+    var p = d.split('-'); return p[2] + ds.datesep + p[1] + ds.datesep + p[0];
   }
 
   form.addEventListener('submit', function (ev) {
@@ -131,15 +131,15 @@
     var nights = Math.round((new Date(el.departure.value) - new Date(el.arrival.value)) / 86400000);
     var lines = [
       ds.intro, '',
-      ds.lArrival + ' : ' + fmt(el.arrival.value),
-      ds.lDeparture + ' : ' + fmt(el.departure.value) + ' (' + nights + ' ' + ds.nights + ')',
-      ds.lPeople + ' : ' + ppl,
-      ds.lType + ' : ' + el.type.value,
+      ds.lArrival + ds.colon + fmt(el.arrival.value),
+      ds.lDeparture + ds.colon + fmt(el.departure.value) + ' (' + nights + ' ' + ds.nights + ')',
+      ds.lPeople + ds.colon + ppl,
+      ds.lType + ds.colon + el.type.value,
       '',
-      ds.lName + ' : ' + el.name.value.trim(),
-      ds.lEmail + ' : ' + el.email.value.trim()
+      ds.lName + ds.colon + el.name.value.trim(),
+      ds.lEmail + ds.colon + el.email.value.trim()
     ];
-    if (el.phone.value.trim()) lines.push(ds.lPhone + ' : ' + el.phone.value.trim());
+    if (el.phone.value.trim()) lines.push(ds.lPhone + ds.colon + el.phone.value.trim());
     if (el.message.value.trim()) lines.push('', el.message.value.trim());
     var subject = ds.subject + ' — ' + fmt(el.arrival.value) + ' — ' + ppl;
     var href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));

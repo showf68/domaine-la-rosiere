@@ -163,5 +163,7 @@
   "g9": "Der Profi-Ofen der Küche",
   "g10": "Der Tischkicker im Spielraum",
   "g11": "Der Tennis- und Basketballplatz",
-  "g12": "Der Kinderspielplatz"
+  "g12": "Der Kinderspielplatz",
+  "form_colon": ": ",
+  "form_datesep": "."
 }
