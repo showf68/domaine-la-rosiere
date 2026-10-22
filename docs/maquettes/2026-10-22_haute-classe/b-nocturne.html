@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domaine La Rosière — B « Nocturne »</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0f1411;--night-2:#161d19;--night-3:#1e2722;--bone:#ece5d8;--dim:#a39d90;--brass:#c3a273;--line:rgba(236,229,216,.14);
+--disp:"Bodoni Moda",Didot,serif;--sans:"Manrope",system-ui,sans-serif;--gut:clamp(20px,5vw,72px);--ease:cubic-bezier(.19,1,.22,1);color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scrollbar-color:var(--brass) var(--night)}
+body{margin:0;background:var(--night);color:var(--bone);font:300 16.5px/1.75 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--brass);color:var(--night)}
+:focus-visible{outline:1px solid var(--brass);outline-offset:4px}
+.lab{font:500 .7rem/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--brass)}
+
+.top{position:fixed;inset:0 0 auto;z-index:30;display:flex;align-items:center;gap:26px;padding:20px var(--gut);transition:background .6s var(--ease)}
+.top.solid{background:rgba(15,20,17,.92);backdrop-filter:blur(10px)}
+.top .name{font:400 1.25rem/1 var(--disp);text-decoration:none;font-style:italic}
+.top nav{margin-left:auto;display:flex;gap:26px}
+.top nav a{text-decoration:none;font-size:.82rem;letter-spacing:.06em;color:var(--dim);transition:color .3s}
+.top nav a:hover{color:var(--bone)}
+.lang{font-size:.78rem;color:var(--dim)}.lang b{color:var(--bone);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:12px;min-height:46px;padding:0 22px;border:1px solid var(--brass);color:var(--bone);text-decoration:none;font:500 .74rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;transition:background .4s,color .4s;background:transparent;cursor:pointer}
+.btn:hover{background:var(--brass);color:var(--night)}
+
+/* heros : grand titre sur la piscine */
+.hero{position:relative;height:100svh;min-height:620px;overflow:hidden;display:grid;place-items:center;text-align:center}
+.hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.85)}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 45%,rgba(15,20,17,.15),rgba(15,20,17,.82) 100%)}
+.hero__in{position:relative;z-index:2;padding:0 var(--gut)}
+.hero h1{font:400 clamp(4rem,1rem + 12vw,12rem)/.88 var(--disp);font-style:italic;margin:0;letter-spacing:-.01em}
+.hero h1 span{display:block;font:500 clamp(.7rem,.6rem + .3vw,.85rem)/1 var(--sans);font-style:normal;letter-spacing:.6em;text-transform:uppercase;margin-bottom:28px;padding-left:.6em;color:var(--brass)}
+.hero p{max-width:38ch;margin:30px auto 0;font-size:1.05rem;color:var(--bone);opacity:.9}
+.hero__foot{position:absolute;z-index:2;left:var(--gut);right:var(--gut);bottom:28px;display:flex;justify-content:space-between;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+/* recit a colonne fixe */
+.story{display:grid;grid-template-columns:5fr 7fr;gap:clamp(30px,5vw,90px);padding:clamp(100px,12vw,170px) var(--gut) 0;position:relative}
+.story__fixed{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center}
+.story__fixed .chap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.story__fixed .chap.on{opacity:1;transform:none}
+.h2{font:400 clamp(2.4rem,1.2rem + 3.6vw,4.6rem)/1.02 var(--disp);margin:14px 0 22px;text-wrap:balance}
+.h2 i{color:var(--brass)}
+.chap p{max-width:40ch;color:var(--dim);margin:0 0 22px}
+.chap dl{display:grid;grid-template-columns:auto auto;gap:10px 30px;margin:6px 0 0;justify-content:start}
+.chap dt{color:var(--dim);font-size:.88rem}
+.chap dd{margin:0;font:400 1.2rem/1.3 var(--disp);font-variant-numeric:lining-nums}
+.story__flow{display:grid;gap:clamp(60px,10vh,120px);padding:12vh 0 18vh}
+.shot{margin:0}
+.shot img,.shot video{width:100%;aspect-ratio:4/5;object-fit:cover}
+.shot.wide img,.shot.wide video{aspect-ratio:3/2}
+.shot figcaption{margin-top:12px;font:italic 400 .95rem var(--disp);color:var(--dim)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.pair .shot:last-child{margin-top:22%}
+.mobile-chap{display:none}
+
+/* occasions */
+.occ{padding:clamp(100px,12vw,170px) var(--gut) 0}
+.occ__head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:46px}
+.occ__head p{max-width:44ch;color:var(--dim);margin:0}
+.occ__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.card{text-decoration:none;position:relative;aspect-ratio:3/4.4;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:24px}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease),filter 1s var(--ease);filter:brightness(.72) saturate(.85)}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,20,17,.92),rgba(15,20,17,0) 60%)}
+.card:hover img{transform:scale(1.06);filter:brightness(.82) saturate(.95)}
+.card *:not(img){position:relative;z-index:2}
+.card h3{font:400 1.7rem/1.1 var(--disp);margin:10px 0 10px}
+.card p{margin:0;color:var(--dim);font-size:.92rem;max-height:0;opacity:0;overflow:hidden;transition:max-height .8s var(--ease),opacity .6s}
+.card:hover p,.card:focus-within p{max-height:120px;opacity:1}
+
+/* region : coucher de soleil */
+.dusk{position:relative;margin-top:clamp(100px,12vw,170px);min-height:92svh;display:flex;align-items:flex-end;overflow:hidden}
+.dusk video,.dusk .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dusk::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,20,17,.95) 0%,rgba(15,20,17,.35) 45%,rgba(15,20,17,.1) 100%)}
+.dusk__in{position:relative;z-index:2;width:100%;padding:0 var(--gut) clamp(50px,8vh,90px);display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end}
+.dusk p{color:var(--bone);opacity:.85;max-width:44ch;margin:0}
+.km{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
+.km div{padding:18px 0 0}
+.km b{display:block;font:400 2rem/1 var(--disp);font-variant-numeric:lining-nums}
+.km span{font-size:.82rem;color:var(--dim)}
+
+/* infos & demande */
+.ask{padding:clamp(100px,12vw,170px) var(--gut);display:grid;grid-template-columns:5fr 7fr;gap:clamp(40px,6vw,100px);max-width:1400px;margin:auto}
+.facts{list-style:none;margin:34px 0 0;padding:0;border-top:1px solid var(--line)}
+.facts li{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);color:var(--dim)}
+.facts li b{font:400 1.05rem var(--disp);color:var(--bone)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:var(--night-2);padding:clamp(24px,4vw,48px);border:1px solid var(--line)}
+.form label{display:grid;gap:8px;font-size:.8rem;letter-spacing:.08em;color:var(--dim)}
+.form .w{grid-column:1/-1}
+.form input,.form select,.form textarea{font:300 1rem var(--sans);color:var(--bone);background:var(--night-3);border:1px solid transparent;padding:13px 14px;min-height:48px;transition:border-color .4s}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--brass)}
+.form textarea{resize:vertical;min-height:100px}
+.form .btn{grid-column:1/-1;justify-self:start;margin-top:8px;background:var(--brass);color:var(--night)}
+.form .btn:hover{background:var(--bone)}
+.toast{grid-column:1/-1;margin:0;color:var(--brass);font:italic 400 1rem var(--disp)}
+.foot{border-top:1px solid var(--line);padding:46px var(--gut);display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;color:var(--dim);font-size:.85rem}
+.foot .name{font:italic 400 1.4rem var(--disp);color:var(--bone)}
+
+@media (max-width:1000px){
+  .top nav{display:none}.top .lang{margin-left:auto}
+  .story{grid-template-columns:1fr}
+  .story__fixed{display:none}
+  .story__flow{padding:0;gap:70px}
+  .mobile-chap{display:block}
+  .occ__grid{grid-template-columns:1fr 1fr}
+  .card p{max-height:none;opacity:1}
+  .dusk__in,.ask{grid-template-columns:1fr}
+  .km{grid-template-columns:1fr 1fr;gap:0 20px}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .top{gap:14px}.top .btn{padding:0 14px;letter-spacing:.12em}
+  .occ__grid,.pair,.form{grid-template-columns:1fr}
+  .pair .shot:last-child{margin-top:0}
+  .card{aspect-ratio:4/4.6}
+  .hero__foot span:last-child{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top" data-top>
+  <a class="name" href="#">La Rosière</a>
+  <nav><a href="#recit">La maison</a><a href="#occasions">Occasions</a><a href="#region">Région</a><a href="#demande">Infos</a></nav>
+  <span class="lang"><b>FR</b> · DE</span>
+  <a class="btn" href="#demande">Réserver</a>
+</header>
+
+<section class="hero">
+  <img class="poster" src="../../assets/vid/piscine-poster.webp" alt="">
+  <video autoplay muted loop playsinline preload="metadata" poster="../../assets/vid/piscine-poster.webp" aria-hidden="true">
+    <source src="../../assets/vid/piscine-s.mp4" media="(max-width: 800px)" type="video/mp4">
+    <source src="../../assets/vid/piscine.mp4" type="video/mp4">
+  </video>
+  <div class="hero__in">
+    <h1><span>Domaine</span>La Rosière</h1>
+    <p>Une demeure d’Alsace entièrement à vous, et sa piscine chauffée, toute l’année.</p>
+  </div>
+  <div class="hero__foot"><span>Diemeringen · Vosges du Nord</span><span>Jusqu’à 50 personnes</span></div>
+</section>
+
+<section class="story" id="recit" data-story>
+  <div class="story__fixed">
+    <div class="chap on" data-chap="0"><span class="lab">La piscine</span><h2 class="h2">L’eau, <i>en toute saison.</i></h2><p>Au sous-sol, un bassin intérieur chauffé toute l’année et sa pataugeoire. L’endroit que nos hôtes citent en premier.</p><dl><dt>Bassin</dt><dd>10 × 3,8 m</dd><dt>Pataugeoire</dt><dd>3 × 3 m</dd></dl></div>
+    <div class="chap" data-chap="1"><span class="lab">La maison</span><h2 class="h2">Mille mètres carrés <i>à vivre.</i></h2><p>Un lobby de 70 m² et son escalier en chêne, deux salons, deux salles à manger, une cuisine professionnelle, un cinéma de quarante places.</p></div>
+    <div class="chap" data-chap="2"><span class="lab">Les chambres</span><h2 class="h2">Quinze chambres, <i>trois étages.</i></h2><p>Des chambres doubles aux grandes chambres familiales, jusqu’à cinquante hôtes. Une chambre adaptée PMR au rez-de-chaussée.</p></div>
+    <div class="chap" data-chap="3"><span class="lab">Les jardins</span><h2 class="h2">Quatre mille mètres carrés <i>de jardins.</i></h2><p>Roses, terrasse couverte, four à bois, grand brasero, tennis et jeux pour les enfants.</p></div>
+  </div>
+  <div class="story__flow">
+    <div class="mobile-chap"><span class="lab">La piscine</span><h2 class="h2">L’eau, <i>en toute saison.</i></h2><p style="color:var(--dim)">Un bassin intérieur chauffé toute l’année (10 × 3,8 m) et sa pataugeoire (3 × 3 m).</p></div>
+    <figure class="shot" data-step="0"><img src="../../assets/img/piscine-2-s.webp" alt="Le grand bassin" loading="lazy"><figcaption>Le grand bassin, éclairé</figcaption></figure>
+    <figure class="shot wide" data-step="0"><img src="../../assets/img/piscine-3-s.webp" alt="" loading="lazy"></figure>
+    <div class="mobile-chap"><span class="lab">La maison</span><h2 class="h2">Mille mètres carrés <i>à vivre.</i></h2></div>
+    <figure class="shot" data-step="1"><img src="../../assets/img/escalier-s.webp" alt="L’escalier en chêne" loading="lazy"><figcaption>L’escalier en chêne du lobby</figcaption></figure>
+    <div class="pair" data-step="1"><figure class="shot"><img src="../../assets/img/salon-s.webp" alt="" loading="lazy"><figcaption>Le grand salon</figcaption></figure><figure class="shot"><img src="../../assets/img/cuisine-s.webp" alt="" loading="lazy"><figcaption>La cuisine professionnelle</figcaption></figure></div>
+    <div class="mobile-chap"><span class="lab">Les chambres</span><h2 class="h2">Quinze chambres, <i>trois étages.</i></h2></div>
+    <figure class="shot wide" data-step="2"><img src="../../assets/img/sdb-baignoire-s.webp" alt="" loading="lazy"><figcaption>Salle de bain en marbre noir</figcaption></figure>
+    <div class="pair" data-step="2"><figure class="shot"><img src="../../assets/img/chambre-verte-s.webp" alt="" loading="lazy"></figure><figure class="shot"><img src="../../assets/img/chambre-bleue-3-s.webp" alt="" loading="lazy"></figure></div>
+    <div class="mobile-chap"><span class="lab">Les jardins</span><h2 class="h2">Quatre mille mètres carrés <i>de jardins.</i></h2></div>
+    <figure class="shot" data-step="3"><img src="../../assets/img/facade-nuit-s.webp" alt="La façade le soir" loading="lazy"><figcaption>La façade, le soir</figcaption></figure>
+    <figure class="shot wide" data-step="3"><img src="../../assets/img/terrasse-couverte-s.webp" alt="" loading="lazy"><figcaption>La terrasse couverte</figcaption></figure>
+  </div>
+</section>
+
+<section class="occ" id="occasions">
+  <div class="occ__head"><h2 class="h2" style="margin:0">Vos <i>occasions.</i></h2><p>Une seule réservation : tout le domaine est pour votre groupe, rien que pour lui.</p></div>
+  <div class="occ__grid">
+    <a class="card" href="#demande"><img src="../../assets/img/terrasse-table-s.webp" alt="" loading="lazy"><span class="lab">Week-end</span><h3>Cousinades</h3><p>Trois générations sous le même toit, de la place pour chacun.</p></a>
+    <a class="card" href="#demande"><img src="../../assets/img/salle-a-manger-3-s.webp" alt="" loading="lazy"><span class="lab">Fêtes</span><h3>Fiançailles &amp; mariages</h3><p>Cuisine professionnelle pour votre traiteur, jardins pour les photos.</p></a>
+    <a class="card" href="#demande"><img src="../../assets/img/jardin-s.webp" alt="" loading="lazy"><span class="lab">Groupes</span><h3>Associations</h3><p>Cinquante personnes logées ensemble, cinéma et salles de jeux.</p></a>
+    <a class="card" href="#demande"><img src="../../assets/img/lobby-cheminee-s.webp" alt="" loading="lazy"><span class="lab">En semaine</span><h3>Séminaires</h3><p>Salle de réunion, salle de projection et le calme des Vosges du Nord.</p></a>
+  </div>
+</section>
+
+<section class="dusk" id="region">
+  <img class="poster" src="../../assets/vid/drone-coucher-poster.webp" alt="">
+  <video autoplay muted loop playsinline preload="none" poster="../../assets/vid/drone-coucher-poster.webp" aria-hidden="true" data-lazyvid>
+    <source data-src="../../assets/vid/drone-coucher-s.mp4" media="(max-width: 800px)" type="video/mp4">
+    <source data-src="../../assets/vid/drone-coucher.mp4" type="video/mp4">
+  </video>
+  <div class="dusk__in">
+    <div><span class="lab">La région</span><h2 class="h2">Les Vosges <i>du Nord.</i></h2><p>Diemeringen, Alsace Bossue : un parc naturel classé réserve de biosphère par l’UNESCO, à deux pas de l’Allemagne.</p></div>
+    <div class="km"><div><b>9</b><span>km · Sarre-Union</span></div><div><b>26</b><span>km · Sarreguemines</span></div><div><b>85</b><span>km · Strasbourg</span></div><div><b>99</b><span>km · Metz</span></div></div>
+  </div>
+</section>
+
+<section class="ask" id="demande">
+  <div>
+    <span class="lab">Réservation directe</span>
+    <h2 class="h2">Demander <i>un séjour.</i></h2>
+    <p style="color:var(--dim);max-width:38ch">Le propriétaire vous répond personnellement avec la disponibilité et le tarif.</p>
+    <ul class="facts"><li>Arrivée<b>dès 16 h</b></li><li>Départ<b>avant midi</b></li><li>Ménage<b>inclus</b></li><li>Capacité<b>50 personnes</b></li></ul>
+  </div>
+  <form class="form" onsubmit="event.preventDefault();this.querySelector('.toast').hidden=false">
+    <label>Arrivée<input type="date"></label><label>Départ<input type="date"></label>
+    <label>Personnes<input type="number" min="1" max="50"></label>
+    <label>Occasion<select><option>Réunion de famille</option><option>Fête</option><option>Association</option><option>Séminaire</option></select></label>
+    <label class="w">Nom et prénom<input type="text"></label>
+    <label>E-mail<input type="email"></label><label>Téléphone<input type="tel"></label>
+    <label class="w">Message<textarea rows="3"></textarea></label>
+    <button class="btn" type="submit">Envoyer la demande</button>
+    <p class="toast" role="status" hidden>Maquette : envoi simulé, rien n’est parti.</p>
+  </form>
+</section>
+<footer class="foot"><span class="name">La Rosière</span><span>116 Grand’Rue · 67430 Diemeringen · Alsace</span><span>Maquette B — « Nocturne »</span></footer>
+<script>
+(function(){
+  var top=document.querySelector('[data-top]');
+  function s(){top.classList.toggle('solid',scrollY>80)}addEventListener('scroll',s,{passive:true});s();
+  var chaps=document.querySelectorAll('[data-chap]');
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var k=e.target.dataset.step;chaps.forEach(function(c){c.classList.toggle('on',c.dataset.chap===k)})}})},{rootMargin:'-45% 0px -45% 0px'});
+  document.querySelectorAll('[data-step]').forEach(function(el){io.observe(el)});
+  var lv=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var v=e.target;v.querySelectorAll('source').forEach(function(x){x.src=x.dataset.src});v.load();v.play().catch(function(){});lv.unobserve(v)}})},{rootMargin:'300px'});
+  document.querySelectorAll('[data-lazyvid]').forEach(function(v){lv.observe(v)});
+})();
+</script>
+</body>
+</html>

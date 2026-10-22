@@ -56,7 +56,8 @@ try {
   }
   await send('Runtime.evaluate', { expression: `window.scrollTo(0,${scrollY || 0})` });
   await sleep(1800);
-  const metrics = (await send('Runtime.evaluate', { expression: 'JSON.stringify({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,h:document.documentElement.scrollHeight})', returnByValue: true })).result.value;
+  const metricsExpr = "JSON.stringify({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,h:document.documentElement.scrollHeight,over:[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>document.documentElement.clientWidth+1).slice(0,6).map(e=>e.tagName+'.'+e.className+' '+Math.round(e.getBoundingClientRect().right))})";
+  const metrics = (await send('Runtime.evaluate', { expression: metricsExpr, returnByValue: true })).result.value;
   const full = scrollY === undefined;
   const shot = await send('Page.captureScreenshot', full ? { format: 'png', captureBeyondViewport: true } : { format: 'png' });
   writeFileSync(outFile, Buffer.from(shot.data, 'base64'));
