@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domaine La Rosière — maquette v2 « Bassin de nuit »</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--deep:#0e2232;--deep-2:#14304a;--tile:#2b5d86;--aqua:#9cd3e6;--marble:#eef1f2;--paper:#f8f7f4;--text:#dbe6ec;--mute:#93a9b6;--brass:#c9a46a;--line:rgba(219,230,236,.16);
+--disp:"Bodoni Moda",Didot,serif;--sans:"Manrope",system-ui,sans-serif;--gut:clamp(16px,4vw,56px);--ease:cubic-bezier(.16,1,.3,1);color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--deep);color:var(--text);font:400 16px/1.65 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--aqua);color:var(--deep)}
+:focus-visible{outline:2px solid var(--aqua);outline-offset:3px}
+html{scrollbar-color:var(--tile) var(--deep)}
+.top{position:fixed;inset:0 0 auto;z-index:20;display:flex;align-items:center;gap:20px;padding:14px var(--gut);background:linear-gradient(var(--deep),rgba(14,34,50,0))}
+.brand{font:500 1.35rem/1 var(--disp);text-decoration:none;color:var(--marble)}
+.brand i{font-style:italic;color:var(--aqua)}
+.top nav{margin-left:auto;display:flex;gap:22px;font-size:.88rem}
+.top nav a{text-decoration:none;color:var(--mute)}
+.top nav a:hover{color:var(--marble)}
+.lang{font-size:.82rem;color:var(--mute)}
+.lang b{color:var(--marble)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 1.4em;border-radius:6px;font:600 .9rem/1 var(--sans);text-decoration:none;letter-spacing:.02em;border:1px solid transparent;cursor:pointer;transition:background .3s,color .3s}
+.btn--aqua{background:var(--aqua);color:var(--deep)}
+.btn--aqua:hover{background:var(--marble)}
+.btn--ghost{border-color:var(--line);color:var(--marble)}
+.btn--ghost:hover{border-color:var(--aqua)}
+
+.hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);min-height:100vh}
+.hero__txt{padding:140px var(--gut) 56px;display:flex;flex-direction:column;justify-content:flex-end}
+.hero h1{font:400 clamp(2.6rem,1rem + 4.6vw,5rem)/1.02 var(--disp);color:var(--marble);margin:0 0 24px;text-wrap:balance}
+.hero h1 em{color:var(--aqua)}
+.hero p{max-width:44ch;color:var(--mute);margin:0 0 28px}
+.hero__ctas{display:flex;gap:10px;flex-wrap:wrap}
+.hero__pic{position:relative;overflow:hidden}
+.hero__pic img{width:100%;height:100%;object-fit:cover}
+.caustic{position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.55;background:
+ radial-gradient(40% 20% at 30% 70%,rgba(255,255,255,.55),transparent 70%),
+ radial-gradient(30% 16% at 70% 80%,rgba(255,255,255,.45),transparent 70%),
+ radial-gradient(26% 14% at 55% 60%,rgba(255,255,255,.4),transparent 70%);
+ animation:drift 9s ease-in-out infinite alternate;filter:blur(6px)}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-3%,2%) scale(1.06)}100%{transform:translate(2%,-2%) scale(.98)}}
+@media (prefers-reduced-motion:reduce){.caustic{animation:none}}
+.chips{position:absolute;left:24px;bottom:24px;right:24px;display:flex;flex-wrap:wrap;gap:8px}
+.chips span{background:rgba(14,34,50,.72);backdrop-filter:blur(6px);padding:8px 12px;border-radius:6px;font-size:.82rem;color:var(--marble)}
+.chips b{font:500 1.05rem/1 var(--disp);color:var(--aqua);margin-right:4px}
+
+.band{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.band div{padding:22px var(--gut);border-right:1px solid var(--line)}
+.band div:last-child{border-right:0}
+.band b{display:block;font:400 2.1rem/1 var(--disp);color:var(--marble)}
+.band span{font-size:.82rem;color:var(--mute)}
+
+.sec{padding:clamp(64px,9vw,120px) var(--gut) 0;max-width:1360px;margin:auto}
+.sec h2{font:400 clamp(2rem,1.2rem + 2.6vw,3.3rem)/1.08 var(--disp);color:var(--marble);margin:0 0 14px;text-wrap:balance}
+.sec .lead{color:var(--mute);max-width:60ch;margin:0 0 32px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);align-items:start}
+.spec{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:8px}
+.spec div{background:var(--deep);padding:16px}
+.spec dt{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:var(--mute)}
+.spec dd{margin:6px 0 0;font:400 1.35rem/1.1 var(--disp);color:var(--marble)}
+
+.mosaic{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:150px;gap:8px}
+.mosaic figure{margin:0;position:relative;overflow:hidden;border-radius:6px}
+.mosaic img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.mosaic figure:hover img{transform:scale(1.05)}
+.mosaic figcaption{position:absolute;left:10px;bottom:8px;font-size:.78rem;background:rgba(14,34,50,.75);padding:4px 8px;border-radius:4px;color:var(--marble)}
+.m1{grid-column:span 3;grid-row:span 2}.m2{grid-column:span 3}.m3{grid-column:span 2}.m4{grid-column:span 1}.m5{grid-column:span 2;grid-row:span 2}.m6{grid-column:span 2}.m7{grid-column:span 2}.m8{grid-column:span 2}.m9{grid-column:span 2}
+
+.list{columns:2 260px;column-gap:36px;padding:0;margin:0;list-style:none}
+.list li{break-inside:avoid;padding:10px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.floors{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
+.floors div{background:var(--deep-2);border-radius:8px;padding:18px}
+.floors b{display:block;font:400 1.25rem/1.2 var(--disp);color:var(--aqua);margin-bottom:6px}
+.floors span{font-size:.9rem;color:var(--text)}
+
+.who{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.who div{background:var(--deep-2);border-radius:8px;padding:22px}
+.who h3{font:400 1.25rem/1.2 var(--disp);color:var(--marble);margin:0 0 8px}
+.who p{margin:0;color:var(--mute);font-size:.92rem}
+
+.area{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
+.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:.93rem}
+.row b{font-weight:600;color:var(--marble);font-variant-numeric:tabular-nums}
+h3.k{font:400 1.25rem/1.2 var(--disp);color:var(--aqua);margin:0 0 10px}
+
+.ask{margin-top:clamp(64px,9vw,120px);background:var(--marble);color:var(--deep)}
+.ask__in{max-width:1360px;margin:auto;padding:clamp(56px,8vw,100px) var(--gut);display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(24px,5vw,72px)}
+.ask h2{font:400 clamp(2rem,1.2rem + 2.6vw,3.3rem)/1.08 var(--disp);margin:0 0 12px;color:var(--deep)}
+.ask p{color:#3c5566}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f label{display:grid;gap:5px;font-size:.84rem;color:#3c5566}
+.f .w{grid-column:1/-1}
+.f input,.f select,.f textarea{font:400 1rem var(--sans);padding:12px;border:1px solid #c5d0d6;border-radius:6px;background:#fff;min-height:48px;color:var(--deep)}
+.f input:focus,.f select:focus,.f textarea:focus{outline:2px solid var(--tile);outline-offset:0}
+.f .btn{grid-column:1/-1;justify-self:start;background:var(--deep);color:var(--marble)}
+.toast{grid-column:1/-1;background:#dff0f5;border-radius:6px;padding:12px 14px;font-size:.92rem}
+.note-sim{font-size:.8rem;color:#6a7f8b;grid-column:1/-1}
+.foot{padding:36px var(--gut);font-size:.85rem;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.sticky{display:none}
+@media (max-width:980px){.top nav{display:none}.hero{grid-template-columns:1fr}.hero__txt{padding-top:132px;order:0}.hero__pic{height:62vh}.band{grid-template-columns:1fr 1fr}.band div:nth-child(2){border-right:0}.band div{border-bottom:1px solid var(--line)}.two,.area,.ask__in{grid-template-columns:1fr}.who{grid-template-columns:1fr 1fr}.spec{grid-template-columns:1fr 1fr}.mosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:140px}.mosaic figure{grid-column:span 1!important;grid-row:span 1!important}.mosaic .m1{grid-column:span 2!important;grid-row:span 2!important}
+.sticky{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:30;box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}.top .btn{display:none}.foot{padding-bottom:84px}}
+@media (max-width:560px){.who,.floors,.f{grid-template-columns:1fr}.top{gap:12px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#">La <i>Rosière</i></a>
+  <nav><a href="#piscine">La piscine</a><a href="#maison">La maison</a><a href="#chambres">Chambres</a><a href="#jardins">Jardins</a><a href="#alentours">Alentours</a><a href="#infos">Infos</a></nav>
+  <span class="lang"><b>FR</b> · DE</span>
+  <a class="btn btn--aqua" href="#demande">Demander un séjour</a>
+</header>
+
+<section class="hero">
+  <div class="hero__txt">
+    <h1>Une piscine chauffée, <em>50 personnes</em>, une seule maison.</h1>
+    <p>Le Domaine La Rosière accueille les groupes toute l’année à Diemeringen, dans les Vosges du Nord : 1 000 m² habitables, 15 chambres, 4 000 m² de jardins, et un bassin intérieur où l’on se baigne en janvier comme en juillet.</p>
+    <div class="hero__ctas"><a class="btn btn--aqua" href="#demande">Demander un séjour</a><a class="btn btn--ghost" href="#piscine">Voir la piscine</a></div>
+  </div>
+  <div class="hero__pic">
+    <img src="../../assets/img/piscine.webp" alt="La piscine intérieure chauffée, eau bleue sur carrelage en damier">
+    <div class="caustic" aria-hidden="true"></div>
+    <div class="chips"><span><b>10 × 3,8 m</b>bassin</span><span><b>3 × 3 m</b>pataugeoire</span><span><b>Chauffée</b>toute l’année</span></div>
+  </div>
+</section>
+
+<div class="band">
+  <div><b>50</b><span>personnes maximum</span></div>
+  <div><b>15</b><span>chambres sur trois étages</span></div>
+  <div><b>1 000 m²</b><span>habitables</span></div>
+  <div><b>4 000 m²</b><span>de jardins</span></div>
+</div>
+
+<section class="sec two" id="piscine">
+  <div>
+    <h2>La piscine, en janvier comme en juillet</h2>
+    <p class="lead">Au sous-sol de la villa, un bassin intérieur chauffé vous attend quelle que soit la saison. Les grands nagent, les petits barbotent dans leur pataugeoire. C’est l’équipement que nos hôtes citent en premier.</p>
+    <dl class="spec"><div><dt>Bassin</dt><dd>10 × 3,8 m</dd></div><div><dt>Pataugeoire</dt><dd>3 × 3 m</dd></div><div><dt>Eau</dt><dd>chauffée</dd></div><div><dt>Sur place</dt><dd>douches, WC</dd></div></dl>
+    <p class="lead" style="margin-top:18px;font-size:.9rem">Le local piscine se ferme à clé et s’utilise sous la surveillance d’un adulte.</p>
+  </div>
+  <img src="../../assets/img/piscine-2-s.webp" alt="Le grand bassin" style="border-radius:8px;aspect-ratio:4/3;object-fit:cover;width:100%">
+</section>
+
+<section class="sec" id="maison">
+  <h2>Une maison faite pour recevoir</h2>
+  <p class="lead">Construite en 1947, la villa déploie ses volumes sur quatre niveaux : lobby de 70 m² et escalier en chêne, deux salons, deux salles à manger, deux cuisines, cinéma et salles de jeux.</p>
+  <div class="mosaic">
+    <figure class="m1"><img src="../../assets/img/lobby-s.webp" alt="Le lobby"><figcaption>Lobby et escalier en chêne</figcaption></figure>
+    <figure class="m2"><img src="../../assets/img/salon-s.webp" alt="Le grand salon"><figcaption>Grand salon</figcaption></figure>
+    <figure class="m3"><img src="../../assets/img/salle-a-manger-s.webp" alt="Salle à manger"><figcaption>Salle à manger</figcaption></figure>
+    <figure class="m4"><img src="../../assets/img/four-pro-s.webp" alt="Four professionnel"></figure>
+    <figure class="m5"><img src="../../assets/img/cuisine-s.webp" alt="Cuisine professionnelle"><figcaption>Cuisine professionnelle</figcaption></figure>
+    <figure class="m6"><img src="../../assets/img/salon-3-s.webp" alt="Salon télévision"><figcaption>Salon télévision</figcaption></figure>
+    <figure class="m7"><img src="../../assets/img/babyfoot-s.webp" alt="Salle de jeux"><figcaption>Salle de jeux</figcaption></figure>
+    <figure class="m8"><img src="../../assets/img/escalier-s.webp" alt="L’escalier"><figcaption>Escalier en chêne</figcaption></figure>
+    <figure class="m9"><img src="../../assets/img/salle-a-manger-2-s.webp" alt="Seconde salle à manger"><figcaption>Seconde salle à manger</figcaption></figure>
+  </div>
+  <ul class="list" style="margin-top:28px">
+    <li>Lobby de 70 m² avec espace salon</li><li>Deux salons et deux salles à manger</li><li>Deux cuisines dont une professionnelle</li><li>Salle de cinéma de 40 places</li><li>Salle de réunion et de billard</li><li>Ping-pong et baby-foot</li><li>Buanderie équipée</li><li>Chambre, salle de bain et WC adaptés PMR</li>
+  </ul>
+</section>
+
+<section class="sec" id="chambres">
+  <h2>15 chambres sur trois étages</h2>
+  <div class="mosaic">
+    <figure class="m2"><img src="../../assets/img/chambre-verte-s.webp" alt="Chambre verte"></figure>
+    <figure class="m6"><img src="../../assets/img/sdb-baignoire-s.webp" alt="Salle de bain"></figure>
+    <figure class="m4"><img src="../../assets/img/chambre-double-s.webp" alt="Chambre double"></figure>
+    <figure class="m8"><img src="../../assets/img/chambre-bleue-3-s.webp" alt="Chambre bleue"></figure>
+    <figure class="m9"><img src="../../assets/img/chambre-fleurie-s.webp" alt="Chambre fleurie"></figure>
+    <figure class="m3"><img src="../../assets/img/sdb-s.webp" alt="Salle de bain"></figure>
+  </div>
+  <div class="floors">
+    <div><b>Rez-de-chaussée</b><span>3 chambres avec douche et WC, dont une adaptée PMR</span></div>
+    <div><b>1er étage</b><span>5 chambres, dont 3 avec salle de bain privée</span></div>
+    <div><b>2e étage</b><span>7 chambres avec salle d’eau</span></div>
+  </div>
+</section>
+
+<section class="sec two" id="jardins">
+  <img src="../../assets/img/facade-nuit-s.webp" alt="La façade éclairée le soir" style="border-radius:8px;aspect-ratio:4/3;object-fit:cover;width:100%">
+  <div>
+    <h2>4 000 m² de jardins</h2>
+    <p class="lead">Roses, pelouses et grands arbres. Repas sur la terrasse, tartes flambées au four à bois, soirées autour du brasero.</p>
+    <ul class="list" style="columns:1"><li>Terrasse, six tables et une trentaine de fauteuils</li><li>Grande terrasse couverte</li><li>Four à bois, barbecue, grand brasero</li><li>Tennis et basket</li><li>Aires de jeux pour enfants</li><li>Parking privé, 15 voitures</li></ul>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Pour toutes vos raisons de vous retrouver</h2>
+  <div class="who">
+    <div><h3>Cousinades</h3><p>Trois générations sous le même toit, de la place pour chacun.</p></div>
+    <div><h3>Fêtes</h3><p>Fiançailles, mariages, anniversaires : cuisine pro pour votre traiteur.</p></div>
+    <div><h3>Associations</h3><p>Jusqu’à 50 personnes, salles de jeux et cinéma.</p></div>
+    <div><h3>Entreprises</h3><p>En semaine : salle de réunion et salle de projection.</p></div>
+  </div>
+</section>
+
+<section class="sec area" id="alentours">
+  <div><h2>Au cœur des Vosges du Nord</h2><p class="lead">Diemeringen, Alsace Bossue, réserve de biosphère de l’UNESCO, tout près de l’Allemagne.</p></div>
+  <div><h3 class="k">Distances</h3><div class="row"><span>Sarre-Union</span><b>9 km</b></div><div class="row"><span>Sarreguemines</span><b>26 km</b></div><div class="row"><span>Strasbourg</span><b>85 km</b></div><div class="row"><span>Metz</span><b>99 km</b></div></div>
+  <div><h3 class="k">Sorties</h3><div class="row"><span>Parc Nature de Cheval</span><b>10 min</b></div><div class="row"><span>Ranch des Bisons</span><b>20 min</b></div><div class="row"><span>Altschlossfelsen</span><b>30 min</b></div><div class="row"><span>Plan incliné d’Arzviller</span><b>35 min</b></div></div>
+</section>
+
+<section class="sec" id="infos">
+  <h2>Infos pratiques</h2>
+  <dl class="spec"><div><dt>Arrivée</dt><dd>dès 16 h</dd></div><div><dt>Départ</dt><dd>avant midi</dd></div><div><dt>Ménage</dt><dd>inclus</dd></div><div><dt>Caution</dt><dd>1 000 €</dd></div></dl>
+</section>
+
+<section class="ask" id="demande">
+  <div class="ask__in">
+    <div><h2>Demander un séjour</h2><p>Le propriétaire vous répond personnellement avec la disponibilité et le tarif. Une demande ne vaut pas réservation.</p></div>
+    <form class="f" onsubmit="event.preventDefault();this.querySelector('.toast').hidden=false">
+      <label>Arrivée<input type="date"></label><label>Départ<input type="date"></label>
+      <label>Personnes<input type="number" min="1" max="50"></label>
+      <label>Occasion<select><option>Réunion de famille</option><option>Fête</option><option>Association</option><option>Entreprise</option></select></label>
+      <label class="w">Nom et prénom<input type="text"></label>
+      <label>E-mail<input type="email"></label><label>Téléphone<input type="tel"></label>
+      <label class="w">Message<textarea rows="3"></textarea></label>
+      <button class="btn" type="submit">Préparer ma demande</button>
+      <p class="toast" role="status" hidden>Envoi simulé dans cette maquette : rien n’est parti.</p>
+      <p class="note-sim">Maquette : l’envoi est simulé.</p>
+    </form>
+  </div>
+</section>
+<footer class="foot"><span>Domaine La Rosière · 116 Grand’Rue · 67430 Diemeringen</span><span>Maquette v2 — « Bassin de nuit »</span></footer>
+<a class="btn btn--aqua sticky" href="#demande">Demander un séjour</a>
+</body>
+</html>

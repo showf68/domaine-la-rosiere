@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domaine La Rosière — maquette v3 « Les occasions »</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--sage:#eef2ec;--sage-2:#dfe8dc;--green:#2e5a43;--ink:#18231d;--mute:#5d6b62;--rose:#c0717a;--line:#dfe5dd;
+--disp:"Fraunces",Georgia,serif;--sans:"Figtree",system-ui,sans-serif;--gut:clamp(16px,4vw,48px);--ease:cubic-bezier(.16,1,.3,1);color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);overflow-x:hidden}
+img{display:block;max-width:100%}
+::selection{background:var(--rose);color:#fff}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.top__in{max-width:1280px;margin:auto;padding:10px var(--gut);display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--green);font:600 1.15rem/1 var(--disp)}
+.brand img{width:40px;height:40px;border-radius:50%}
+.top nav{margin-left:auto;display:flex;gap:18px;font-size:.9rem}
+.top nav a{text-decoration:none;color:var(--mute)}
+.top nav a:hover{color:var(--green)}
+.lang{font-size:.82rem;color:var(--mute)}.lang b{color:var(--green)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 1.3em;border-radius:12px;font:600 .92rem/1 var(--sans);text-decoration:none;border:0;cursor:pointer;transition:background .3s,transform .3s var(--ease)}
+.btn--g{background:var(--green);color:#fff}.btn--g:hover{background:#244a37}
+.btn--r{background:var(--rose);color:#fff}
+
+.wrap{max-width:1280px;margin:auto;padding:0 var(--gut)}
+.hero{padding-top:28px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto 220px 220px;gap:12px}
+.hero__t{grid-column:1/8;grid-row:1;padding:28px 0 18px}
+.hero h1{font:400 clamp(2.4rem,1.3rem + 3.6vw,4.4rem)/1.04 var(--disp);margin:0 0 14px;color:var(--ink);text-wrap:balance}
+.hero h1 em{color:var(--green)}
+.hero p{max-width:52ch;color:var(--mute);margin:0}
+.hero__badge{grid-column:9/13;grid-row:1;align-self:end;background:var(--sage);border-radius:18px;padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.hero__badge div b{display:block;font:600 1.6rem/1 var(--disp);color:var(--green)}
+.hero__badge div span{font-size:.82rem;color:var(--mute)}
+.c{border-radius:18px;overflow:hidden;margin:0;position:relative}
+.c img{width:100%;height:100%;object-fit:cover}
+.c1{grid-column:1/8;grid-row:2/4}.c2{grid-column:8/13;grid-row:2}.c3{grid-column:8/11;grid-row:3}.c4{grid-column:11/13;grid-row:3}
+.c1 .tag{position:absolute;left:16px;bottom:16px;background:#fff;border-radius:999px;padding:8px 14px;font-weight:600;font-size:.88rem;color:var(--green)}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+.occ{margin-top:72px;background:var(--sage);border-radius:24px;padding:clamp(24px,4vw,48px)}
+.occ h2,.sec h2{font:400 clamp(1.9rem,1.2rem + 2vw,2.9rem)/1.1 var(--disp);margin:0 0 18px;text-wrap:balance}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.tabs button{font:600 .92rem var(--sans);border:1px solid var(--sage-2);background:#fff;color:var(--ink);border-radius:999px;padding:10px 16px;cursor:pointer;min-height:44px;transition:background .3s,color .3s}
+.tabs button[aria-selected=true]{background:var(--green);border-color:var(--green);color:#fff}
+.panel{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
+.panel img{border-radius:18px;aspect-ratio:4/3;object-fit:cover;width:100%;transition:opacity .45s var(--ease)}
+.panel h3{font:400 1.7rem/1.2 var(--disp);margin:0 0 10px;color:var(--green)}
+.panel ul{padding-left:18px;margin:12px 0 0;color:var(--mute)}
+.panel li{margin:4px 0}
+
+.sec{margin-top:72px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tile{border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.tile img{aspect-ratio:3/2;object-fit:cover;width:100%}
+.tile div{padding:16px 18px 18px}
+.tile h3{font:600 1.2rem/1.25 var(--disp);margin:0 0 6px;color:var(--ink)}
+.tile p{margin:0;color:var(--mute);font-size:.93rem}
+.pool{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+.pool img{border-radius:18px;aspect-ratio:16/11;object-fit:cover;width:100%}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.facts div{background:var(--sage);border-radius:12px;padding:14px}
+.facts b{display:block;font:600 1.3rem/1.1 var(--disp);color:var(--green)}
+.facts span{font-size:.85rem;color:var(--mute)}
+.table{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.table div{padding:16px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.table div:nth-child(4n){border-right:0}
+.table dt{font-size:.78rem;color:var(--mute);text-transform:uppercase;letter-spacing:.08em}
+.table dd{margin:4px 0 0;font-weight:600}
+.ask{margin-top:72px;background:var(--green);color:#fff;border-radius:24px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:1fr 1.4fr;gap:28px}
+.ask h2{color:#fff}
+.ask p{color:#d6e4da}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.f label{display:grid;gap:4px;font-size:.84rem;color:#d6e4da}
+.f .w{grid-column:1/-1}
+.f input,.f select,.f textarea{font:400 1rem var(--sans);padding:12px;border-radius:10px;border:0;min-height:46px}
+.f .btn{grid-column:1/-1;justify-self:start}
+.toast{grid-column:1/-1;background:rgba(255,255,255,.12);border-radius:10px;padding:10px 12px;margin:0}
+.foot{margin:48px auto 0;padding:28px var(--gut);border-top:1px solid var(--line);max-width:1280px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.88rem;color:var(--mute)}
+@media (max-width:960px){.top nav{display:none}.hero{grid-template-columns:1fr 1fr;grid-template-rows:none}.hero__t,.hero__badge{grid-column:1/-1;grid-row:auto}.c1{grid-column:1/-1;grid-row:auto;height:260px}.c2{grid-column:1/-1;grid-row:auto;height:200px}.c3{grid-column:1/2;grid-row:auto;height:150px}.c4{grid-column:2/3;grid-row:auto;height:150px}.panel,.pool,.ask{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 1fr}.table{grid-template-columns:1fr 1fr}.table div:nth-child(2n){border-right:0}}
+@media (max-width:560px){.grid3,.f{grid-template-columns:1fr}.top .btn{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top__in">
+  <a class="brand" href="#"><img src="../../assets/img/embleme-s.webp" alt="">Domaine La Rosière</a>
+  <nav><a href="#occasions">Occasions</a><a href="#piscine">Piscine</a><a href="#espaces">Espaces</a><a href="#infos">Infos</a><a href="#alentours">Alentours</a></nav>
+  <span class="lang"><b>FR</b> · DE</span>
+  <a class="btn btn--g" href="#demande">Demander un séjour</a>
+</div></header>
+
+<main class="wrap">
+<section class="hero">
+  <div class="hero__t">
+    <h1>Votre groupe, <em>notre maison</em>, toute l’année.</h1>
+    <p>Une villa de 1 000 m² en Alsace, avec piscine intérieure chauffée, pour réunir jusqu’à 50 personnes : cousinades, fêtes, associations, séminaires.</p>
+    <div class="cta-row"><a class="btn btn--g" href="#demande">Demander un séjour</a><a class="btn btn--r" href="#occasions">Trouver votre formule</a></div>
+  </div>
+  <div class="hero__badge">
+    <div><b>50</b><span>personnes</span></div><div><b>15</b><span>chambres</span></div>
+    <div><b>1 000 m²</b><span>habitables</span></div><div><b>4 000 m²</b><span>de jardins</span></div>
+  </div>
+  <figure class="c c1"><img src="../../assets/img/piscine.webp" alt="La piscine intérieure chauffée"><span class="tag">Piscine chauffée toute l’année</span></figure>
+  <figure class="c c2"><img src="../../assets/img/facade-roses-s.webp" alt="La façade et ses roses"></figure>
+  <figure class="c c3"><img src="../../assets/img/lobby-s.webp" alt="Le lobby"></figure>
+  <figure class="c c4"><img src="../../assets/img/brasero-s.webp" alt="Le brasero"></figure>
+</section>
+
+<section class="occ" id="occasions">
+  <h2>Quelle est votre occasion ?</h2>
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-o="0">Cousinade</button>
+    <button role="tab" aria-selected="false" data-o="1">Fête</button>
+    <button role="tab" aria-selected="false" data-o="2">Association</button>
+    <button role="tab" aria-selected="false" data-o="3">Entreprise</button>
+  </div>
+  <div class="panel" role="tabpanel">
+    <img data-img src="../../assets/img/terrasse-table-s.webp" alt="">
+    <div><h3 data-h>Cousinades et réunions de famille</h3><p data-p>Trois générations sous le même toit pour un week-end, avec de la place pour chacun et une piscine qui met tout le monde d’accord.</p>
+    <ul data-ul><li>15 chambres, des doubles aux familiales</li><li>Pataugeoire et aires de jeux pour les petits</li><li>Deux salles à manger pour les grandes tablées</li></ul></div>
+  </div>
+</section>
+
+<section class="sec pool" id="piscine">
+  <img src="../../assets/img/piscine-2-s.webp" alt="Le grand bassin">
+  <div><h2>La piscine, en janvier comme en juillet</h2><p style="color:var(--mute)">Un bassin intérieur chauffé au sous-sol de la villa. C’est l’équipement que nos hôtes citent en premier.</p>
+  <div class="facts"><div><b>10 × 3,8 m</b><span>bassin</span></div><div><b>3 × 3 m</b><span>pataugeoire</span></div><div><b>Chauffée</b><span>toute l’année</span></div><div><b>Fermée à clé</b><span>sous surveillance adulte</span></div></div></div>
+</section>
+
+<section class="sec" id="espaces">
+  <h2>Tous les espaces, d’un coup d'œil</h2>
+  <div class="grid3">
+    <article class="tile"><img src="../../assets/img/salon-s.webp" alt=""><div><h3>Salons et lobby</h3><p>Lobby de 70 m², escalier en chêne, deux salons.</p></div></article>
+    <article class="tile"><img src="../../assets/img/cuisine-s.webp" alt=""><div><h3>Deux cuisines</h3><p>Dont une professionnelle, idéale pour un traiteur.</p></div></article>
+    <article class="tile"><img src="../../assets/img/chambre-verte-s.webp" alt=""><div><h3>15 chambres</h3><p>Sur trois étages, dont une adaptée PMR.</p></div></article>
+    <article class="tile"><img src="../../assets/img/babyfoot-s.webp" alt=""><div><h3>Cinéma et jeux</h3><p>40 places, billard, ping-pong, baby-foot.</p></div></article>
+    <article class="tile"><img src="../../assets/img/terrasse-couverte-s.webp" alt=""><div><h3>Terrasses</h3><p>Terrasse couverte, four à bois, barbecue.</p></div></article>
+    <article class="tile"><img src="../../assets/img/tennis-s.webp" alt=""><div><h3>Sport et jardins</h3><p>4 000 m², tennis, basket, aires de jeux.</p></div></article>
+  </div>
+</section>
+
+<section class="sec" id="infos">
+  <h2>Infos pratiques</h2>
+  <dl class="table">
+    <div><dt>Arrivée</dt><dd>dès 16 h</dd></div><div><dt>Départ</dt><dd>au plus tard à midi</dd></div><div><dt>Ménage</dt><dd>inclus</dd></div><div><dt>Linge</dt><dd>10 € draps · 3 € serviettes</dd></div>
+    <div><dt>Acompte</dt><dd>30 % à la réservation</dd></div><div><dt>Solde</dt><dd>45 jours avant</dd></div><div><dt>Caution</dt><dd>1 000 €</dd></div><div><dt>Parking</dt><dd>15 voitures</dd></div>
+  </dl>
+</section>
+
+<section class="sec" id="alentours">
+  <h2>Au cœur des Vosges du Nord</h2>
+  <p style="color:var(--mute);max-width:62ch">Diemeringen, Alsace Bossue : Strasbourg à 85 km, Sarreguemines à 26 km, la frontière allemande toute proche. Parc Nature de Cheval à 10 min, Ranch des Bisons à 20 min, Altschlossfelsen à 30 min.</p>
+</section>
+
+<section class="ask" id="demande">
+  <div><h2>Demander un séjour</h2><p>Le propriétaire vous répond personnellement avec la disponibilité et le tarif. Une demande ne vaut pas réservation.</p></div>
+  <form class="f" onsubmit="event.preventDefault();this.querySelector('.toast').hidden=false">
+    <label>Arrivée<input type="date"></label><label>Départ<input type="date"></label>
+    <label>Personnes<input type="number" min="1" max="50"></label><label>Occasion<select><option>Cousinade</option><option>Fête</option><option>Association</option><option>Entreprise</option></select></label>
+    <label class="w">Nom et prénom<input type="text"></label><label>E-mail<input type="email"></label><label>Téléphone<input type="tel"></label>
+    <label class="w">Message<textarea rows="3"></textarea></label>
+    <button class="btn btn--r" type="submit">Préparer ma demande</button>
+    <p class="toast" role="status" hidden>Envoi simulé dans cette maquette : rien n’est parti.</p>
+  </form>
+</section>
+</main>
+<footer class="foot"><span>Domaine La Rosière · 116 Grand’Rue · 67430 Diemeringen</span><span>Maquette v3 — « Les occasions »</span></footer>
+<script>
+(function(){
+  var O=[
+    {img:'terrasse-table-s.webp',h:'Cousinades et réunions de famille',p:"Trois générations sous le même toit pour un week-end, avec de la place pour chacun et une piscine qui met tout le monde d’accord.",ul:['15 chambres, des doubles aux familiales','Pataugeoire et aires de jeux pour les petits','Deux salles à manger pour les grandes tablées']},
+    {img:'salle-a-manger-3-s.webp',h:'Fiançailles, mariages, anniversaires',p:'Deux salles à manger, une cuisine professionnelle pour votre traiteur et des jardins pour les photos.',ul:['Cuisine professionnelle et frigos traiteur','Terrasse couverte et jardins fleuris','Musique possible, inaudible des voisins après 22 h']},
+    {img:'jardin-s.webp',h:'Associations et séjours de groupe',p:"Jusqu’à 50 personnes logées ensemble, des espaces de jeu et une salle de cinéma pour les soirées.",ul:['Cinéma de 40 places','Tennis, basket, ping-pong, baby-foot','Parking privé pour 15 voitures']},
+    {img:'lobby-cheminee-s.webp',h:'Entreprises, en semaine',p:'Salle de réunion, salle de projection de 40 places et un cadre au calme pour vos séminaires.',ul:['Salle de réunion et de billard','Lobby de 70 m² pour les pauses','Gare à 800 m']}
+  ];
+  var tabs=document.querySelectorAll('[data-o]'),img=document.querySelector('[data-img]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    var o=O[+t.dataset.o];tabs.forEach(function(x){x.setAttribute('aria-selected',x===t)});
+    img.style.opacity=0;setTimeout(function(){img.src='../../assets/img/'+o.img;img.style.opacity=1},200);
+    document.querySelector('[data-h]').textContent=o.h;document.querySelector('[data-p]').textContent=o.p;
+    document.querySelector('[data-ul]').innerHTML=o.ul.map(function(s){return '<li>'+s+'</li>'}).join('');
+  })});
+})();
+</script>
+</body>
+</html>
