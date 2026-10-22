@@ -67,13 +67,20 @@ figcaption{font:400 var(--small)/1.4 var(--sans);color:var(--soft);margin-top:10
 .hero{position:relative;height:88svh;min-height:580px;max-height:1000px;color:#fff;overflow:hidden;background:#3a3830}
 .hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero::after{content:"";position:absolute;inset:0;background:
-  linear-gradient(0deg,rgba(12,12,10,.76) 0%,rgba(12,12,10,.48) 30%,rgba(12,12,10,0) 62%),
-  linear-gradient(90deg,rgba(12,12,10,.42) 0%,rgba(12,12,10,0) 55%),
-  linear-gradient(180deg,rgba(12,12,10,.38) 0%,rgba(12,12,10,0) 18%)}
+  radial-gradient(125% 90% at 0% 100%,rgba(10,10,8,.8) 0%,rgba(10,10,8,.62) 55%,rgba(10,10,8,0) 95%),
+  linear-gradient(0deg,rgba(10,10,8,.55) 0%,rgba(10,10,8,0) 45%),
+  linear-gradient(180deg,rgba(10,10,8,.38) 0%,rgba(10,10,8,0) 18%)}
 .hero__in{position:relative;z-index:2;height:100%;max-width:calc(var(--max) + 2*var(--pad) + 88px);margin:auto;padding:0 calc(var(--pad) + 44px) 52px;display:grid;grid-template-columns:1fr auto;align-items:end;gap:40px}
-.hero h1,.hero p{text-shadow:0 1px 2px rgba(0,0,0,.28),0 0 28px rgba(0,0,0,.28)}
-.hero h1{font:400 var(--h1)/1.08 var(--serif);margin:0 0 16px;max-width:20ch;letter-spacing:-.01em;text-wrap:balance}
-.hero p{font-size:1.0625rem;max-width:44ch;margin:0 0 8px;opacity:.95}
+.hero h1,.hero p,.hero__place{text-shadow:0 1px 2px rgba(0,0,0,.3),0 0 30px rgba(0,0,0,.3)}
+.hero__place{display:flex;align-items:center;gap:14px;font:500 var(--micro)/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;margin:0 0 22px;opacity:.92}
+.hero__place::before{content:"";width:36px;height:1px;background:currentColor;opacity:.7}
+.hero h1{font:400 var(--h1)/1.06 var(--serif);margin:0 0 20px;letter-spacing:-.01em}
+.hero h1 span{display:block}
+.hero h1 em{display:block;font-style:italic;color:#f1e6cf}
+.hero__sub{font-size:1.0625rem;line-height:1.6;max-width:42ch;margin:0 0 30px}
+.hero__ctas{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.hero .btn{display:inline-flex;align-items:center;min-height:50px;padding:0 26px;background:#f4f0e8;color:var(--green);text-decoration:none;font:500 .875rem/1 var(--sans);letter-spacing:.02em;transition:background .3s}
+.hero .btn:hover{background:#fff}
 .hero .link{color:#fff}
 .hero__facts{list-style:none;margin:0;padding:0;display:grid;gap:12px;text-align:right;border-right:1px solid rgba(255,255,255,.45);padding-right:18px}
 .hero__facts b{display:block;font:400 1.6rem/1 var(--serif)}
@@ -259,6 +266,8 @@ dialog[open]{animation:fade .35s var(--ease)}
   .equip{grid-template-columns:1fr 1fr}
   .hero__facts{display:none}
   .hero__in{grid-template-columns:1fr}
+  .hero__sub{margin-bottom:24px}
+  .hero__ctas{gap:20px}
   .top .cta{display:none}
   .foot__grid{grid-template-columns:1fr 1fr}
   .foot__id{grid-column:1/-1}
@@ -306,9 +315,10 @@ dialog[open]{animation:fade .35s var(--ease)}
   </video>
   <div class="hero__in">
     <div>
-      <h1>Le plaisir d’être ensemble, toute l’année.</h1>
-      <p>À Diemeringen, en Alsace, une maison entière pour accueillir jusqu’à cinquante personnes.</p>
-      <a class="link" href="#demande">Demander un séjour</a>
+      <p class="hero__place">Diemeringen · Alsace</p>
+      <h1><span>Le plaisir d’être ensemble,</span><em>toute l’année.</em></h1>
+      <p class="hero__sub">Une demeure de 1947 louée entière à votre groupe, jusqu’à cinquante personnes, avec sa piscine intérieure chauffée et quatre mille mètres carrés de jardins.</p>
+      <div class="hero__ctas"><a class="btn" href="#demande">Demander un séjour</a><a class="link" href="#piscine">Découvrir la maison</a></div>
     </div>
     <ul class="hero__facts">
       <li><b>50</b><span>personnes</span></li>
