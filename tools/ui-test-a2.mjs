@@ -28,12 +28,12 @@ try {
   const r = await ev(`(()=>{const o={};
     document.querySelector('[data-open=dlg-album]').click();o.album=document.getElementById('dlg-album').open+' '+document.querySelectorAll('[data-album] img').length;
     document.querySelector('#dlg-album [data-close]').click();o.albumClosed=!document.getElementById('dlg-album').open;
-    document.querySelector('[data-open=dlg-video]').click();o.video=document.getElementById('dlg-video').open;
-    document.querySelector('#dlg-video [data-close]').click();
+    const pv=document.querySelector('#piscine video');o.poolVideo=!!pv&&pv.autoplay&&pv.muted&&pv.loop;
     const b=document.querySelector('[data-burger]');if(getComputedStyle(b).display!=='none'){b.click();o.burger=document.getElementById('nav').classList.contains('open');document.querySelector('#nav a').click();o.burgerClosed=!document.getElementById('nav').classList.contains('open')}
     document.querySelector('.detail summary').click();o.detail=document.querySelector('.detail').open+' '+document.querySelectorAll('.detail tbody tr:not(.fl)').length;
     return o})()`);
-  await sleep(1500);
+  await ev(`document.getElementById('piscine').scrollIntoView()`); await sleep(2500);
+  const vstate = await ev(`(()=>{const v=document.querySelector('#piscine video');return {src:v.currentSrc.split('/').pop(),t:+v.currentTime.toFixed(2),paused:v.paused}})()`);
   const broken = await ev(`[...document.images].filter(i=>i.complete&&i.naturalWidth===0).map(i=>i.src)`);
-  console.log(JSON.stringify({ r, broken, logs }));
+  console.log(JSON.stringify({ r, vstate, broken, logs }));
 } finally { try { ws && ws.close(); } catch {} chrome.kill(); }

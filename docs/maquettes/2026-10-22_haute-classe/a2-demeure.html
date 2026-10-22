@@ -18,7 +18,7 @@
   --max:1280px;--gut:clamp(20px,5.5vw,80px);--sec:96px;--ease:cubic-bezier(.2,.7,.2,1);color-scheme:light}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%;scrollbar-color:#c9bfae var(--ivory)}
-body{margin:0;background:var(--ivory);color:var(--ink);font:400 1rem/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:#e9e3d7;color:var(--ink);font:400 1rem/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video{display:block;max-width:100%;height:auto}
 a{color:inherit}
 ::selection{background:var(--green);color:var(--paper)}
@@ -60,12 +60,19 @@ figcaption{font:400 var(--small)/1.4 var(--sans);color:var(--soft);margin-top:10
 /* heros : la seule video automatique */
 .hero{position:relative;height:86svh;min-height:560px;max-height:980px;color:#fff;overflow:hidden;background:#3a3830}
 .hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,17,14,.42) 0,rgba(18,17,14,0) 22%,rgba(18,17,14,0) 50%,rgba(18,17,14,.55) 100%)}
+.hero::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(0deg,rgba(12,12,10,.74) 0%,rgba(12,12,10,.48) 30%,rgba(12,12,10,0) 62%),
+  linear-gradient(90deg,rgba(12,12,10,.42) 0%,rgba(12,12,10,0) 55%),
+  linear-gradient(180deg,rgba(12,12,10,.38) 0%,rgba(12,12,10,0) 18%)}
 .hero .wrap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:56px}
+.hero h1,.hero p{text-shadow:0 1px 2px rgba(0,0,0,.28),0 0 28px rgba(0,0,0,.28)}
 .hero h1{font:400 var(--h1)/1.08 var(--serif);margin:0 0 16px;max-width:23ch;letter-spacing:-.01em;text-wrap:balance}
 .hero p{font-size:1.0625rem;max-width:46ch;margin:0 0 6px;opacity:.95}
 .hero .link{color:#fff}
 
+/* cadre a filets fins apres le heros */
+.frame{width:calc(100% - 2*clamp(8px,2.8vw,44px));max-width:1376px;margin:0 auto;background:var(--ivory);border-left:1px solid rgba(34,33,29,.16);border-right:1px solid rgba(34,33,29,.16)}
+.frame .wrap{padding-left:clamp(16px,4.4vw,64px);padding-right:clamp(16px,4.4vw,64px)}
 /* sections */
 .sec{padding-top:var(--sec)}
 .intro{align-items:center;row-gap:32px}
@@ -77,7 +84,7 @@ figcaption{font:400 var(--small)/1.4 var(--sans);color:var(--soft);margin-top:10
 
 .pool{row-gap:28px;align-items:start}
 .pool__main{grid-column:1/9}
-.pool__main .ph{aspect-ratio:3/2}
+.pool__main .ph{aspect-ratio:3/2;height:auto}
 .pool__side{grid-column:9/13;display:flex;flex-direction:column;gap:22px}
 .pool__side .ph{aspect-ratio:4/3}
 .rows{margin:0;border-top:1px solid var(--line)}
@@ -243,22 +250,11 @@ dialog[open]{animation:fade .35s var(--ease)}
   </div>
 </section>
 
+<div class="frame">
 <main>
-<section class="sec wrap">
-  <div class="grid intro">
-    <div class="intro__txt fade">
-      <h2 class="h2">La Rosière, depuis 1947.</h2>
-      <p class="lead">Une grande maison de famille au cœur des Vosges du Nord, louée entière à votre groupe.</p>
-      <p class="muted">Quatre niveaux, un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, au sous-sol, une piscine chauffée toute l’année.</p>
-      <div class="marks"><span>15 chambres</span><span>Jusqu’à 50 personnes</span><span>1 000 m²</span><span>4 000 m² de jardins</span></div>
-    </div>
-    <figure class="intro__pic"><img class="ph" src="../../assets/img/facade-roses-s.webp" srcset="../../assets/img/facade-roses-s.webp 1000w, ../../assets/img/facade-roses.webp 2200w" sizes="(max-width:900px) 100vw, 50vw" alt="La façade de la villa derrière les roses" loading="lazy"><figcaption>La façade, côté jardin</figcaption></figure>
-  </div>
-</section>
-
 <section class="sec wrap" id="piscine">
   <div class="grid pool">
-    <figure class="pool__main"><img class="ph" src="../../assets/img/piscine-s.webp" srcset="../../assets/img/piscine-s.webp 1000w, ../../assets/img/piscine.webp 2200w" sizes="(max-width:900px) 100vw, 66vw" alt="La piscine intérieure chauffée" loading="lazy"><figcaption>Le grand bassin, 10 × 3,8 m</figcaption></figure>
+    <figure class="pool__main"><video class="ph" autoplay muted loop playsinline preload="none" poster="../../assets/vid/piscine-poster.webp" aria-label="La piscine intérieure chauffée, filmée au ras de l’eau" data-lazyvid><source data-src="../../assets/vid/piscine-s.mp4" media="(max-width: 800px)" type="video/mp4"><source data-src="../../assets/vid/piscine.mp4" type="video/mp4"></video><figcaption>Le grand bassin, 10 × 3,8 m, chauffé toute l’année</figcaption></figure>
     <div class="pool__side fade">
       <div>
         <h2 class="h2">Le plaisir de l’eau, toute l’année.</h2>
@@ -270,9 +266,20 @@ dialog[open]{animation:fade .35s var(--ease)}
         <div><dt>Eau</dt><dd>chauffée toute l’année</dd></div>
         <div><dt>Sur place</dt><dd>douches et WC</dd></div>
       </dl>
-      <button class="play" type="button" data-open="dlg-video"><span><svg viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z"/></svg></span>Voir la piscine en vidéo</button>
       <figure><img class="ph" src="../../assets/img/piscine-3-s.webp" alt="Le grand bassin et ses lumières" loading="lazy" style="aspect-ratio:4/3"></figure>
     </div>
+  </div>
+</section>
+
+<section class="sec wrap">
+  <div class="grid intro">
+    <div class="intro__txt fade">
+      <h2 class="h2">La Rosière, depuis 1947.</h2>
+      <p class="lead">Une grande maison de famille au cœur des Vosges du Nord, louée entière à votre groupe.</p>
+      <p class="muted">Quatre niveaux, un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, au sous-sol, une piscine chauffée toute l’année.</p>
+      <div class="marks"><span>15 chambres</span><span>Jusqu’à 50 personnes</span><span>1 000 m²</span><span>4 000 m² de jardins</span></div>
+    </div>
+    <figure class="intro__pic"><img class="ph" src="../../assets/img/facade-roses-s.webp" srcset="../../assets/img/facade-roses-s.webp 1000w, ../../assets/img/facade-roses.webp 2200w" sizes="(max-width:900px) 100vw, 50vw" alt="La façade de la villa derrière les roses" loading="lazy"><figcaption>La façade, côté jardin</figcaption></figure>
   </div>
 </section>
 
@@ -388,6 +395,7 @@ dialog[open]{animation:fade .35s var(--ease)}
     </form>
   </div>
 </section>
+</div>
 
 <footer class="foot">
   <div class="wrap">
@@ -397,11 +405,6 @@ dialog[open]{animation:fade .35s var(--ease)}
 </footer>
 
 <a class="bar" href="#demande" data-bar>Demander un séjour</a>
-
-<dialog id="dlg-video" aria-label="La piscine en vidéo">
-  <button class="dlg__close" type="button" data-close aria-label="Fermer">×</button>
-  <div class="vid"><video controls muted loop playsinline preload="none" poster="../../assets/vid/piscine-poster.webp"><source src="../../assets/vid/piscine.mp4" type="video/mp4"></video></div>
-</dialog>
 <dialog id="dlg-album" aria-label="Toutes les photos">
   <button class="dlg__close" type="button" data-close aria-label="Fermer">×</button>
   <div class="album"><h2>La Rosière en photos</h2><div class="album__grid" data-album></div></div>
@@ -418,6 +421,8 @@ dialog[open]{animation:fade .35s var(--ease)}
   nav.addEventListener('click',function(e){if(e.target.closest('a')){b.setAttribute('aria-expanded','false');nav.classList.remove('open')}});
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.2});
   document.querySelectorAll('.fade').forEach(function(el){io.observe(el)});
+  var lv=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var v=e.target;v.querySelectorAll('source').forEach(function(x){x.src=x.dataset.src});v.load();v.play().catch(function(){});lv.unobserve(v)}})},{rootMargin:'400px'});
+  document.querySelectorAll('[data-lazyvid]').forEach(function(v){lv.observe(v)});
   var A=[['piscine','La piscine'],['piscine-2','Le bassin et ses lumières'],['facade-nuit','La façade, le soir'],['arche-roses','L’arche de roses'],['lobby-cheminee','Le lobby et sa cheminée'],['escalier','L’escalier en chêne'],['salon-3','Le salon télévision'],['salle-a-manger-2','La seconde salle à manger'],['cuisine','La cuisine professionnelle'],['four-pro','Le four professionnel'],['chambre-fleurie','Chambre double'],['chambre-ocre','Chambre familiale'],['chambre-bleue','Chambre familiale, sous les toits'],['sdb','Salle d’eau'],['sdb-marbre','Salle d’eau en marbre'],['babyfoot','La salle de jeux'],['pingpong','Le ping-pong'],['terrasse','La terrasse'],['brasero','Le brasero'],['jardin','Le jardin'],['jeux','Les jeux des enfants'],['tennis','Tennis et basket'],['vue-aerienne','Vue aérienne'],['balcon-vue','La vue depuis la terrasse']];
   var g=document.querySelector('[data-album]');
   g.innerHTML=A.map(function(a){return '<figure><img class="ph" src="../../assets/img/'+a[0]+'-s.webp" alt="'+a[1]+'" loading="lazy"><figcaption>'+a[1]+'</figcaption></figure>'}).join('');
