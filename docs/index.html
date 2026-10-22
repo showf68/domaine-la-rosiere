@@ -6,7 +6,7 @@
 <title>Domaine La Rosière — Villa pour groupes avec piscine intérieure chauffée, Alsace</title>
 <meta name="description" content="Villa de 1 000 m² pour groupes jusqu’à 50 personnes à Diemeringen (Alsace, Vosges du Nord) : piscine intérieure chauffée toute l’année, 15 chambres, 4 000 m² de jardins. Demandez votre séjour directement au propriétaire.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#1d3a2b">
+<meta name="theme-color" content="#2e5a43">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Domaine La Rosière">
 <meta property="og:description" content="Villa de 1 000 m² pour groupes jusqu’à 50 personnes à Diemeringen (Alsace, Vosges du Nord) : piscine intérieure chauffée toute l’année, 15 chambres, 4 000 m² de jardins. Demandez votre séjour directement au propriétaire.">
@@ -17,7 +17,7 @@
 <link rel="icon" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/img/piscine.webp" fetchpriority="high">
 <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -26,24 +26,24 @@
 
 <header class="top" data-top>
   <div class="top__in">
-    <a class="brand" href="./" aria-label="Domaine La Rosière">
-      <span class="brand__small">Domaine</span>
-      <span class="brand__name">La Rosière</span>
+    <a class="brand" href="./">
+      <img src="assets/img/embleme-s.webp" alt="" width="44" height="44">
+      <span>Domaine La Rosière</span>
     </a>
     <nav class="nav" id="nav" aria-label="Navigation">
+      <a href="#occasions">Occasions</a>
       <a href="#piscine">La piscine</a>
-      <a href="#maison">La maison</a>
+      <a href="#espaces">La maison</a>
       <a href="#chambres">Chambres</a>
       <a href="#jardins">Jardins</a>
       <a href="#alentours">Alentours</a>
       <a href="#infos">Infos pratiques</a>
-      <a class="nav__cta-m" href="#demande">Demander un séjour</a>
     </nav>
     <div class="top__end">
       <div class="lang" role="group" aria-label="Langue">
-        <a href="./" lang="fr" aria-current="true">FR</a><span aria-hidden="true">·</span><a href="de/" lang="de" >DE</a>
+        <a href="./" lang="fr" aria-current="true">FR</a><a href="de/" lang="de" >DE</a>
       </div>
-      <a class="btn btn--solid top__cta" href="#demande">Demander un séjour</a>
+      <a class="btn btn--g top__cta" href="#demande">Demander un séjour</a>
       <button class="burger" type="button" aria-expanded="false" aria-controls="nav" data-burger>
         <span class="sr">Menu</span><i></i><i></i>
       </button>
@@ -51,40 +51,71 @@
   </div>
 </header>
 
-<main id="contenu">
+<main id="contenu" class="wrap">
 
 <section class="hero" aria-labelledby="hero-t">
-  <div class="hero__text">
-    <p class="hero__place">Diemeringen · Alsace · Vosges du Nord</p>
-    <h1 id="hero-t" class="hero__title">Le plaisir d’être ensemble, <em>toute l’année.</em></h1>
-    <p class="hero__lead">Une villa de 1 000 m² rien que pour votre groupe, avec sa piscine intérieure chauffée, ses 15 chambres et ses 4 000 m² de jardins.</p>
+  <div class="hero__t">
+    <p class="hero__place"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Diemeringen · Alsace · Vosges du Nord</p>
+    <h1 id="hero-t">Votre groupe, <em>notre maison</em>, toute l’année.</h1>
+    <p class="hero__lead">Une villa de 1 000 m² au cœur de l’Alsace, avec piscine intérieure chauffée, pour réunir jusqu’à 50 personnes : cousinades, fêtes, associations, séminaires.</p>
     <div class="hero__ctas">
-      <a class="btn btn--solid" href="#demande">Demander un séjour</a>
-      <a class="btn btn--line" href="#piscine">Découvrir la piscine</a>
+      <a class="btn btn--g" href="#demande">Demander un séjour</a>
+      <a class="btn btn--soft" href="#occasions">Votre occasion<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
     </div>
   </div>
-  <div class="arch" data-arch>
-    <figure class="arch__frame" data-arch-frame>
-      <img src="assets/img/piscine.webp" srcset="assets/img/piscine-s.webp 900w, assets/img/piscine.webp 1920w" sizes="100vw" alt="La piscine intérieure chauffée du Domaine La Rosière, éclairée, eau bleue sur carrelage en damier" width="1920" height="1080" fetchpriority="high">
-    </figure>
-  </div>
-  <ul class="facts" role="list">
-    <li><span class="facts__pre">Jusqu’à</span><b>50</b><span>personnes</span></li>
+  <ul class="hero__facts" role="list">
+    <li><span>Jusqu’à</span><b>50</b><span>personnes</span></li>
     <li><b>15</b><span>chambres</span></li>
     <li><b>1 000</b><span>m² habitables</span></li>
     <li><b>4 000</b><span>m² de jardins</span></li>
-    <li><b class="facts__word">Piscine chauffée</b><span>toute l’année</span></li>
   </ul>
+  <figure class="c c1">
+    <img src="assets/img/piscine.webp" srcset="assets/img/piscine-s.webp 900w, assets/img/piscine.webp 1920w" sizes="(max-width: 960px) 100vw, 60vw" alt="La piscine intérieure chauffée du Domaine La Rosière, éclairée, eau bleue sur carrelage en damier" width="1920" height="1080" fetchpriority="high" data-lb data-full="assets/img/piscine.webp">
+    <span class="tag"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17c1.5 0 1.5-1 3-1s1.5 1 3 1 1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1M3 21c1.5 0 1.5-1 3-1s1.5 1 3 1 1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1M8 13V5a2 2 0 0 1 4 0M16 13V5a2 2 0 0 0-4 0M8 8h8"/></svg>Piscine chauffée toute l’année</span>
+  </figure>
+  <figure class="c c2"><img src="assets/img/facade-roses-s.webp" alt="La façade de la villa derrière les roses" width="900" height="506" data-lb data-full="assets/img/facade-roses.webp"></figure>
+  <figure class="c c3"><img src="assets/img/lobby-s.webp" alt="Le lobby et son escalier en chêne" width="900" height="600" data-lb data-full="assets/img/lobby.webp"></figure>
+  <figure class="c c4"><img src="assets/img/facade-nuit-s.webp" alt="La façade éclairée le soir" width="900" height="506" data-lb data-full="assets/img/facade-nuit.webp"></figure>
 </section>
 
-<section class="pool" id="piscine" aria-labelledby="pool-t">
-  <div class="pool__media">
-    <img src="assets/img/piscine-2-s.webp" data-full="assets/img/piscine-2.webp" alt="Le grand bassin vu depuis la pataugeoire" loading="lazy" width="900" height="506" data-lb>
+<section class="occ" id="occasions" aria-labelledby="occ-t">
+  <div class="occ__head">
+    <h2 id="occ-t" class="h2">Quelle est votre occasion ?</h2>
+    <p class="muted">Chaque groupe vit la maison à sa façon. Choisissez la vôtre.</p>
+  </div>
+  <div class="tabs" role="tablist" aria-labelledby="occ-t" data-tabs>
+    <button role="tab" id="tab-1" aria-controls="occ-1" aria-selected="true" tabindex="0"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0M13 20a4 4 0 0 1 8.5 0"/></svg>Cousinade</button>
+    <button role="tab" id="tab-2" aria-controls="occ-2" aria-selected="false" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0L8 3zM12 13v8M8.5 21h7"/></svg>Fête</button>
+    <button role="tab" id="tab-3" aria-controls="occ-3" aria-selected="false" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V10l8-6 8 6v11M9 21v-6h6v6"/></svg>Association</button>
+    <button role="tab" id="tab-4" aria-controls="occ-4" aria-selected="false" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>Entreprise</button>
+  </div>
+  <div class="panel" role="tabpanel" id="occ-1" aria-labelledby="tab-1">
+    <img src="assets/img/terrasse-table-s.webp" alt="" loading="lazy" width="900" height="506">
+    <div><h3 class="h3">Cousinades et réunions de famille</h3><p>Trois générations sous le même toit pour un week-end, avec de la place pour chacun et une piscine qui met tout le monde d’accord.</p><ul class="checks"><li>15 chambres, des doubles aux familiales</li><li>Pataugeoire et aires de jeux pour les petits</li><li>Deux salles à manger pour les grandes tablées</li></ul><a class="btn btn--g" href="#demande" data-occ="Réunion de famille, cousinade">Demander un séjour</a></div>
+  </div>
+  <div class="panel" role="tabpanel" id="occ-2" aria-labelledby="tab-2" hidden>
+    <img src="assets/img/salle-a-manger-3-s.webp" alt="" loading="lazy" width="900" height="600">
+    <div><h3 class="h3">Fiançailles, mariages, anniversaires</h3><p>Deux salles à manger, une cuisine professionnelle pour votre traiteur et des jardins pour les photos.</p><ul class="checks"><li>Cuisine professionnelle et frigos traiteur</li><li>Terrasse couverte et jardins fleuris pour les photos</li><li>Musique bienvenue, inaudible des voisins après 22 h</li></ul><a class="btn btn--g" href="#demande" data-occ="Fête : fiançailles, mariage, anniversaire">Demander un séjour</a></div>
+  </div>
+  <div class="panel" role="tabpanel" id="occ-3" aria-labelledby="tab-3" hidden>
+    <img src="assets/img/jardin-s.webp" alt="" loading="lazy" width="900" height="675">
+    <div><h3 class="h3">Associations et séjours de groupe</h3><p>Jusqu’à 50 personnes logées ensemble, des espaces de jeu et une salle de cinéma pour les soirées.</p><ul class="checks"><li>Salle de cinéma de 40 places</li><li>Tennis, basket, ping-pong, baby-foot</li><li>Parking privé pour 15 voitures</li></ul><a class="btn btn--g" href="#demande" data-occ="Association, séjour de groupe">Demander un séjour</a></div>
+  </div>
+  <div class="panel" role="tabpanel" id="occ-4" aria-labelledby="tab-4" hidden>
+    <img src="assets/img/lobby-cheminee-s.webp" alt="" loading="lazy" width="900" height="600">
+    <div><h3 class="h3">Entreprises, en semaine</h3><p>Salle de réunion, salle de projection de 40 places et un cadre au calme pour vos séminaires.</p><ul class="checks"><li>Salle de réunion et de billard</li><li>Lobby de 70 m² pour les pauses</li><li>Gare à 800 m de la maison</li></ul><a class="btn btn--g" href="#demande" data-occ="Entreprise, séminaire">Demander un séjour</a></div>
+  </div>
+</section>
+
+<section class="pool sec" id="piscine" aria-labelledby="pool-t">
+  <div class="pool__pics">
+    <img class="pool__a" src="assets/img/piscine-2-s.webp" data-full="assets/img/piscine-2.webp" alt="Le grand bassin vu depuis la pataugeoire" loading="lazy" width="900" height="506" data-lb>
+    <img class="pool__b" src="assets/img/piscine-3-s.webp" data-full="assets/img/piscine-3.webp" alt="La piscine et ses lumières" loading="lazy" width="900" height="506" data-lb>
   </div>
   <div class="pool__body">
     <h2 id="pool-t" class="h2">La piscine, en janvier comme en juillet</h2>
-    <p class="body">Au sous-sol de la villa, un bassin intérieur chauffé vous attend quelle que soit la saison. Les grands nagent, les petits barbotent dans leur pataugeoire, et tout le monde se retrouve autour de l’eau. C’est l’équipement que nos hôtes citent en premier.</p>
-    <dl class="specs">
+    <p class="muted">Au sous-sol de la villa, un bassin intérieur chauffé vous attend quelle que soit la saison. Les grands nagent, les petits barbotent dans leur pataugeoire, et tout le monde se retrouve autour de l’eau. C’est l’équipement que nos hôtes citent en premier.</p>
+    <dl class="facts">
       <div><dt>Bassin</dt><dd>10 × 3,8 m</dd></div>
       <div><dt>Pataugeoire</dt><dd>3 × 3 m</dd></div>
       <div><dt>Eau chauffée</dt><dd>toute l’année</dd></div>
@@ -94,100 +125,56 @@
   </div>
 </section>
 
-<section class="house" id="maison" aria-labelledby="house-t">
-  <div class="house__intro">
-    <h2 id="house-t" class="h2">Une maison faite pour recevoir</h2>
-    <p class="body">Construite en 1947, la villa déploie ses volumes sur quatre niveaux. Le lobby de 70 m² et son escalier en chêne accueillent votre groupe dès l’arrivée ; les salons, les deux salles à manger et les deux cuisines permettent de vivre ensemble sans jamais être à l’étroit.</p>
+<section class="sec" id="espaces" aria-labelledby="sp-t">
+  <div class="sec__head">
+    <h2 id="sp-t" class="h2">Tous les espaces, d’un coup d’œil</h2>
+    <p class="muted">Construite en 1947, la villa déploie ses volumes sur quatre niveaux. Le lobby de 70 m² et son escalier en chêne accueillent votre groupe dès l’arrivée ; les salons, les deux salles à manger et les deux cuisines permettent de vivre ensemble sans jamais être à l’étroit.</p>
   </div>
-  <div class="house__grid">
-    <figure class="ph ph--tall">
-      <img src="assets/img/lobby-s.webp" data-full="assets/img/lobby.webp" alt="Le lobby et son escalier en chêne" loading="lazy" width="900" height="600" data-lb>
-      <figcaption>Le lobby et son escalier en chêne</figcaption>
-    </figure>
-    <figure class="ph">
-      <img src="assets/img/salon-s.webp" data-full="assets/img/salon.webp" alt="Le grand salon" loading="lazy" width="900" height="506" data-lb>
-      <figcaption>Le grand salon</figcaption>
-    </figure>
-    <figure class="ph">
-      <img src="assets/img/salle-a-manger-s.webp" data-full="assets/img/salle-a-manger.webp" alt="Une des deux salles à manger" loading="lazy" width="900" height="600" data-lb>
-      <figcaption>Une des deux salles à manger</figcaption>
-    </figure>
-    <figure class="ph">
-      <img src="assets/img/cuisine-s.webp" data-full="assets/img/cuisine.webp" alt="La cuisine professionnelle" loading="lazy" width="900" height="506" data-lb>
-      <figcaption>La cuisine professionnelle</figcaption>
-    </figure>
+  <div class="bento">
+    <article class="tile tile--big"><img src="assets/img/salon-s.webp" data-full="assets/img/salon.webp" alt="Le grand salon" loading="lazy" data-lb><div><h3>Lobby et salons</h3><p>Lobby de 70 m², escalier en chêne, deux salons.</p></div></article>
+    <article class="tile"><img src="assets/img/cuisine-s.webp" data-full="assets/img/cuisine.webp" alt="La cuisine professionnelle" loading="lazy" data-lb><div><h3>Deux cuisines</h3><p>Dont une professionnelle, idéale pour un traiteur.</p></div></article>
+    <article class="tile"><img src="assets/img/salle-a-manger-s.webp" data-full="assets/img/salle-a-manger.webp" alt="Une des deux salles à manger" loading="lazy" data-lb><div><h3>Deux salles à manger</h3><p>Deux salles lumineuses pour les grandes tablées.</p></div></article>
+    <article class="tile"><img src="assets/img/babyfoot-s.webp" data-full="assets/img/babyfoot.webp" alt="Le baby-foot de la salle de jeux" loading="lazy" data-lb><div><h3>Cinéma et jeux</h3><p>40 places, billard, ping-pong, baby-foot.</p></div></article>
+    <article class="tile"><img src="assets/img/terrasse-couverte-s.webp" data-full="assets/img/terrasse-couverte.webp" alt="La terrasse couverte et ses longues tables" loading="lazy" data-lb><div><h3>Terrasses</h3><p>Terrasse couverte, four à bois, barbecue, brasero.</p></div></article>
+    <article class="tile tile--wide"><img src="assets/img/tennis-s.webp" data-full="assets/img/tennis.webp" alt="Le terrain de tennis et de basket" loading="lazy" data-lb><div><h3>Sport et jardins</h3><p>4 000 m², tennis, basket, aires de jeux.</p></div></article>
   </div>
-  <div class="house__list">
-    <h3 class="h3">Dans la maison</h3>
-    <ul class="ticks" role="list">
-      <li>Lobby de 70 m² avec espace salon</li><li>Deux salons et deux salles à manger</li><li>Deux cuisines, dont une professionnelle : four et lave-vaisselle professionnels, frigos traiteur</li><li>Salle de cinéma de 40 places sur grand écran</li>
-      <li>Salle de réunion et de billard</li><li>Ping-pong et baby-foot</li><li>Buanderie : lave-linge, sèche-linge, centrale vapeur</li><li>Chambre, salle de bain et WC adaptés aux personnes à mobilité réduite, rampe d’accès</li>
-    </ul>
-  </div>
+  <details class="more">
+    <summary>Dans la maison</summary>
+    <ul class="checks checks--cols"><li>Lobby de 70 m² avec espace salon</li><li>Deux salons et deux salles à manger</li><li>Deux cuisines, dont une professionnelle : four et lave-vaisselle professionnels, frigos traiteur</li><li>Salle de cinéma de 40 places sur grand écran</li><li>Salle de réunion et de billard</li><li>Ping-pong et baby-foot</li><li>Buanderie : lave-linge, sèche-linge, centrale vapeur</li><li>Chambre, salle de bain et WC adaptés aux personnes à mobilité réduite, rampe d’accès</li></ul>
+  </details>
 </section>
 
-<section class="rooms" id="chambres" aria-labelledby="rooms-t">
+<section class="sec rooms" id="chambres" aria-labelledby="rooms-t">
   <div class="rooms__body">
     <h2 id="rooms-t" class="h2">15 chambres sur trois étages</h2>
-    <p class="body">Des chambres doubles aux grandes chambres familiales, réparties sur trois étages. Chaque chambre dispose de sa salle d’eau ou partage une salle de bain avec sa voisine.</p>
-    <dl class="floors">
-      <div><dt>Rez-de-chaussée</dt><dd>3 chambres avec douche et WC, dont une adaptée aux personnes à mobilité réduite</dd></div>
-      <div><dt>1<sup>er</sup> étage</dt><dd>5 chambres, dont 3 avec salle de bain privée, et une grande terrasse</dd></div>
-      <div><dt>2<sup>e</sup> étage</dt><dd>7 chambres avec salle d’eau, sous les toits</dd></div>
-    </dl>
+    <p class="muted">Des chambres doubles aux grandes chambres familiales, réparties sur trois étages. Chaque chambre dispose de sa salle d’eau ou partage une salle de bain avec sa voisine.</p>
+    <ol class="floors">
+      <li><b>Rez-de-chaussée</b><span>3 chambres avec douche et WC, dont une adaptée aux personnes à mobilité réduite</span></li>
+      <li><b>1<sup>er</sup> étage</b><span>5 chambres, dont 3 avec salle de bain privée, et une grande terrasse</span></li>
+      <li><b>2<sup>e</sup> étage</b><span>7 chambres avec salle d’eau, sous les toits</span></li>
+    </ol>
   </div>
-  <div class="rooms__strip" tabindex="0" aria-label="Chambres">
-    <img src="assets/img/chambre-verte-s.webp" data-full="assets/img/chambre-verte.webp" alt="Chambre aux tons verts sous les toits" loading="lazy" width="900" height="506" data-lb>
-    <img src="assets/img/sdb-baignoire-s.webp" data-full="assets/img/sdb-baignoire.webp" alt="Salle de bain en marbre noir avec baignoire îlot" loading="lazy" width="900" height="506" data-lb>
-    <img src="assets/img/chambre-double-s.webp" data-full="assets/img/chambre-double.webp" alt="Chambre double avec tête de lit capitonnée" loading="lazy" width="900" height="600" data-lb>
-    <img src="assets/img/chambre-bleue-3-s.webp" data-full="assets/img/chambre-bleue-3.webp" alt="Chambre familiale bleue avec coin salon" loading="lazy" width="900" height="506" data-lb>
+  <div class="rooms__pics">
+    <img src="assets/img/chambre-verte-s.webp" data-full="assets/img/chambre-verte.webp" alt="Chambre aux tons verts sous les toits" loading="lazy" data-lb>
+    <img src="assets/img/sdb-baignoire-s.webp" data-full="assets/img/sdb-baignoire.webp" alt="Salle de bain en marbre noir avec baignoire îlot" loading="lazy" data-lb>
+    <img src="assets/img/chambre-double-s.webp" data-full="assets/img/chambre-double.webp" alt="Chambre double avec tête de lit capitonnée" loading="lazy" data-lb>
+    <img src="assets/img/chambre-bleue-3-s.webp" data-full="assets/img/chambre-bleue-3.webp" alt="Chambre familiale bleue avec coin salon" loading="lazy" data-lb>
   </div>
 </section>
 
-<section class="gardens" id="jardins" aria-labelledby="gardens-t">
-  <div class="gardens__hero">
-    <img src="assets/img/facade-roses.webp" alt="La façade blanche de la villa derrière les massifs de roses" loading="lazy" width="1920" height="1080">
-  </div>
+<section class="sec gardens" id="jardins" aria-labelledby="gardens-t">
+  <img class="gardens__img" src="assets/img/facade-ete.webp" alt="La façade blanche de la villa derrière les massifs de roses" loading="lazy" width="1920" height="1080" data-lb data-full="assets/img/facade-ete.webp">
   <div class="gardens__card">
     <h2 id="gardens-t" class="h2">4 000 m² de jardins pour les beaux jours</h2>
-    <p class="body">Roses, pelouses et grands arbres entourent la maison. On déjeune tous ensemble sur la terrasse, on allume le four à bois pour les tartes flambées, et les soirées se prolongent autour du grand brasero.</p>
-    <ul class="ticks" role="list">
-      <li>Terrasse avec six tables et une trentaine de fauteuils</li><li>Grande terrasse couverte pour les repas de groupe</li><li>Four à pizzas et tartes flambées au bois, barbecue</li><li>Grand brasero, bois fourni</li>
-      <li>Terrain de tennis et de basket</li><li>Aires de jeux et balançoires pour les enfants</li><li>Parking privé pour 15 voitures</li>
-    </ul>
-  </div>
-  <div class="gardens__pair">
-    <img src="assets/img/terrasse-couverte-s.webp" data-full="assets/img/terrasse-couverte.webp" alt="La terrasse couverte et ses longues tables" loading="lazy" width="900" height="506" data-lb>
-    <img src="assets/img/brasero-s.webp" data-full="assets/img/brasero.webp" alt="Le brasero allumé" loading="lazy" width="900" height="590" data-lb>
+    <p class="muted">Roses, pelouses et grands arbres entourent la maison. On déjeune tous ensemble sur la terrasse, on allume le four à bois pour les tartes flambées, et les soirées se prolongent autour du grand brasero.</p>
+    <ul class="checks"><li>Terrasse avec six tables et une trentaine de fauteuils</li><li>Grande terrasse couverte pour les repas de groupe</li><li>Four à pizzas et tartes flambées au bois, barbecue</li><li>Grand brasero, bois fourni</li><li>Terrain de tennis et de basket</li><li>Aires de jeux et balançoires pour les enfants</li><li>Parking privé pour 15 voitures</li></ul>
   </div>
 </section>
 
-<section class="who" aria-labelledby="who-t">
-  <h2 id="who-t" class="h2 who__title">Pour toutes vos raisons de vous retrouver</h2>
-  <div class="who__list">
-    <article class="who__item">
-      <img src="assets/img/terrasse-table-s.webp" alt="" loading="lazy" width="900" height="506">
-      <h3 class="h3">Cousinades et réunions de famille</h3><p>Trois générations sous le même toit pour un week-end, avec de la place pour chacun et une piscine qui met tout le monde d’accord.</p>
-    </article>
-    <article class="who__item">
-      <img src="assets/img/salle-a-manger-3-s.webp" alt="" loading="lazy" width="900" height="600">
-      <h3 class="h3">Fiançailles, mariages, anniversaires</h3><p>Deux salles à manger, une cuisine professionnelle pour votre traiteur et des jardins pour les photos.</p>
-    </article>
-    <article class="who__item">
-      <img src="assets/img/jardin-s.webp" alt="" loading="lazy" width="900" height="675">
-      <h3 class="h3">Associations et séjours de groupe</h3><p>Jusqu’à 50 personnes logées ensemble, des espaces de jeu et une salle de cinéma pour les soirées.</p>
-    </article>
-    <article class="who__item">
-      <img src="assets/img/lobby-cheminee-s.webp" alt="" loading="lazy" width="900" height="600">
-      <h3 class="h3">Entreprises, en semaine</h3><p>Salle de réunion, salle de projection de 40 places et un cadre au calme pour vos séminaires.</p>
-    </article>
-  </div>
-</section>
-
-<section class="area" id="alentours" aria-labelledby="area-t">
-  <div class="area__body">
+<section class="sec area" id="alentours" aria-labelledby="area-t">
+  <div>
     <h2 id="area-t" class="h2">Au cœur des Vosges du Nord</h2>
-    <p class="body">Diemeringen est un village d’Alsace Bossue, dans le Parc naturel régional des Vosges du Nord, réserve de biosphère de l’UNESCO, tout près de la frontière allemande. Le centre du village est à 500 m, la gare à 800 m, le supermarché à 1 km.</p>
+    <p class="muted">Diemeringen est un village d’Alsace Bossue, dans le Parc naturel régional des Vosges du Nord, réserve de biosphère de l’UNESCO, tout près de la frontière allemande. Le centre du village est à 500 m, la gare à 800 m, le supermarché à 1 km.</p>
     <h3 class="h3">Distances</h3>
     <dl class="dist">
       <div><dt>Sarre-Union</dt><dd>9 km</dd></div>
@@ -196,25 +183,23 @@
       <div><dt>Metz</dt><dd>99 km</dd></div>
     </dl>
   </div>
-  <div class="area__outings">
-    <img class="area__img" src="assets/img/vue-aerienne-s.webp" alt="" loading="lazy" width="900" height="675">
+  <div class="area__side">
+    <img src="assets/img/vue-aerienne-s.webp" data-full="assets/img/vue-aerienne.webp" alt="Au cœur des Vosges du Nord" loading="lazy" data-lb>
     <h3 class="h3">Quelques sorties appréciées</h3>
-    <ol class="outings" role="list">
+    <ul class="outings">
       <li><b>Parc Nature de Cheval, Altwiller</b><span>Spectacle équestre, poneys, mini-ferme · 10 min</span></li>
       <li><b>Ranch des Bisons, Petit-Réderching</b><span>Safari en camion au milieu du troupeau · 20–25 min</span></li>
       <li><b>Rocher de l’Altschlossfelsen</b><span>Randonnée parmi les falaises de grès rose · 30–35 min</span></li>
       <li><b>Plan incliné de Saint-Louis–Arzviller</b><span>Ascenseur à bateaux, luge d’été · 35–40 min</span></li>
       <li><b>Parc animalier de Sainte-Croix</b><span>1 500 animaux en semi-liberté · 45–50 min</span></li>
-    </ol>
+    </ul>
     <p class="small">Un carnet de sorties complet est remis à nos hôtes.</p>
   </div>
 </section>
 
-<section class="gallery" aria-labelledby="gal-t">
+<section class="sec" aria-labelledby="gal-t">
   <h2 id="gal-t" class="h2">La Rosière en images</h2>
-  <div class="gallery__grid">
-    <img src="assets/img/facade-nuit-s.webp" data-full="assets/img/facade-nuit.webp" alt="La façade éclairée le soir" loading="lazy" data-lb>
-    <img src="assets/img/piscine-3-s.webp" data-full="assets/img/piscine-3.webp" alt="La piscine et ses lumières" loading="lazy" data-lb>
+  <div class="gallery">
     <img src="assets/img/escalier-s.webp" data-full="assets/img/escalier.webp" alt="L’escalier en chêne du lobby" loading="lazy" data-lb>
     <img src="assets/img/arche-roses-s.webp" data-full="assets/img/arche-roses.webp" alt="L’arche de roses du jardin" loading="lazy" data-lb>
     <img src="assets/img/salon-3-s.webp" data-full="assets/img/salon-3.webp" alt="Le salon télévision" loading="lazy" data-lb>
@@ -222,15 +207,15 @@
     <img src="assets/img/chambre-fleurie-s.webp" data-full="assets/img/chambre-fleurie.webp" alt="Une chambre double fleurie" loading="lazy" data-lb>
     <img src="assets/img/sdb-s.webp" data-full="assets/img/sdb.webp" alt="Une salle de bain contemporaine" loading="lazy" data-lb>
     <img src="assets/img/four-pro-s.webp" data-full="assets/img/four-pro.webp" alt="Le four professionnel de la cuisine" loading="lazy" data-lb>
-    <img src="assets/img/babyfoot-s.webp" data-full="assets/img/babyfoot.webp" alt="Le baby-foot de la salle de jeux" loading="lazy" data-lb>
-    <img src="assets/img/tennis-s.webp" data-full="assets/img/tennis.webp" alt="Le terrain de tennis et de basket" loading="lazy" data-lb>
+    <img src="assets/img/brasero-s.webp" data-full="assets/img/brasero.webp" alt="Le brasero allumé" loading="lazy" data-lb>
     <img src="assets/img/jeux-s.webp" data-full="assets/img/jeux.webp" alt="L’aire de jeux des enfants" loading="lazy" data-lb>
+    <img src="assets/img/chambre-bleue-s.webp" data-full="assets/img/chambre-bleue.webp" alt="Chambre familiale bleue avec coin salon" loading="lazy" data-lb>
   </div>
 </section>
 
-<section class="info" id="infos" aria-labelledby="info-t">
+<section class="sec" id="infos" aria-labelledby="info-t">
   <h2 id="info-t" class="h2">Infos pratiques</h2>
-  <dl class="info__list">
+  <dl class="table">
     <div><dt>Arrivée</dt><dd>à partir de 16 h</dd></div>
     <div><dt>Départ</dt><dd>au plus tard à midi</dd></div>
     <div><dt>Capacité</dt><dd>jusqu’à 50 personnes</dd></div>
@@ -238,69 +223,69 @@
     <div><dt>Draps et serviettes</dt><dd>en option : draps 10 € et serviettes 3 € par personne</dd></div>
     <div><dt>Réservation</dt><dd>acompte de 30 %, solde 45 jours avant l’arrivée, dépôt de garantie de 1 000 €</dd></div>
     <div><dt>À savoir</dt><dd>maison non-fumeur ; musique inaudible des voisins après 22 h</dd></div>
-    <div><dt>Adresse</dt><dd>116 Grand’Rue, 67430 Diemeringen, France</dd></div>
+    <div><dt>Adresse</dt><dd>116 Grand’Rue, 67430 Diemeringen</dd></div>
   </dl>
 </section>
 
 <section class="ask" id="demande" aria-labelledby="ask-t">
-  <div class="ask__in">
-    <div class="ask__head">
-      <h2 id="ask-t" class="h2">Demander un séjour</h2>
-      <p class="body">Indiquez vos dates et votre groupe : le propriétaire vous répond personnellement avec la disponibilité et le tarif.</p>
-      <p class="small">Une demande ne vaut pas réservation : le séjour est confirmé par le propriétaire.</p>
-    </div>
-    <form class="form" novalidate data-form
-      data-err-dates="La date de départ doit être après la date d’arrivée." data-err-people="Indiquez un nombre entre 1 et 50." data-err-required="Ce champ est nécessaire." data-err-email="Cette adresse e-mail semble incomplète."
-      data-subject="Demande de séjour" data-intro="Bonjour, je souhaiterais séjourner au Domaine La Rosière." data-nights="nuits" data-colon=" : " data-datesep="/"
-      data-l-arrival="Arrivée" data-l-departure="Départ" data-l-people="Nombre de personnes" data-l-type="Occasion" data-l-name="Nom et prénom" data-l-email="E-mail" data-l-phone="Téléphone">
-      <div class="form__row">
-        <label class="field"><span>Arrivée</span><input type="date" name="arrival" required></label>
-        <label class="field"><span>Départ</span><input type="date" name="departure" required></label>
-      </div>
-      <div class="form__row">
-        <label class="field"><span>Nombre de personnes</span><input type="number" name="people" min="1" max="50" inputmode="numeric" required></label>
-        <label class="field"><span>Occasion</span>
-          <select name="type" required>
-            <option value="">Choisir…</option>
-            <option>Réunion de famille, cousinade</option>
-            <option>Fête : fiançailles, mariage, anniversaire</option>
-            <option>Association, séjour de groupe</option>
-            <option>Entreprise, séminaire</option>
-            <option>Autre</option>
-          </select>
-        </label>
-      </div>
-      <label class="field"><span>Nom et prénom</span><input type="text" name="name" autocomplete="name" required></label>
-      <div class="form__row">
-        <label class="field"><span>E-mail</span><input type="email" name="email" autocomplete="email" required></label>
-        <label class="field"><span>Téléphone <em>facultatif</em></span><input type="tel" name="phone" autocomplete="tel"></label>
-      </div>
-      <label class="field"><span>Votre message <em>facultatif</em></span><textarea name="message" rows="4" placeholder="Vos questions, vos besoins particuliers…"></textarea></label>
-      <button class="btn btn--light form__submit" type="submit">Préparer ma demande</button>
-      <div class="form__done" role="status" aria-live="polite" hidden>
-        <h3 class="h3">Votre demande est prête</h3>
-        <p>Votre messagerie s’ouvre avec la demande déjà rédigée : il ne reste qu’à l’envoyer. Si rien ne s’ouvre, écrivez-nous à <a data-mail-link></a>.</p>
-      </div>
-    </form>
+  <div class="ask__head">
+    <h2 id="ask-t" class="h2">Demander un séjour</h2>
+    <p>Indiquez vos dates et votre groupe : le propriétaire vous répond personnellement avec la disponibilité et le tarif.</p>
+    <p class="small">Une demande ne vaut pas réservation : le séjour est confirmé par le propriétaire.</p>
   </div>
+  <form class="form" novalidate data-form
+    data-err-dates="La date de départ doit être après la date d’arrivée." data-err-people="Indiquez un nombre entre 1 et 50." data-err-required="Ce champ est nécessaire." data-err-email="Cette adresse e-mail semble incomplète."
+    data-subject="Demande de séjour" data-intro="Bonjour, je souhaiterais séjourner au Domaine La Rosière." data-nights="nuits" data-colon=" : " data-datesep="/"
+    data-l-arrival="Arrivée" data-l-departure="Départ" data-l-people="Nombre de personnes" data-l-type="Occasion" data-l-name="Nom et prénom" data-l-email="E-mail" data-l-phone="Téléphone">
+    <div class="form__row">
+      <label class="field"><span>Arrivée</span><input type="date" name="arrival" required></label>
+      <label class="field"><span>Départ</span><input type="date" name="departure" required></label>
+    </div>
+    <div class="form__row">
+      <label class="field"><span>Nombre de personnes</span><input type="number" name="people" min="1" max="50" inputmode="numeric" required></label>
+      <label class="field"><span>Occasion</span>
+        <select name="type" required>
+          <option value="">Choisir…</option>
+          <option>Réunion de famille, cousinade</option>
+          <option>Fête : fiançailles, mariage, anniversaire</option>
+          <option>Association, séjour de groupe</option>
+          <option>Entreprise, séminaire</option>
+          <option>Autre</option>
+        </select>
+      </label>
+    </div>
+    <label class="field"><span>Nom et prénom</span><input type="text" name="name" autocomplete="name" required></label>
+    <div class="form__row">
+      <label class="field"><span>E-mail</span><input type="email" name="email" autocomplete="email" required></label>
+      <label class="field"><span>Téléphone <em>facultatif</em></span><input type="tel" name="phone" autocomplete="tel"></label>
+    </div>
+    <label class="field"><span>Votre message <em>facultatif</em></span><textarea name="message" rows="4" placeholder="Vos questions, vos besoins particuliers…"></textarea></label>
+    <button class="btn btn--rose form__submit" type="submit">Préparer ma demande</button>
+    <div class="form__done" role="status" aria-live="polite" hidden>
+      <h3 class="h3">Votre demande est prête</h3>
+      <p>Votre messagerie s’ouvre avec la demande déjà rédigée : il ne reste qu’à l’envoyer. Si rien ne s’ouvre, écrivez-nous à <a data-mail-link></a>.</p>
+    </div>
+  </form>
 </section>
 
 </main>
 
 <footer class="foot">
   <div class="foot__in">
-    <img class="foot__logo" src="assets/img/embleme-s.webp" alt="Domaine La Rosière" width="120" height="120" loading="lazy">
+    <img class="foot__logo" src="assets/img/embleme-s.webp" alt="Domaine La Rosière" width="88" height="88" loading="lazy">
     <div>
       <p class="foot__name">Domaine La Rosière</p>
       <p>Villa pour groupes avec piscine intérieure chauffée</p>
       <p>116 Grand’Rue · 67430 Diemeringen · Alsace</p>
     </div>
     <div class="foot__end">
-      <div class="lang"><a href="./" lang="fr" aria-current="true">Français</a><span aria-hidden="true">·</span><a href="de/" lang="de" >Deutsch</a></div>
+      <div class="lang"><a href="./" lang="fr" aria-current="true">Français</a><a href="de/" lang="de" >Deutsch</a></div>
       <p class="small">Version d’aperçu</p>
     </div>
   </div>
 </footer>
+
+<a class="btn btn--g sticky" href="#demande" data-sticky>Demander un séjour</a>
 
 <dialog class="lb" data-lb-dialog aria-label="Photo">
   <img alt="" data-lb-img>

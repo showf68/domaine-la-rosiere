@@ -6,7 +6,7 @@
 <title>{{title}}</title>
 <meta name="description" content="{{description}}">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#1d3a2b">
+<meta name="theme-color" content="#2e5a43">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Domaine La Rosière">
 <meta property="og:description" content="{{description}}">
@@ -17,7 +17,7 @@
 <link rel="icon" href="{{base}}assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="{{base}}assets/img/piscine.webp" fetchpriority="high">
 {{css}}
 </head>
@@ -26,24 +26,24 @@
 
 <header class="top" data-top>
   <div class="top__in">
-    <a class="brand" href="{{home}}" aria-label="Domaine La Rosière">
-      <span class="brand__small">Domaine</span>
-      <span class="brand__name">La Rosière</span>
+    <a class="brand" href="{{home}}">
+      <img src="{{base}}assets/img/embleme-s.webp" alt="" width="44" height="44">
+      <span>Domaine La Rosière</span>
     </a>
     <nav class="nav" id="nav" aria-label="Navigation">
+      <a href="#occasions">{{nav_occ}}</a>
       <a href="#piscine">{{nav_pool}}</a>
-      <a href="#maison">{{nav_house}}</a>
+      <a href="#espaces">{{nav_house}}</a>
       <a href="#chambres">{{nav_rooms}}</a>
       <a href="#jardins">{{nav_gardens}}</a>
       <a href="#alentours">{{nav_area}}</a>
       <a href="#infos">{{nav_info}}</a>
-      <a class="nav__cta-m" href="#demande">{{cta_request}}</a>
     </nav>
     <div class="top__end">
       <div class="lang" role="group" aria-label="{{lang_label}}">
-        <a href="{{href_fr}}" lang="fr" {{cur_fr}}>FR</a><span aria-hidden="true">·</span><a href="{{href_de}}" lang="de" {{cur_de}}>DE</a>
+        <a href="{{href_fr}}" lang="fr" {{cur_fr}}>FR</a><a href="{{href_de}}" lang="de" {{cur_de}}>DE</a>
       </div>
-      <a class="btn btn--solid top__cta" href="#demande">{{cta_request}}</a>
+      <a class="btn btn--g top__cta" href="#demande">{{cta_request}}</a>
       <button class="burger" type="button" aria-expanded="false" aria-controls="nav" data-burger>
         <span class="sr">{{nav_menu}}</span><i></i><i></i>
       </button>
@@ -51,40 +51,71 @@
   </div>
 </header>
 
-<main id="contenu">
+<main id="contenu" class="wrap">
 
 <section class="hero" aria-labelledby="hero-t">
-  <div class="hero__text">
-    <p class="hero__place">{{hero_place}}</p>
-    <h1 id="hero-t" class="hero__title">{{hero_title}}</h1>
-    <p class="hero__lead">{{hero_lead}}</p>
+  <div class="hero__t">
+    <p class="hero__place"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>{{hero_place}}</p>
+    <h1 id="hero-t">{{hero3_title}}</h1>
+    <p class="hero__lead">{{hero3_lead}}</p>
     <div class="hero__ctas">
-      <a class="btn btn--solid" href="#demande">{{cta_request}}</a>
-      <a class="btn btn--line" href="#piscine">{{hero_cta2}}</a>
+      <a class="btn btn--g" href="#demande">{{cta_request}}</a>
+      <a class="btn btn--soft" href="#occasions">{{hero3_cta2}}<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
     </div>
   </div>
-  <div class="arch" data-arch>
-    <figure class="arch__frame" data-arch-frame>
-      <img src="{{base}}assets/img/piscine.webp" srcset="{{base}}assets/img/piscine-s.webp 900w, {{base}}assets/img/piscine.webp 1920w" sizes="100vw" alt="{{hero_alt}}" width="1920" height="1080" fetchpriority="high">
-    </figure>
-  </div>
-  <ul class="facts" role="list">
-    <li><span class="facts__pre">{{fact_people_pre}}</span><b>50</b><span>{{fact_people}}</span></li>
+  <ul class="hero__facts" role="list">
+    <li><span>{{fact_people_pre}}</span><b>50</b><span>{{fact_people}}</span></li>
     <li><b>15</b><span>{{fact_rooms}}</span></li>
     <li><b>1 000</b><span>{{fact_area}}</span></li>
     <li><b>4 000</b><span>{{fact_garden}}</span></li>
-    <li><b class="facts__word">{{fact_pool}}</b><span>{{fact_pool_sub}}</span></li>
   </ul>
+  <figure class="c c1">
+    <img src="{{base}}assets/img/piscine.webp" srcset="{{base}}assets/img/piscine-s.webp 900w, {{base}}assets/img/piscine.webp 1920w" sizes="(max-width: 960px) 100vw, 60vw" alt="{{hero_alt}}" width="1920" height="1080" fetchpriority="high" data-lb data-full="{{base}}assets/img/piscine.webp">
+    <span class="tag"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17c1.5 0 1.5-1 3-1s1.5 1 3 1 1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1M3 21c1.5 0 1.5-1 3-1s1.5 1 3 1 1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1M8 13V5a2 2 0 0 1 4 0M16 13V5a2 2 0 0 0-4 0M8 8h8"/></svg>{{hero_tag}}</span>
+  </figure>
+  <figure class="c c2"><img src="{{base}}assets/img/facade-roses-s.webp" alt="{{hero_alt_facade}}" width="900" height="506" data-lb data-full="{{base}}assets/img/facade-roses.webp"></figure>
+  <figure class="c c3"><img src="{{base}}assets/img/lobby-s.webp" alt="{{hero_alt_lobby}}" width="900" height="600" data-lb data-full="{{base}}assets/img/lobby.webp"></figure>
+  <figure class="c c4"><img src="{{base}}assets/img/facade-nuit-s.webp" alt="{{g1}}" width="900" height="506" data-lb data-full="{{base}}assets/img/facade-nuit.webp"></figure>
 </section>
 
-<section class="pool" id="piscine" aria-labelledby="pool-t">
-  <div class="pool__media">
-    <img src="{{base}}assets/img/piscine-2-s.webp" data-full="{{base}}assets/img/piscine-2.webp" alt="{{pool_alt2}}" loading="lazy" width="900" height="506" data-lb>
+<section class="occ" id="occasions" aria-labelledby="occ-t">
+  <div class="occ__head">
+    <h2 id="occ-t" class="h2">{{occ_title}}</h2>
+    <p class="muted">{{occ_lead}}</p>
+  </div>
+  <div class="tabs" role="tablist" aria-labelledby="occ-t" data-tabs>
+    <button role="tab" id="tab-1" aria-controls="occ-1" aria-selected="true" tabindex="0"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0M13 20a4 4 0 0 1 8.5 0"/></svg>{{occ_t1}}</button>
+    <button role="tab" id="tab-2" aria-controls="occ-2" aria-selected="false" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0L8 3zM12 13v8M8.5 21h7"/></svg>{{occ_t2}}</button>
+    <button role="tab" id="tab-3" aria-controls="occ-3" aria-selected="false" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V10l8-6 8 6v11M9 21v-6h6v6"/></svg>{{occ_t3}}</button>
+    <button role="tab" id="tab-4" aria-controls="occ-4" aria-selected="false" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>{{occ_t4}}</button>
+  </div>
+  <div class="panel" role="tabpanel" id="occ-1" aria-labelledby="tab-1">
+    <img src="{{base}}assets/img/terrasse-table-s.webp" alt="" loading="lazy" width="900" height="506">
+    <div><h3 class="h3">{{who_family}}</h3><p>{{who_family_t}}</p><ul class="checks"><li>{{occ1_l1}}</li><li>{{occ1_l2}}</li><li>{{occ1_l3}}</li></ul><a class="btn btn--g" href="#demande" data-occ="{{form_type_family}}">{{occ_cta}}</a></div>
+  </div>
+  <div class="panel" role="tabpanel" id="occ-2" aria-labelledby="tab-2" hidden>
+    <img src="{{base}}assets/img/salle-a-manger-3-s.webp" alt="" loading="lazy" width="900" height="600">
+    <div><h3 class="h3">{{who_party}}</h3><p>{{who_party_t}}</p><ul class="checks"><li>{{occ2_l1}}</li><li>{{occ2_l2}}</li><li>{{occ2_l3}}</li></ul><a class="btn btn--g" href="#demande" data-occ="{{form_type_party}}">{{occ_cta}}</a></div>
+  </div>
+  <div class="panel" role="tabpanel" id="occ-3" aria-labelledby="tab-3" hidden>
+    <img src="{{base}}assets/img/jardin-s.webp" alt="" loading="lazy" width="900" height="675">
+    <div><h3 class="h3">{{who_assoc}}</h3><p>{{who_assoc_t}}</p><ul class="checks"><li>{{occ3_l1}}</li><li>{{occ3_l2}}</li><li>{{occ3_l3}}</li></ul><a class="btn btn--g" href="#demande" data-occ="{{form_type_assoc}}">{{occ_cta}}</a></div>
+  </div>
+  <div class="panel" role="tabpanel" id="occ-4" aria-labelledby="tab-4" hidden>
+    <img src="{{base}}assets/img/lobby-cheminee-s.webp" alt="" loading="lazy" width="900" height="600">
+    <div><h3 class="h3">{{who_pro}}</h3><p>{{who_pro_t}}</p><ul class="checks"><li>{{occ4_l1}}</li><li>{{occ4_l2}}</li><li>{{occ4_l3}}</li></ul><a class="btn btn--g" href="#demande" data-occ="{{form_type_pro}}">{{occ_cta}}</a></div>
+  </div>
+</section>
+
+<section class="pool sec" id="piscine" aria-labelledby="pool-t">
+  <div class="pool__pics">
+    <img class="pool__a" src="{{base}}assets/img/piscine-2-s.webp" data-full="{{base}}assets/img/piscine-2.webp" alt="{{pool_alt2}}" loading="lazy" width="900" height="506" data-lb>
+    <img class="pool__b" src="{{base}}assets/img/piscine-3-s.webp" data-full="{{base}}assets/img/piscine-3.webp" alt="{{g2}}" loading="lazy" width="900" height="506" data-lb>
   </div>
   <div class="pool__body">
     <h2 id="pool-t" class="h2">{{pool_title}}</h2>
-    <p class="body">{{pool_text}}</p>
-    <dl class="specs">
+    <p class="muted">{{pool_text}}</p>
+    <dl class="facts">
       <div><dt>{{pool_spec_basin}}</dt><dd>{{pool_spec_basin_v}}</dd></div>
       <div><dt>{{pool_spec_kids}}</dt><dd>{{pool_spec_kids_v}}</dd></div>
       <div><dt>{{pool_spec_heat}}</dt><dd>{{pool_spec_heat_v}}</dd></div>
@@ -94,100 +125,56 @@
   </div>
 </section>
 
-<section class="house" id="maison" aria-labelledby="house-t">
-  <div class="house__intro">
-    <h2 id="house-t" class="h2">{{house_title}}</h2>
-    <p class="body">{{house_text}}</p>
+<section class="sec" id="espaces" aria-labelledby="sp-t">
+  <div class="sec__head">
+    <h2 id="sp-t" class="h2">{{spaces_title}}</h2>
+    <p class="muted">{{house_text}}</p>
   </div>
-  <div class="house__grid">
-    <figure class="ph ph--tall">
-      <img src="{{base}}assets/img/lobby-s.webp" data-full="{{base}}assets/img/lobby.webp" alt="{{house_lobby}}" loading="lazy" width="900" height="600" data-lb>
-      <figcaption>{{house_lobby}}</figcaption>
-    </figure>
-    <figure class="ph">
-      <img src="{{base}}assets/img/salon-s.webp" data-full="{{base}}assets/img/salon.webp" alt="{{house_salon}}" loading="lazy" width="900" height="506" data-lb>
-      <figcaption>{{house_salon}}</figcaption>
-    </figure>
-    <figure class="ph">
-      <img src="{{base}}assets/img/salle-a-manger-s.webp" data-full="{{base}}assets/img/salle-a-manger.webp" alt="{{house_dining}}" loading="lazy" width="900" height="600" data-lb>
-      <figcaption>{{house_dining}}</figcaption>
-    </figure>
-    <figure class="ph">
-      <img src="{{base}}assets/img/cuisine-s.webp" data-full="{{base}}assets/img/cuisine.webp" alt="{{house_kitchen}}" loading="lazy" width="900" height="506" data-lb>
-      <figcaption>{{house_kitchen}}</figcaption>
-    </figure>
+  <div class="bento">
+    <article class="tile tile--big"><img src="{{base}}assets/img/salon-s.webp" data-full="{{base}}assets/img/salon.webp" alt="{{house_salon}}" loading="lazy" data-lb><div><h3>{{sp1}}</h3><p>{{sp1_d}}</p></div></article>
+    <article class="tile"><img src="{{base}}assets/img/cuisine-s.webp" data-full="{{base}}assets/img/cuisine.webp" alt="{{house_kitchen}}" loading="lazy" data-lb><div><h3>{{sp2}}</h3><p>{{sp2_d}}</p></div></article>
+    <article class="tile"><img src="{{base}}assets/img/salle-a-manger-s.webp" data-full="{{base}}assets/img/salle-a-manger.webp" alt="{{house_dining}}" loading="lazy" data-lb><div><h3>{{sp3}}</h3><p>{{sp3_d}}</p></div></article>
+    <article class="tile"><img src="{{base}}assets/img/babyfoot-s.webp" data-full="{{base}}assets/img/babyfoot.webp" alt="{{g10}}" loading="lazy" data-lb><div><h3>{{sp4}}</h3><p>{{sp4_d}}</p></div></article>
+    <article class="tile"><img src="{{base}}assets/img/terrasse-couverte-s.webp" data-full="{{base}}assets/img/terrasse-couverte.webp" alt="{{gardens_alt2}}" loading="lazy" data-lb><div><h3>{{sp5}}</h3><p>{{sp5_d}}</p></div></article>
+    <article class="tile tile--wide"><img src="{{base}}assets/img/tennis-s.webp" data-full="{{base}}assets/img/tennis.webp" alt="{{g11}}" loading="lazy" data-lb><div><h3>{{sp6}}</h3><p>{{sp6_d}}</p></div></article>
   </div>
-  <div class="house__list">
-    <h3 class="h3">{{house_list_title}}</h3>
-    <ul class="ticks" role="list">
-      <li>{{house_l1}}</li><li>{{house_l2}}</li><li>{{house_l3}}</li><li>{{house_l4}}</li>
-      <li>{{house_l5}}</li><li>{{house_l6}}</li><li>{{house_l7}}</li><li>{{house_l8}}</li>
-    </ul>
-  </div>
+  <details class="more">
+    <summary>{{house_list_title}}</summary>
+    <ul class="checks checks--cols"><li>{{house_l1}}</li><li>{{house_l2}}</li><li>{{house_l3}}</li><li>{{house_l4}}</li><li>{{house_l5}}</li><li>{{house_l6}}</li><li>{{house_l7}}</li><li>{{house_l8}}</li></ul>
+  </details>
 </section>
 
-<section class="rooms" id="chambres" aria-labelledby="rooms-t">
+<section class="sec rooms" id="chambres" aria-labelledby="rooms-t">
   <div class="rooms__body">
     <h2 id="rooms-t" class="h2">{{rooms_title}}</h2>
-    <p class="body">{{rooms_text}}</p>
-    <dl class="floors">
-      <div><dt>{{rooms_f0}}</dt><dd>{{rooms_f0_v}}</dd></div>
-      <div><dt>{{rooms_f1}}</dt><dd>{{rooms_f1_v}}</dd></div>
-      <div><dt>{{rooms_f2}}</dt><dd>{{rooms_f2_v}}</dd></div>
-    </dl>
+    <p class="muted">{{rooms_text}}</p>
+    <ol class="floors">
+      <li><b>{{rooms_f0}}</b><span>{{rooms_f0_v}}</span></li>
+      <li><b>{{rooms_f1}}</b><span>{{rooms_f1_v}}</span></li>
+      <li><b>{{rooms_f2}}</b><span>{{rooms_f2_v}}</span></li>
+    </ol>
   </div>
-  <div class="rooms__strip" tabindex="0" aria-label="{{nav_rooms}}">
-    <img src="{{base}}assets/img/chambre-verte-s.webp" data-full="{{base}}assets/img/chambre-verte.webp" alt="{{rooms_alt1}}" loading="lazy" width="900" height="506" data-lb>
-    <img src="{{base}}assets/img/sdb-baignoire-s.webp" data-full="{{base}}assets/img/sdb-baignoire.webp" alt="{{rooms_alt2}}" loading="lazy" width="900" height="506" data-lb>
-    <img src="{{base}}assets/img/chambre-double-s.webp" data-full="{{base}}assets/img/chambre-double.webp" alt="{{rooms_alt3}}" loading="lazy" width="900" height="600" data-lb>
-    <img src="{{base}}assets/img/chambre-bleue-3-s.webp" data-full="{{base}}assets/img/chambre-bleue-3.webp" alt="{{rooms_alt4}}" loading="lazy" width="900" height="506" data-lb>
+  <div class="rooms__pics">
+    <img src="{{base}}assets/img/chambre-verte-s.webp" data-full="{{base}}assets/img/chambre-verte.webp" alt="{{rooms_alt1}}" loading="lazy" data-lb>
+    <img src="{{base}}assets/img/sdb-baignoire-s.webp" data-full="{{base}}assets/img/sdb-baignoire.webp" alt="{{rooms_alt2}}" loading="lazy" data-lb>
+    <img src="{{base}}assets/img/chambre-double-s.webp" data-full="{{base}}assets/img/chambre-double.webp" alt="{{rooms_alt3}}" loading="lazy" data-lb>
+    <img src="{{base}}assets/img/chambre-bleue-3-s.webp" data-full="{{base}}assets/img/chambre-bleue-3.webp" alt="{{rooms_alt4}}" loading="lazy" data-lb>
   </div>
 </section>
 
-<section class="gardens" id="jardins" aria-labelledby="gardens-t">
-  <div class="gardens__hero">
-    <img src="{{base}}assets/img/facade-roses.webp" alt="{{gardens_alt}}" loading="lazy" width="1920" height="1080">
-  </div>
+<section class="sec gardens" id="jardins" aria-labelledby="gardens-t">
+  <img class="gardens__img" src="{{base}}assets/img/facade-ete.webp" alt="{{gardens_alt}}" loading="lazy" width="1920" height="1080" data-lb data-full="{{base}}assets/img/facade-ete.webp">
   <div class="gardens__card">
     <h2 id="gardens-t" class="h2">{{gardens_title}}</h2>
-    <p class="body">{{gardens_text}}</p>
-    <ul class="ticks" role="list">
-      <li>{{gardens_l1}}</li><li>{{gardens_l2}}</li><li>{{gardens_l3}}</li><li>{{gardens_l4}}</li>
-      <li>{{gardens_l5}}</li><li>{{gardens_l6}}</li><li>{{gardens_l7}}</li>
-    </ul>
-  </div>
-  <div class="gardens__pair">
-    <img src="{{base}}assets/img/terrasse-couverte-s.webp" data-full="{{base}}assets/img/terrasse-couverte.webp" alt="{{gardens_alt2}}" loading="lazy" width="900" height="506" data-lb>
-    <img src="{{base}}assets/img/brasero-s.webp" data-full="{{base}}assets/img/brasero.webp" alt="{{gardens_alt3}}" loading="lazy" width="900" height="590" data-lb>
+    <p class="muted">{{gardens_text}}</p>
+    <ul class="checks"><li>{{gardens_l1}}</li><li>{{gardens_l2}}</li><li>{{gardens_l3}}</li><li>{{gardens_l4}}</li><li>{{gardens_l5}}</li><li>{{gardens_l6}}</li><li>{{gardens_l7}}</li></ul>
   </div>
 </section>
 
-<section class="who" aria-labelledby="who-t">
-  <h2 id="who-t" class="h2 who__title">{{who_title}}</h2>
-  <div class="who__list">
-    <article class="who__item">
-      <img src="{{base}}assets/img/terrasse-table-s.webp" alt="" loading="lazy" width="900" height="506">
-      <h3 class="h3">{{who_family}}</h3><p>{{who_family_t}}</p>
-    </article>
-    <article class="who__item">
-      <img src="{{base}}assets/img/salle-a-manger-3-s.webp" alt="" loading="lazy" width="900" height="600">
-      <h3 class="h3">{{who_party}}</h3><p>{{who_party_t}}</p>
-    </article>
-    <article class="who__item">
-      <img src="{{base}}assets/img/jardin-s.webp" alt="" loading="lazy" width="900" height="675">
-      <h3 class="h3">{{who_assoc}}</h3><p>{{who_assoc_t}}</p>
-    </article>
-    <article class="who__item">
-      <img src="{{base}}assets/img/lobby-cheminee-s.webp" alt="" loading="lazy" width="900" height="600">
-      <h3 class="h3">{{who_pro}}</h3><p>{{who_pro_t}}</p>
-    </article>
-  </div>
-</section>
-
-<section class="area" id="alentours" aria-labelledby="area-t">
-  <div class="area__body">
+<section class="sec area" id="alentours" aria-labelledby="area-t">
+  <div>
     <h2 id="area-t" class="h2">{{area_title}}</h2>
-    <p class="body">{{area_text}}</p>
+    <p class="muted">{{area_text}}</p>
     <h3 class="h3">{{area_dist}}</h3>
     <dl class="dist">
       <div><dt>Sarre-Union</dt><dd>9 km</dd></div>
@@ -196,25 +183,23 @@
       <div><dt>Metz</dt><dd>99 km</dd></div>
     </dl>
   </div>
-  <div class="area__outings">
-    <img class="area__img" src="{{base}}assets/img/vue-aerienne-s.webp" alt="" loading="lazy" width="900" height="675">
+  <div class="area__side">
+    <img src="{{base}}assets/img/vue-aerienne-s.webp" data-full="{{base}}assets/img/vue-aerienne.webp" alt="{{area_title}}" loading="lazy" data-lb>
     <h3 class="h3">{{area_outings}}</h3>
-    <ol class="outings" role="list">
+    <ul class="outings">
       <li><b>{{o1}}</b><span>{{o1_t}}</span></li>
       <li><b>{{o2}}</b><span>{{o2_t}}</span></li>
       <li><b>{{o3}}</b><span>{{o3_t}}</span></li>
       <li><b>{{o4}}</b><span>{{o4_t}}</span></li>
       <li><b>{{o5}}</b><span>{{o5_t}}</span></li>
-    </ol>
+    </ul>
     <p class="small">{{area_more}}</p>
   </div>
 </section>
 
-<section class="gallery" aria-labelledby="gal-t">
+<section class="sec" aria-labelledby="gal-t">
   <h2 id="gal-t" class="h2">{{gallery_title}}</h2>
-  <div class="gallery__grid">
-    <img src="{{base}}assets/img/facade-nuit-s.webp" data-full="{{base}}assets/img/facade-nuit.webp" alt="{{g1}}" loading="lazy" data-lb>
-    <img src="{{base}}assets/img/piscine-3-s.webp" data-full="{{base}}assets/img/piscine-3.webp" alt="{{g2}}" loading="lazy" data-lb>
+  <div class="gallery">
     <img src="{{base}}assets/img/escalier-s.webp" data-full="{{base}}assets/img/escalier.webp" alt="{{g3}}" loading="lazy" data-lb>
     <img src="{{base}}assets/img/arche-roses-s.webp" data-full="{{base}}assets/img/arche-roses.webp" alt="{{g4}}" loading="lazy" data-lb>
     <img src="{{base}}assets/img/salon-3-s.webp" data-full="{{base}}assets/img/salon-3.webp" alt="{{g5}}" loading="lazy" data-lb>
@@ -222,15 +207,15 @@
     <img src="{{base}}assets/img/chambre-fleurie-s.webp" data-full="{{base}}assets/img/chambre-fleurie.webp" alt="{{g7}}" loading="lazy" data-lb>
     <img src="{{base}}assets/img/sdb-s.webp" data-full="{{base}}assets/img/sdb.webp" alt="{{g8}}" loading="lazy" data-lb>
     <img src="{{base}}assets/img/four-pro-s.webp" data-full="{{base}}assets/img/four-pro.webp" alt="{{g9}}" loading="lazy" data-lb>
-    <img src="{{base}}assets/img/babyfoot-s.webp" data-full="{{base}}assets/img/babyfoot.webp" alt="{{g10}}" loading="lazy" data-lb>
-    <img src="{{base}}assets/img/tennis-s.webp" data-full="{{base}}assets/img/tennis.webp" alt="{{g11}}" loading="lazy" data-lb>
+    <img src="{{base}}assets/img/brasero-s.webp" data-full="{{base}}assets/img/brasero.webp" alt="{{gardens_alt3}}" loading="lazy" data-lb>
     <img src="{{base}}assets/img/jeux-s.webp" data-full="{{base}}assets/img/jeux.webp" alt="{{g12}}" loading="lazy" data-lb>
+    <img src="{{base}}assets/img/chambre-bleue-s.webp" data-full="{{base}}assets/img/chambre-bleue.webp" alt="{{rooms_alt4}}" loading="lazy" data-lb>
   </div>
 </section>
 
-<section class="info" id="infos" aria-labelledby="info-t">
+<section class="sec" id="infos" aria-labelledby="info-t">
   <h2 id="info-t" class="h2">{{info_title}}</h2>
-  <dl class="info__list">
+  <dl class="table">
     <div><dt>{{info_arrival}}</dt><dd>{{info_arrival_v}}</dd></div>
     <div><dt>{{info_departure}}</dt><dd>{{info_departure_v}}</dd></div>
     <div><dt>{{info_capacity}}</dt><dd>{{info_capacity_v}}</dd></div>
@@ -238,69 +223,69 @@
     <div><dt>{{info_linen}}</dt><dd>{{info_linen_v}}</dd></div>
     <div><dt>{{info_deposit}}</dt><dd>{{info_deposit_v}}</dd></div>
     <div><dt>{{info_rules}}</dt><dd>{{info_rules_v}}</dd></div>
-    <div><dt>{{info_address}}</dt><dd>116 Grand’Rue, 67430 Diemeringen, France</dd></div>
+    <div><dt>{{info_address}}</dt><dd>116 Grand’Rue, 67430 Diemeringen</dd></div>
   </dl>
 </section>
 
 <section class="ask" id="demande" aria-labelledby="ask-t">
-  <div class="ask__in">
-    <div class="ask__head">
-      <h2 id="ask-t" class="h2">{{form_title}}</h2>
-      <p class="body">{{form_lead}}</p>
-      <p class="small">{{form_note}}</p>
-    </div>
-    <form class="form" novalidate data-form
-      data-err-dates="{{form_err_dates}}" data-err-people="{{form_err_people}}" data-err-required="{{form_err_required}}" data-err-email="{{form_err_email}}"
-      data-subject="{{form_mail_subject}}" data-intro="{{form_mail_intro}}" data-nights="{{form_nights}}" data-colon="{{form_colon}}" data-datesep="{{form_datesep}}"
-      data-l-arrival="{{form_arrival}}" data-l-departure="{{form_departure}}" data-l-people="{{form_people}}" data-l-type="{{form_type}}" data-l-name="{{form_name}}" data-l-email="{{form_email}}" data-l-phone="{{form_phone}}">
-      <div class="form__row">
-        <label class="field"><span>{{form_arrival}}</span><input type="date" name="arrival" required></label>
-        <label class="field"><span>{{form_departure}}</span><input type="date" name="departure" required></label>
-      </div>
-      <div class="form__row">
-        <label class="field"><span>{{form_people}}</span><input type="number" name="people" min="1" max="50" inputmode="numeric" required></label>
-        <label class="field"><span>{{form_type}}</span>
-          <select name="type" required>
-            <option value="">{{form_type_ph}}</option>
-            <option>{{form_type_family}}</option>
-            <option>{{form_type_party}}</option>
-            <option>{{form_type_assoc}}</option>
-            <option>{{form_type_pro}}</option>
-            <option>{{form_type_other}}</option>
-          </select>
-        </label>
-      </div>
-      <label class="field"><span>{{form_name}}</span><input type="text" name="name" autocomplete="name" required></label>
-      <div class="form__row">
-        <label class="field"><span>{{form_email}}</span><input type="email" name="email" autocomplete="email" required></label>
-        <label class="field"><span>{{form_phone}} <em>{{form_optional}}</em></span><input type="tel" name="phone" autocomplete="tel"></label>
-      </div>
-      <label class="field"><span>{{form_message}} <em>{{form_optional}}</em></span><textarea name="message" rows="4" placeholder="{{form_message_ph}}"></textarea></label>
-      <button class="btn btn--light form__submit" type="submit">{{form_submit}}</button>
-      <div class="form__done" role="status" aria-live="polite" hidden>
-        <h3 class="h3">{{form_done_title}}</h3>
-        <p>{{form_done_text}} <a data-mail-link></a>.</p>
-      </div>
-    </form>
+  <div class="ask__head">
+    <h2 id="ask-t" class="h2">{{form_title}}</h2>
+    <p>{{form_lead}}</p>
+    <p class="small">{{form_note}}</p>
   </div>
+  <form class="form" novalidate data-form
+    data-err-dates="{{form_err_dates}}" data-err-people="{{form_err_people}}" data-err-required="{{form_err_required}}" data-err-email="{{form_err_email}}"
+    data-subject="{{form_mail_subject}}" data-intro="{{form_mail_intro}}" data-nights="{{form_nights}}" data-colon="{{form_colon}}" data-datesep="{{form_datesep}}"
+    data-l-arrival="{{form_arrival}}" data-l-departure="{{form_departure}}" data-l-people="{{form_people}}" data-l-type="{{form_type}}" data-l-name="{{form_name}}" data-l-email="{{form_email}}" data-l-phone="{{form_phone}}">
+    <div class="form__row">
+      <label class="field"><span>{{form_arrival}}</span><input type="date" name="arrival" required></label>
+      <label class="field"><span>{{form_departure}}</span><input type="date" name="departure" required></label>
+    </div>
+    <div class="form__row">
+      <label class="field"><span>{{form_people}}</span><input type="number" name="people" min="1" max="50" inputmode="numeric" required></label>
+      <label class="field"><span>{{form_type}}</span>
+        <select name="type" required>
+          <option value="">{{form_type_ph}}</option>
+          <option>{{form_type_family}}</option>
+          <option>{{form_type_party}}</option>
+          <option>{{form_type_assoc}}</option>
+          <option>{{form_type_pro}}</option>
+          <option>{{form_type_other}}</option>
+        </select>
+      </label>
+    </div>
+    <label class="field"><span>{{form_name}}</span><input type="text" name="name" autocomplete="name" required></label>
+    <div class="form__row">
+      <label class="field"><span>{{form_email}}</span><input type="email" name="email" autocomplete="email" required></label>
+      <label class="field"><span>{{form_phone}} <em>{{form_optional}}</em></span><input type="tel" name="phone" autocomplete="tel"></label>
+    </div>
+    <label class="field"><span>{{form_message}} <em>{{form_optional}}</em></span><textarea name="message" rows="4" placeholder="{{form_message_ph}}"></textarea></label>
+    <button class="btn btn--rose form__submit" type="submit">{{form_submit}}</button>
+    <div class="form__done" role="status" aria-live="polite" hidden>
+      <h3 class="h3">{{form_done_title}}</h3>
+      <p>{{form_done_text}} <a data-mail-link></a>.</p>
+    </div>
+  </form>
 </section>
 
 </main>
 
 <footer class="foot">
   <div class="foot__in">
-    <img class="foot__logo" src="{{base}}assets/img/embleme-s.webp" alt="Domaine La Rosière" width="120" height="120" loading="lazy">
+    <img class="foot__logo" src="{{base}}assets/img/embleme-s.webp" alt="Domaine La Rosière" width="88" height="88" loading="lazy">
     <div>
       <p class="foot__name">Domaine La Rosière</p>
       <p>{{footer_tag}}</p>
       <p>116 Grand’Rue · 67430 Diemeringen · Alsace</p>
     </div>
     <div class="foot__end">
-      <div class="lang"><a href="{{href_fr}}" lang="fr" {{cur_fr}}>Français</a><span aria-hidden="true">·</span><a href="{{href_de}}" lang="de" {{cur_de}}>Deutsch</a></div>
+      <div class="lang"><a href="{{href_fr}}" lang="fr" {{cur_fr}}>Français</a><a href="{{href_de}}" lang="de" {{cur_de}}>Deutsch</a></div>
       <p class="small">{{footer_preview}}</p>
     </div>
   </div>
 </footer>
+
+<a class="btn btn--g sticky" href="#demande" data-sticky>{{sticky_cta}}</a>
 
 <dialog class="lb" data-lb-dialog aria-label="Photo">
   <img alt="" data-lb-img>

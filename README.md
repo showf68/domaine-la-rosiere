@@ -4,10 +4,11 @@ Site vitrine bilingue (français / allemand) du Domaine La Rosière, villa pour 
 avec piscine intérieure chauffée, à Diemeringen (Alsace). Projet client isolé d'ICALL.
 
 ## Structure
-- `src/index.template.html` : gabarit unique de la page ; `{{cle}}` = texte traduit.
+- `src/index.template.html` : gabarit de la page (design v3b « Les occasions », choisi par Yossef Haim) ; `{{cle}}` = texte traduit. `src/v1.template.html` + `src/v1.css` : ancienne piste v1, archivée.
 - `src/i18n/fr.json`, `src/i18n/de.json` : tous les textes. Une clé ajoutée en FR doit exister en DE (le build refuse sinon).
 - `src/site.css`, `src/site.js` : style et comportements (en-tête, arche, visionneuse, demande de séjour).
-- `tools/build.mjs` : `node tools/build.mjs` produit `docs/index.html` (FR), `docs/de/index.html` (DE) et la maquette `docs/maquettes/2026-10-22_site/v1.html`.
+- `tools/build.mjs` : `node tools/build.mjs` produit `docs/index.html` (FR), `docs/de/index.html` (DE) et la maquette `docs/maquettes/2026-10-22_site/v3b.html`.
+- `tools/form-test.mjs` : teste onglets, visionneuse, menu et demande de séjour sans rien envoyer.
 - `tools/cdp-shot.mjs` : capture pleine page à vraie largeur (390 px) via Chrome headless ; rapporte débordement horizontal et erreurs console. (`--window-size` de Chrome headless ne descend pas sous 500 px.)
 - `docs/` : ce qui est publié (GitHub Pages). `docs/assets/img/` : photos du propriétaire (album Google Photos), WebP 1920 px et 900 px (`-s`).
 - `docs/maquettes/2026-10-22_site/` : les trois pistes de design, galerie `index.html`, choix argumenté `PICK.md`.

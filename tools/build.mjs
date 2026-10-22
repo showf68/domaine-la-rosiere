@@ -1,5 +1,5 @@
 // Construit le site statique : docs/index.html (FR), docs/de/index.html (DE)
-// et la maquette autonome docs/maquettes/2026-10-22_site/v1.html (FR, CSS/JS en ligne).
+// et la maquette autonome docs/maquettes/2026-10-22_site/v3b.html (FR, CSS/JS en ligne).
 // Usage : node tools/build.mjs
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -45,6 +45,6 @@ writeFileSync(out('assets/site.js'), js);
 writeFileSync(out('index.html'), render('fr', { base: '', home: './', hrefFr: './', hrefDe: 'de/' }));
 writeFileSync(out('de/index.html'), render('de', { base: '../', home: './', hrefFr: '../', hrefDe: './' }));
 mkdirSync(out('maquettes/2026-10-22_site'), { recursive: true });
-writeFileSync(out('maquettes/2026-10-22_site/v1.html'), render('fr', { base: '../../', home: '#', hrefFr: '#', hrefDe: '../../de/', inline: true }));
+writeFileSync(out('maquettes/2026-10-22_site/v3b.html'), render('fr', { base: '../../', home: '#', hrefFr: '#', hrefDe: '../../de/', inline: true }));
 writeFileSync(out('.nojekyll'), '');
-console.log('ok : docs/index.html, docs/de/index.html, maquette v1');
+console.log('ok : docs/index.html, docs/de/index.html, maquette v3b');

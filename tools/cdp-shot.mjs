@@ -55,7 +55,7 @@ try {
     if (!left) break; await sleep(250);
   }
   await send('Runtime.evaluate', { expression: `window.scrollTo(0,${scrollY || 0})` });
-  await sleep(1200);
+  await sleep(1800);
   const metrics = (await send('Runtime.evaluate', { expression: 'JSON.stringify({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,h:document.documentElement.scrollHeight})', returnByValue: true })).result.value;
   const full = scrollY === undefined;
   const shot = await send('Page.captureScreenshot', full ? { format: 'png', captureBeyondViewport: true } : { format: 'png' });

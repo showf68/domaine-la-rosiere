@@ -33,3 +33,14 @@ sur ordinateur, mais il est replié dans le menu sur téléphone).
 **Quand préférer v2** : s'il veut un effet « hôtel-spa » plus spectaculaire, nocturne, très contemporain.
 **Quand préférer v3** : si l'efficacité commerciale prime sur le prestige (le visiteur choisit d'abord son
 occasion, toutes les infos tiennent sur un écran).
+
+## Décision (22/10/2026, Yossef Haim) : « plutôt v3 mais faut améliorer encore »
+Variante unique **v3b** (identité v3 gardée) devenue le site intégré `docs/index.html` + `docs/de/` :
+- contenu complet repris de v1 (chambres par étage, jardins, alentours et sorties, galerie, infos détaillées) ;
+- sélecteur d'occasion : vrais onglets accessibles (flèches clavier), contenu FR/DE dans la page, le bouton
+  « Demander un séjour » de chaque occasion présélectionne l'occasion dans le formulaire ;
+- piscine : duo de photos superposées au lieu d'une seule ; espaces en mosaïque (grande tuile + bandeau sport) ;
+- demande de séjour réelle (mail prérempli), visionneuse plein écran sur toutes les photos ;
+- bouton « Demander un séjour » collant sur téléphone (emprunt v2), masqué au-dessus du formulaire ;
+- bouton rose foncé (#a8545f) au lieu du rose v3 : contraste suffisant pour le texte blanc.
+La v1 reste consultable ici en maquette (`v1.html`, gabarit archivé `src/v1.template.html`).

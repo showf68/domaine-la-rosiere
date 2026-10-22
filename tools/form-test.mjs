@@ -47,5 +47,7 @@ try {
   await ev(`document.querySelector('[data-lb-close]').click()`);
   const lb3 = await ev(`document.querySelector('[data-lb-dialog]').open`);
   const burger = W < 1080 ? await ev(`(()=>{const b=document.querySelector('[data-burger]');b.click();const o=document.getElementById('nav').classList.contains('is-open');document.querySelector('#nav a').click();return o+' -> '+document.getElementById('nav').classList.contains('is-open')})()`) : 'n/a';
-  console.log(JSON.stringify({ lb1, lb2, lb3, burger, errs, errs2, done, navs: navs.map(decodeURIComponent), logs }, null, 2));
+  const tabs = await ev(`(()=>{document.getElementById('tab-3').click();const r1=!document.getElementById('occ-3').hidden && document.getElementById('occ-1').hidden;
+    document.querySelector('#occ-3 [data-occ]').click();const sel=document.querySelector('[data-form]').elements.type.value;return r1+' | '+sel})()`);
+  console.log(JSON.stringify({ tabs, lb1, lb2, lb3, burger, errs, errs2, done, navs: navs.map(decodeURIComponent), logs }, null, 2));
 } finally { try { ws && ws.close(); } catch {} chrome.kill(); }

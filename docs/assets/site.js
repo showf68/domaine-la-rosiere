@@ -40,6 +40,45 @@
     });
   }
 
+
+  // Onglets des occasions (clavier : fleches gauche/droite, Debut, Fin)
+  var tablist = document.querySelector('[data-tabs]');
+  if (tablist) {
+    var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role=tab]'));
+    function select(t, focus) {
+      tabs.forEach(function (x) {
+        var on = x === t;
+        x.setAttribute('aria-selected', String(on));
+        x.tabIndex = on ? 0 : -1;
+        var panel = document.getElementById(x.getAttribute('aria-controls'));
+        panel.hidden = !on;
+        panel.classList.toggle('is-in', on);
+      });
+      if (focus) t.focus();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        var j = null;
+        if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
+        if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+        if (e.key === 'Home') j = 0;
+        if (e.key === 'End') j = tabs.length - 1;
+        if (j !== null) { e.preventDefault(); select(tabs[j], true); }
+      });
+    });
+  }
+
+  // Bouton collant (telephone) : visible apres le premier ecran, masque sur le formulaire
+  var sticky = document.querySelector('[data-sticky]');
+  var ask = document.getElementById('demande');
+  if (sticky && ask && 'IntersectionObserver' in window) {
+    var pastHero = false, onForm = false;
+    function upd() { sticky.classList.toggle('is-on', pastHero && !onForm); }
+    window.addEventListener('scroll', function () { pastHero = window.scrollY > window.innerHeight * 0.6; upd(); }, { passive: true });
+    new IntersectionObserver(function (en) { onForm = en[0].isIntersecting; upd(); }, { threshold: 0.05 }).observe(ask);
+  }
+
   // Visionneuse photos
   var dlg = document.querySelector('[data-lb-dialog]');
   var imgs = Array.prototype.slice.call(document.querySelectorAll('[data-lb]'));
@@ -113,6 +152,13 @@
   function fmt(d) {
     var p = d.split('-'); return p[2] + ds.datesep + p[1] + ds.datesep + p[0];
   }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-occ]'), function (b) {
+    b.addEventListener('click', function () {
+      var sel = form.elements.type;
+      for (var i = 0; i < sel.options.length; i++) if (sel.options[i].text === b.getAttribute('data-occ')) sel.selectedIndex = i;
+    });
+  });
 
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
