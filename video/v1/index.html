@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Domaine La Rosière — vidéo</title>
+<style>
+@font-face { font-family: "EB Garamond"; src: url(fonts/garamond.woff2) format("woff2"); font-weight: 400 600; font-style: normal; }
+@font-face { font-family: "EB Garamond"; src: url(fonts/garamond-italic.woff2) format("woff2"); font-weight: 400 500; font-style: italic; }
+@font-face { font-family: "Jost"; src: url(fonts/jost.woff2) format("woff2"); font-weight: 300 600; }
+:root { --ivory: #f4f0e8; --green: #22382c; --deep: #121c16; --brass: #a08559; --gold: #e2cfa8; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--deep); }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--deep); color: var(--ivory); }
+.scene { position: absolute; inset: 0; overflow: hidden; display: none; }
+.full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
+.persp { position: absolute; inset: 0; perspective: 1100px; perspective-origin: 50% 50%; }
+.w3 { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; }
+.p3 { position: absolute; transform-style: preserve-3d; backface-visibility: hidden; }
+
+/* Galerie 3D */
+.wall { position: absolute; background: linear-gradient(90deg, #2a3a2f, #18241c 70%, #0f1712); }
+.floor { position: absolute; background: linear-gradient(180deg, #4a3a28, #2a2118 60%, #120e0a); }
+.ceil { position: absolute; background: linear-gradient(0deg, #2f3b31, #121a14); }
+.frame { position: absolute; box-sizing: border-box; padding: 26px; background: var(--ivory); border: 10px solid var(--brass);
+  box-shadow: 0 30px 60px rgba(0,0,0,.55); }
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.spot { position: absolute; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,226,170,.38), rgba(255,226,170,0)); }
+
+/* Mur des chambres */
+.card { position: absolute; width: 300px; height: 200px; transform-style: preserve-3d; }
+.card .f, .card .b { position: absolute; inset: 0; backface-visibility: hidden; box-sizing: border-box; }
+.card .f { border: 5px solid var(--ivory); box-shadow: 0 18px 40px rgba(0,0,0,.5); background: #000; }
+.card .f img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card .b { transform: rotateY(180deg); background: linear-gradient(135deg, #b39563, #7d6640); border: 5px solid var(--gold); }
+
+/* Traversee des jardins */
+.fly { position: absolute; width: 960px; height: 640px; margin: -320px 0 0 -480px; box-sizing: border-box; border: 8px solid var(--ivory);
+  box-shadow: 0 40px 80px rgba(0,0,0,.45); background: #000; }
+.fly img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Coupe */
+.plate { position: absolute; width: 1200px; height: 675px; margin: -337px 0 0 -600px; box-sizing: border-box; border: 6px solid var(--gold);
+  background: #000; box-shadow: 0 0 0 2px rgba(0,0,0,.4), 0 60px 90px rgba(0,0,0,.6); }
+.plate img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lab { position: absolute; left: 130px; width: 560px; }
+.lab .n { font: 500 54px/1 "EB Garamond", serif; color: var(--ivory); }
+.lab .n span { color: var(--gold); font-style: italic; font-weight: 400; }
+.lab .d { margin-top: 10px; font: 400 25px/1.35 "Jost", sans-serif; color: rgba(244,240,232,.86); letter-spacing: .01em; }
+.lab .r { width: 0; height: 2px; background: var(--brass); margin-top: 16px; }
+
+/* Textes */
+.shade { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+#shBL { background: radial-gradient(130% 95% at 0% 100%, rgba(8,14,10,.84) 0%, rgba(8,14,10,.62) 38%, rgba(8,14,10,0) 72%),
+  linear-gradient(0deg, rgba(8,14,10,.55), rgba(8,14,10,0) 45%); }
+#shC { background: radial-gradient(60% 55% at 50% 52%, rgba(8,14,10,.62), rgba(8,14,10,.25) 70%, rgba(8,14,10,.1)); }
+.txt { position: absolute; display: none; }
+.txt.bl { left: 130px; bottom: 150px; width: 1300px; }
+.txt.c { left: 160px; right: 160px; top: 0; bottom: 0; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.ln { display: block; white-space: nowrap; }
+.w { display: inline-block; will-change: transform, opacity; }
+.kick { font: 500 26px/1 "Jost", sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 26px; }
+.g1 { font: 500 96px/1.06 "EB Garamond", serif; color: var(--ivory); text-shadow: 0 2px 24px rgba(0,0,0,.45); }
+.g1i { font: italic 400 96px/1.06 "EB Garamond", serif; color: #f3e5c4; text-shadow: 0 2px 24px rgba(0,0,0,.45); }
+.g2 { font: 500 150px/1 "EB Garamond", serif; color: var(--ivory); text-shadow: 0 4px 40px rgba(0,0,0,.5); letter-spacing: .005em; }
+.gx { font: italic 400 118px/1.08 "EB Garamond", serif; color: #f6ead0; text-shadow: 0 4px 40px rgba(0,0,0,.55); }
+.gy { font: 500 118px/1.08 "EB Garamond", serif; color: var(--ivory); text-shadow: 0 4px 40px rgba(0,0,0,.55); }
+.small { font: 400 30px/1.4 "Jost", sans-serif; color: rgba(244,240,232,.92); margin-top: 24px; letter-spacing: .02em; text-shadow: 0 2px 14px rgba(0,0,0,.6); }
+.num { font: 500 260px/.9 "EB Garamond", serif; color: var(--gold); text-shadow: 0 4px 40px rgba(0,0,0,.5); }
+.rule { height: 2px; background: var(--brass); width: 0; margin: 30px auto 0; }
+
+/* Permanent : logo + QR */
+#logo { position: absolute; left: 0; top: 0; width: 800px; height: 800px; border-radius: 50%; transform-origin: 0 0;
+  box-shadow: 0 10px 40px rgba(0,0,0,.45); }
+#logo img { width: 100%; height: 100%; display: block; border-radius: 50%; }
+#qr { position: absolute; left: 0; top: 0; width: 300px; transform-origin: 0 0; background: var(--ivory); border-radius: 14px; padding: 22px 22px 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.4); box-sizing: content-box; }
+#qr img { width: 300px; height: 300px; display: block; }
+#qr div { font: 600 30px/1 "Jost", sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--green); text-align: center; margin-top: 14px; }
+
+/* Ecran de fin */
+#end .bg { filter: brightness(.42) saturate(.85); }
+#end .tint { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(18,28,22,.55), rgba(18,28,22,.86) 55%, rgba(18,28,22,.92)); }
+#endR { position: absolute; left: 860px; top: 150px; width: 960px; }
+#endR .k { font: 500 26px/1 "Jost", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+#endR .t { font: 500 112px/1 "EB Garamond", serif; color: var(--ivory); margin-top: 22px; }
+#endR .rr { height: 2px; width: 0; background: var(--brass); margin: 30px 0 28px; }
+#endR .a { font: 400 40px/1.3 "EB Garamond", serif; color: var(--ivory); }
+#endR .a i { color: var(--gold); }
+#endR .f { font: 400 26px/1.5 "Jost", sans-serif; color: rgba(244,240,232,.85); margin-top: 14px; letter-spacing: .02em; }
+#endR .u { position: absolute; left: 330px; top: 600px; width: 630px; }
+#endR .u .s { font: 500 28px/1.35 "Jost", sans-serif; color: var(--ivory); }
+#endR .u .l { font: 400 23px/1.4 "Jost", sans-serif; color: var(--gold); margin-top: 14px; letter-spacing: .02em; }
+.sub { opacity: 0; }
+
+#leak { position: absolute; inset: -20%; pointer-events: none; mix-blend-mode: screen; opacity: 0;
+  background: radial-gradient(40% 50% at 50% 50%, rgba(255,190,110,.9), rgba(255,140,60,.35) 45%, rgba(255,120,40,0) 75%); }
+#veil { position: absolute; inset: 0; background: #0b120e; opacity: 0; pointer-events: none; }
+#grain { position: absolute; inset: -50%; opacity: .055; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2' seed='7'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"); }
+#vign { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 58%, rgba(0,0,0,.42)); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="scene" id="s1"><img class="full" id="v1"></div>
+  <div class="scene" id="s2"><img class="full" id="v2"></div>
+  <div class="scene" id="s3"><div class="persp" id="p3"><div class="w3" id="world3"></div></div></div>
+  <div class="scene" id="s4"><img class="full" id="i4" src="media/img/salle-a-manger.webp"></div>
+  <div class="scene" id="s5"><img class="full" id="i5" src="media/img/terrasse-couverte.webp"></div>
+  <div class="scene" id="s6" style="background:radial-gradient(70% 70% at 55% 45%, #2c4335, #121c16 75%)"><div class="persp" style="perspective:1700px"><div class="w3" id="wall6"></div></div></div>
+  <div class="scene" id="s7"><img class="full" src="media/img/vue-jardin.webp" style="filter:blur(26px) brightness(.4) saturate(.9);transform:scale(1.15)"><div class="persp" style="perspective:1000px"><div class="w3" id="world7"></div></div></div>
+  <div class="scene" id="s8" style="background:radial-gradient(80% 80% at 60% 40%, #2a3f32, #0f1712 75%)"><div class="persp" style="perspective:2200px"><div class="w3" id="world8"></div></div><div id="labs"></div></div>
+  <div class="scene" id="s9"><img class="full" id="v9"></div>
+  <div class="scene" id="s10"><img class="full" id="v10"></div>
+  <div class="scene" id="end">
+    <img class="full bg" src="media/img/facade-nuit.webp"><div class="tint"></div>
+    <div id="endR">
+      <div class="k sub">Diemeringen · Alsace</div>
+      <div class="t sub">Domaine La Rosière</div>
+      <div class="rr"></div>
+      <div class="a sub">Réservez <i>en direct</i> auprès du propriétaire.</div>
+      <div class="f sub">Sans frais de plateforme · réponse personnelle</div>
+      <div class="f sub">Jusqu’à 50 personnes · 15 chambres · piscine chauffée</div>
+      <div class="u sub"><div class="s">Scannez le code pour découvrir la maison et demander vos dates</div>
+        <div class="l">showf68.github.io/domaine-la-rosiere/visite</div></div>
+    </div>
+  </div>
+
+  <div class="shade" id="shBL"></div>
+  <div class="shade" id="shC"></div>
+  <div id="texts"></div>
+  <div id="logo"><img src="media/logo.png"></div>
+  <div id="qr"><img src="qr.svg"><div>Réserver</div></div>
+  <div id="leak"></div>
+  <div id="veil"></div>
+  <div id="grain"></div>
+  <div id="vign"></div>
+</div>
+<script>
+'use strict';
+var DUREE = 96.6, FPS = 30;
+var $ = function (s) { return document.querySelector(s); };
+var cl = function (x, a, b) { a = a === undefined ? 0 : a; b = b === undefined ? 1 : b; return Math.min(b, Math.max(a, x)); };
+var P = function (t, a, b) { return cl((t - a) / (b - a)); };
+var eo = function (x) { return 1 - Math.pow(1 - x, 3); };
+var eo5 = function (x) { return 1 - Math.pow(1 - x, 5); };
+var ei = function (x) { return x * x * x; };
+var eio = function (x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+var lerp = function (a, b, x) { return a + (b - a) * x; };
+// visibilite d'une scene : fondu d'entree [a,b], de sortie [c,d]
+var vis = function (t, a, b, c, d) { return Math.min(a === b ? (t >= a ? 1 : 0) : P(t, a, b), c === d ? (t < c ? 1 : 0) : 1 - P(t, c, d)); };
+function el(tag, cls, parent, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (parent) parent.appendChild(e); return e; }
+function pic(src, parent, cls) { var d = el('div', cls, parent); var i = el('img', null, d); i.src = src; return d; }
+var IMG = function (n, s) { return 'media/img/' + n + (s ? '-s' : '') + '.webp'; };
+
+// ---------- Sequences video (une image JPEG par image de la video) ----------
+var SEQ = { v1: ['champs', 300], v2: ['facade', 300], v9: ['piscine', 480], v10: ['coucher', 270] };
+var attente = [];
+function seqFrame(id, k) {
+  var s = SEQ[id], img = document.getElementById(id);
+  var n = Math.max(1, Math.min(s[1], Math.floor(k) + 1));
+  var src = 'media/seq/' + s[0] + '/f' + String(n).padStart(4, '0') + '.jpg';
+  if (img.getAttribute('src') !== src) { img.setAttribute('src', src); attente.push(img.decode().catch(function () {})); }
+}
+
+// ---------- Galerie 3D (s3) ----------
+var W3 = $('#world3'), Z_END = -4000, CAM3 = 3600;
+(function () {
+  var D = 3600, Z0 = 900;                                    // couloir de z=+900 a z=-2700 : il finit derriere la camera
+  var w = el('div', 'wall p3', W3); w.style.cssText = 'width:' + D + 'px;height:1240px;margin:-620px 0 0 ' + (-D / 2) + 'px;transform:translate3d(-860px,0,' + (Z0 - D / 2) + 'px) rotateY(90deg)';
+  w = el('div', 'wall p3', W3); w.style.cssText = 'width:' + D + 'px;height:1240px;margin:-620px 0 0 ' + (-D / 2) + 'px;transform:translate3d(860px,0,' + (Z0 - D / 2) + 'px) rotateY(-90deg);background:linear-gradient(270deg,#2a3a2f,#18241c 70%,#0f1712)';
+  w = el('div', 'floor p3', W3); w.style.cssText = 'width:1720px;height:' + D + 'px;margin:' + (-D / 2) + 'px 0 0 -860px;transform:translate3d(0,620px,' + (Z0 - D / 2) + 'px) rotateX(90deg)';
+  w = el('div', 'ceil p3', W3); w.style.cssText = 'width:1720px;height:' + D + 'px;margin:' + (-D / 2) + 'px 0 0 -860px;transform:translate3d(0,-620px,' + (Z0 - D / 2) + 'px) rotateX(-90deg)';
+  var G = [['lobby-cheminee', -1, -250], ['escalier', 1, -650], ['salon', -1, -1050], ['salle-a-manger-2', 1, -1450], ['lobby-fauteuils', -1, -1850], ['salon-4', 1, -2250]];
+  G.forEach(function (g) {
+    var f = pic(IMG(g[0]), W3, 'frame p3'); f.style.cssText = 'width:720px;height:500px;margin:-270px 0 0 -360px;transform:translate3d(' + (g[1] * 855) + 'px,-20px,' + g[2] + 'px) rotateY(' + (-g[1] * 90) + 'deg)';
+    var s = el('div', 'spot p3', W3); s.style.cssText = 'width:900px;height:700px;margin:-480px 0 0 -450px;transform:translate3d(' + (g[1] * 850) + 'px,-60px,' + g[2] + 'px) rotateY(' + (-g[1] * 90) + 'deg)';
+  });
+  // mur du fond : le lobby, taille calculee pour remplir exactement l'ecran quand la camera arrive
+  var k = (1100 - (Z_END + CAM3)) / 1100;                    // agrandissement de perspective a z=-400
+  var f = pic(IMG('lobby'), W3, 'frame p3'); f.id = 'lobbyEnd';
+  f.style.cssText = 'padding:0;border:0;width:' + (1920 * k) + 'px;height:' + (1080 * k) + 'px;margin:' + (-540 * k) + 'px 0 0 ' + (-960 * k) + 'px;transform:translate3d(0,0,' + Z_END + 'px)';
+})();
+
+// ---------- Mur des chambres (s6) ----------
+var WALL = $('#wall6'), CARDS = [];
+['chambre-fleurie', 'chambre-bleue', 'chambre-rdc', 'chambre-marbre', 'chambre-ocre',
+ 'chambre-verte', 'chambre-bleue-2', 'chambre-balcon', 'chambre-double', 'sdb-baignoire',
+ 'chambre-rdc-2', 'chambre-marbre-2', 'sdb-marbre', 'chambre-bleue-3', 'balcon-vue'].forEach(function (n, i) {
+  var c = el('div', 'card', WALL), col = i % 5, row = Math.floor(i / 5);
+  var f = el('div', 'f', c); el('img', null, f).src = IMG(n);
+  el('div', 'b', c);
+  c.dataset.x = (col - 2) * 322 - 150; c.dataset.y = (row - 1) * 222 - 100; c.dataset.o = col + row * 0.6;
+  CARDS.push(c);
+});
+
+// ---------- Traversee des jardins (s7) ----------
+var W7 = $('#world7'), FLY = [];
+[['arche-roses', -560, -150], ['brasero', 600, 120], ['jardin', -620, 160], ['barbecue', 560, -170], ['tennis', -540, -120],
+ ['jeux', 620, 150], ['terrasse-table', -600, 140], ['facade-roses', 560, -140], ['terrasse', -560, -160], ['vue-aerienne-2', 0, 0]].forEach(function (g, i) {
+  var f = pic(IMG(g[0]), W7, 'fly p3'); f.dataset.x = g[1]; f.dataset.y = g[2]; f.dataset.z = -900 - i * 900; FLY.push(f);
+});
+var Z7_END = -900 - 9 * 900, CAM7 = -Z7_END + 512;   // derniere photo (vue aerienne) : grossie x2,05, elle remplit l'ecran
+
+// ---------- Coupe de la maison (s8) ----------
+var W8 = $('#world8'), PL = [], LABS = [];
+[['chambre-bleue-2', '2<sup>e</sup> étage', '7 chambres sous les toits'],
+ ['chambre-balcon', '1<sup>er</sup> étage', '5 chambres, balcon, grande terrasse'],
+ ['lobby', 'Rez-de-chaussée', 'lobby, deux salons, deux salles à manger, cuisine professionnelle'],
+ ['piscine', 'Sous-sol', 'piscine chauffée, cinéma 40 places, jeux']].forEach(function (g, i) {
+  PL.push(pic(IMG(g[0]), W8, 'plate p3'));
+  var l = el('div', 'lab', $('#labs')); el('div', 'n', l, g[1].replace(/<sup>/g, '<span>').replace(/<\/sup>/g, '</span>'));
+  el('div', 'd', l, g[2]); el('div', 'r', l); LABS.push(l);
+});
+
+// ---------- Textes ----------
+// [debut, fin, position, [[texte, classe, debut de ligne], ...]]
+var TX = [
+  [1.0, 8.3, 'bl', [['Cette fois,', 'g1', 1.0], ['réunissez tout le monde.', 'g1i', 2.3]]],
+  [12.0, 17.4, 'c', [['Diemeringen · Alsace', 'kick', 12.0], ['Domaine La Rosière', 'g2', 12.25], ['', 'rule', 13.2]]],
+  [18.9, 26.0, 'bl', [['Une maison entière.', 'g1', 18.9], ['Rien que pour vous.', 'g1i', 20.4], ['Louée à un seul groupe · 1 000 m² habitables', 'small', 21.8]]],
+  [27.6, 32.4, 'bl', [['50', 'num', 27.6], ['personnes sous le même toit', 'g1i', 28.4]]],
+  [33.6, 38.4, 'bl', [['Une grande table.', 'g1', 33.6], ['Et vous tous autour.', 'g1i', 34.9]]],
+  [39.6, 45.2, 'bl', [['Quinze chambres,', 'g1', 39.6], ['à chacun son espace.', 'g1i', 40.9], ['Sur trois niveaux, avec leurs salles d’eau', 'small', 42.1]]],
+  [48.8, 56.0, 'bl', [['Quatre mille mètres carrés', 'g1', 48.8], ['de jardins.', 'g1i', 50.1], ['Roses · brasero · four à bois · barbecue · tennis · jeux d’enfants', 'small', 51.6]]],
+  [57.4, 60.4, 'bl', [['Quatre niveaux,', 'g1', 57.4], ['une seule maison.', 'g1i', 58.4]]],
+  [69.9, 75.3, 'bl', [['Une piscine intérieure,', 'g1', 69.9], ['chauffée toute l’année.', 'g1i', 71.2], ['Bassin de 10 × 3,8 m et pataugeoire', 'small', 72.5]]],
+  [76.2, 83.4, 'c', [['Le plaisir d’être ensemble,', 'gy', 76.2], ['toute l’année.', 'gx', 77.7]]],
+  [84.9, 89.2, 'bl', [['Vos prochaines retrouvailles', 'g1', 84.9], ['commencent ici.', 'g1i', 86.2]]]
+];
+var TXEL = TX.map(function (d) {
+  var box = el('div', 'txt ' + d[2], $('#texts')), words = [];
+  d[3].forEach(function (L) {
+    var ln = el('div', 'ln ' + L[1], box);
+    if (L[1] === 'rule') { words.push({ e: ln, t: L[2], rule: true }); return; }
+    if (L[1] === 'num') { var w = el('span', 'w', ln, '0'); words.push({ e: w, t: L[2], num: 50 }); return; }
+    L[0].split(' ').forEach(function (m, j) {
+      var w = el('span', 'w', ln, m); words.push({ e: w, t: L[2] + j * 0.11 });
+      if (j < L[0].split(' ').length - 1) ln.appendChild(document.createTextNode(' '));
+    });
+  });
+  return { d: d, box: box, words: words };
+});
+function poseTextes(t) {
+  var bl = 0, c = 0;
+  TXEL.forEach(function (x) {
+    var d = x.d, sortie = P(t, d[1] - 0.55, d[1]);
+    var v = vis(t, d[0] - 0.4, d[0] + 0.3, d[1] - 0.5, d[1]);
+    if (d[2] === 'bl') bl = Math.max(bl, v); else c = Math.max(c, v);
+    if (t < d[0] - 0.5 || t > d[1] + 0.05) { x.box.style.display = 'none'; return; }
+    x.box.style.display = d[2] === 'c' ? 'flex' : 'block';
+    x.words.forEach(function (w) {
+      var p = P(t, w.t, w.t + 0.75), e = eo(p);
+      if (w.rule) { w.e.style.width = (eio(P(t, w.t, w.t + 1.2)) * 520) + 'px'; w.e.style.opacity = 1 - sortie; return; }
+      if (w.num) w.e.textContent = String(Math.round(w.num * eo(P(t, w.t, w.t + 1.6))));
+      w.e.style.opacity = (Math.min(1, p * 1.6) * (1 - ei(sortie))).toFixed(3);
+      w.e.style.transform = 'translateY(' + ((1 - e) * 34 - ei(sortie) * 14).toFixed(2) + 'px)';
+    });
+  });
+  $('#shBL').style.opacity = bl.toFixed(3);
+  $('#shC').style.opacity = c.toFixed(3);
+}
+
+// ---------- Scenes ----------
+function show(id, o) { var e = document.getElementById(id); if (o <= 0.001) { e.style.display = 'none'; return false; } e.style.display = 'block'; e.style.opacity = o.toFixed(3); return true; }
+
+window.setT = function (t) {
+  attente = [];
+  // s1 : champs dores (rush 12-21 s)
+  if (show('s1', vis(t, 0, 0, 9.6, 9.6))) { seqFrame('v1', t * FPS); $('#v1').style.transform = 'scale(' + (1.04 + 0.03 * P(t, 0, 9.6)) + ')'; }
+  // s2 : facade, le drone monte (rush 0-10 s)
+  if (show('s2', vis(t, 8.6, 9.6, 18.6, 18.6))) {
+    seqFrame('v2', (t - 8.6) * FPS);
+    $('#v2').style.filter = 'brightness(' + (1 - 0.18 * vis(t, 11.6, 12.6, 17, 17.6)).toFixed(3) + ')';
+    $('#v2').style.transform = 'scale(' + (1.02 + 0.06 * eio(P(t, 17.6, 18.6))) + ')';
+  }
+  // s3 : galerie 3D, la camera avance et entre dans le lobby
+  if (show('s3', vis(t, 17.6, 18.6, 27.9, 27.9))) {
+    var u = eio(P(t, 17.8, 26.6)), z = CAM3 * u;
+    var sway = Math.sin(P(t, 17.8, 26.6) * Math.PI) * 4;
+    W3.style.transform = 'translateZ(' + z.toFixed(1) + 'px) rotateY(' + (sway * (1 - u)).toFixed(3) + 'deg)';
+    $('#s3').style.filter = 'brightness(' + (0.55 + 0.45 * eo(P(t, 17.6, 19.4))).toFixed(3) + ')';
+  }
+  // s4 : salle a manger, compteur 50
+  if (show('s4', vis(t, 27.0, 27.9, 33.7, 33.7))) $('#i4').style.transform = 'scale(' + (1.03 + 0.1 * P(t, 27, 33.7)).toFixed(4) + ') translateX(' + (-30 * P(t, 27, 33.7)).toFixed(1) + 'px)';
+  // s5 : terrasse couverte, recul
+  if (show('s5', vis(t, 32.8, 33.7, 39.4, 39.4))) $('#i5').style.transform = 'scale(' + (1.2 - 0.17 * eo(P(t, 32.8, 39.4))).toFixed(4) + ')';
+  // s6 : mur des quinze chambres
+  if (show('s6', vis(t, 38.6, 39.4, 48.5, 48.5))) {
+    var a = eio(P(t, 39, 45)), zz = eio(P(t, 44.8, 48.2));
+    // carte 8 (chambre-double, colonne 3 ligne 2) : la camera plonge dedans
+    var cx = -((3 - 2) * 322 - 150 + 150) * zz, cy = -((1 - 1) * 222 - 100 + 100) * zz;
+    var sc = lerp(1, 6.5, ei(zz));
+    WALL.style.transform = 'scale(' + sc.toFixed(4) + ') translate3d(' + (lerp(90, -70, a) + cx).toFixed(1) + 'px,' + (lerp(-70, -20, a) * (1 - zz) + cy).toFixed(1) + 'px,' + lerp(-420, 0, a).toFixed(1) + 'px) rotateY(' + (lerp(-26, -7, a) * (1 - zz)).toFixed(3) + 'deg) rotateX(' + (lerp(12, 5, a) * (1 - zz)).toFixed(3) + 'deg)';
+    CARDS.forEach(function (c, i) {
+      var p = eo5(P(t, 39.3 + c.dataset.o * 0.17, 39.3 + c.dataset.o * 0.17 + 0.9));
+      c.style.transform = 'translate3d(' + c.dataset.x + 'px,' + c.dataset.y + 'px,' + ((1 - p) * 260).toFixed(1) + 'px) rotateY(' + ((1 - p) * -180).toFixed(2) + 'deg)';
+      c.style.opacity = i === 8 ? 1 : (1 - P(t, 46.2, 47.4)).toFixed(3);
+    });
+  }
+  // s7 : traversee en profondeur des jardins
+  if (show('s7', vis(t, 47.6, 48.5, 57.4, 57.4))) {
+    var cam = lerp(0, CAM7, eio(P(t, 47.8, 57.2)));
+    FLY.forEach(function (f, i) {
+      var zr = Number(f.dataset.z) + cam, last = i === FLY.length - 1;
+      var o = cl((zr + 6500) / 2200) * (last ? 1 : cl(1 - (zr - 300) / 500));
+      if (o <= 0.002) { f.style.display = 'none'; return; }
+      f.style.display = 'block'; f.style.opacity = o.toFixed(3);
+      var turn = last ? 0 : (Number(f.dataset.x) > 0 ? -14 : 14);
+      f.style.transform = 'translate3d(' + f.dataset.x + 'px,' + f.dataset.y + 'px,' + zr.toFixed(1) + 'px) rotateY(' + turn + 'deg)';
+    });
+  }
+  // s8 : coupe de la maison, quatre niveaux puis plongee vers la piscine
+  if (show('s8', vis(t, 56.6, 57.4, 69.4, 69.4))) {
+    var ent = eo(P(t, 56.8, 58.6)), ex = eio(P(t, 58.4, 61.2)), dsc = eio(P(t, 63.4, 66.4)), fl = eio(P(t, 65.9, 68.9));
+    var gap = lerp(40, 215, ex);
+    W8.style.transform = 'translate3d(' + lerp(170, 0, fl).toFixed(1) + 'px,' + (lerp(260, 0, ent) - dsc * 1.5 * gap).toFixed(1) + 'px,0)';
+    PL.forEach(function (p, i) {
+      var y = (i - 1.5) * gap, isPool = i === 3;
+      var rx = isPool ? lerp(62, 0, fl) : 62, rz = lerp(-34, -28, P(t, 58, 66)) * (isPool ? 1 - fl : 1);
+      var s = isPool ? lerp(0.56, 1.6, fl) : 0.56;
+      p.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0) rotateX(' + rx.toFixed(3) + 'deg) rotateZ(' + rz.toFixed(3) + 'deg) scale(' + s.toFixed(4) + ')';
+      p.style.opacity = (isPool ? ent : ent * (1 - P(t, 64.2, 66.2))).toFixed(3);
+      var L = LABS[i], lp = eo(P(t, 60.4 + i * 0.32, 61.4 + i * 0.32)), lo = lp * (1 - P(t, 63.2, 64.2));
+      L.style.top = (540 - 52 + (i - 1.5) * gap).toFixed(1) + 'px';
+      L.style.opacity = lo.toFixed(3);
+      L.style.transform = 'translateX(' + ((1 - lp) * -40).toFixed(1) + 'px)';
+      L.querySelector('.r').style.width = (eio(P(t, 60.8 + i * 0.32, 62 + i * 0.32)) * 420).toFixed(1) + 'px';
+    });
+    $('#labs').style.display = t > 60 && t < 64.4 ? 'block' : 'none';
+  }
+  // s9 : la piscine, ralenti x0,5
+  if (show('s9', vis(t, 68.6, 69.4, 84.9, 84.9))) {
+    seqFrame('v9', (t - 68.6) * FPS);
+    $('#v9').style.transform = 'scale(' + (1.02 + 0.03 * P(t, 68.6, 84.9)).toFixed(4) + ')';
+  }
+  // s10 : village au soleil couchant (rush 43-52 s)
+  if (show('s10', vis(t, 84.0, 84.9, 90.2, 90.2))) { seqFrame('v10', (t - 84.0) * FPS); $('#v10').style.transform = 'scale(' + (1.04 + 0.04 * P(t, 84, 90.2)).toFixed(4) + ')'; }
+  // fin
+  if (show('end', vis(t, 89.2, 90.2, 99, 99))) {
+    $('#end .bg').style.transform = 'scale(' + (1.12 - 0.08 * eo(P(t, 89.2, 96.6))).toFixed(4) + ')';
+    var subs = document.querySelectorAll('#endR .sub');
+    var at = [90.5, 90.8, 91.6, 91.9, 92.2, 92.6];
+    subs.forEach(function (s, i) { var p = eo(P(t, at[i], at[i] + 0.9)); s.style.opacity = p.toFixed(3); s.style.transform = 'translateY(' + ((1 - p) * 24).toFixed(1) + 'px)'; });
+    $('#endR .rr').style.width = (eio(P(t, 91.2, 92.4)) * 520).toFixed(1) + 'px';
+  }
+  // logo et QR permanents ; a la fin ils prennent leur grande place
+  var m = eio(P(t, 89.6, 91.0));
+  var ls = lerp(128, 560, m) / 800;
+  $('#logo').style.transform = 'translate(' + lerp(46, 190, m).toFixed(1) + 'px,' + lerp(40, 260, m).toFixed(1) + 'px) scale(' + ls.toFixed(4) + ')';
+  var qs = lerp(150, 275, m) / 344;
+  $('#qr').style.transform = 'translate(' + lerp(1920 - 46 - 150, 860, m).toFixed(1) + 'px,' + lerp(1080 - 40 - 392 * 150 / 344, 700, m).toFixed(1) + 'px) scale(' + qs.toFixed(4) + ')';
+  var perm = 1 - 0.0 * m;
+  $('#logo').style.opacity = perm; $('#qr').style.opacity = perm;
+
+  poseTextes(t);
+  // halo chaud sur les grands raccords
+  var lk = Math.max(Math.sin(Math.PI * P(t, 8.4, 10.2)), Math.sin(Math.PI * P(t, 83.6, 85.6)) * 0.8, Math.sin(Math.PI * P(t, 11.6, 13.4)) * 0.45);
+  $('#leak').style.opacity = (lk * 0.55).toFixed(3);
+  $('#leak').style.transform = 'translateX(' + (Math.sin(t * 0.7) * 260).toFixed(1) + 'px)';
+  // entree depuis le noir (image 0 deja pleine : le voile part de 0,35) et extinction finale
+  $('#veil').style.opacity = Math.max(0.35 * (1 - P(t, 0, 1.4)), 0.85 * P(t, 96.3, 96.6)).toFixed(3);
+  var k = Math.floor(t * 24);
+  $('#grain').style.transform = 'translate(' + ((k * 37) % 100 - 50) + 'px,' + ((k * 61) % 100 - 50) + 'px)';
+  return Promise.all(attente).then(function () { return t; });
+};
+window.DUREE = DUREE; window.DUR = DUREE;
+window.PRET = document.fonts.ready.then(function () {
+  return Promise.all([document.fonts.load('500 40px "EB Garamond"'), document.fonts.load('italic 400 40px "EB Garamond"'), document.fonts.load('400 40px Jost')]);
+}).then(function () {
+  var imgs = Array.prototype.map.call(document.images, function (i) { return i.decode ? i.decode().catch(function () {}) : 0; });
+  return Promise.all(imgs);
+}).then(function () { return window.setT(0); }).then(function () { return true; });
+window.ready = window.PRET;
+</script>
+</body>
+</html>

@@ -1,41 +1,38 @@
-# Vidéo « Domaine La Rosière » — scénario v1 (23/10/2026)
+# Vidéo « Domaine La Rosière » — scénario v3 « la conversation » (23/10/2026)
 
-**Message** : une maison entière pour réunir les vôtres ; c'est là que votre groupe passera ses plus belles vacances.
-**Public** : familles et cousinades, fiançailles et mariages, associations, séminaires. Français, vouvoiement.
-**Format** : 16:9 1920x1080, 30 i/s, **96,6 s** = la durée exacte du morceau (musique d'un seul tenant, jamais coupée).
-**Style** (5 mots-clés) : typographie cinétique · éléments 3D · caméra continue · finition cinéma · calé sur le rythme.
-**Charte** : celle du site A4 « Demeure » — EB Garamond + Jost, ivoire `#f4f0e8`, vert profond `#22382c`, laiton `#a08559`, or `#e2cfa8`.
-**Concept** (brainstorm Codex, thread `01a168c2-1856-76c1-be67-77a3059ac2d9`, concept A « Il ne manque que vous » + la coupe en niveaux du concept B) :
-la maison est prête, il ne manque que vous ; la descente dans les quatre niveaux mène à la piscine, le pic sur « ensemble ».
+**Idée** (Yossef Haim) : une discussion de messagerie entre un client qui organise une fête de famille et le propriétaire du domaine.
+Le client pose ses questions, le propriétaire répond et envoie ses photos et vidéos, qui remplissent la droite de l'écran.
+La conversation est la promesse de la maison : **on réserve en direct, auprès du propriétaire**.
+**Ton** : adulte et courtois (vouvoiement), jamais enfantin ; aucun logo ni nom de messagerie réelle.
+**Format** : 16:9 1920x1080, 30 i/s, **70,35 s**.
+Versions précédentes : `v1/` (piano lent, 96,6 s, jugée « ça dort ») et `v2/` (questions-réponses en cartes, même musique).
 
 ## Musique
-« Cinematic Piano and Strings » — Universfield (Pixabay, licence Pixabay : usage commercial libre, sans attribution obligatoire).
-Mesurée : accord toutes les **3,0 s** (80 BPM, 4/4) ; piano seul 0–12 s ; cordes à **12 s** ; plein 12–84 s ; piano seul 84–96 s ; fin 96,6 s.
-→ chaque scène commence sur un multiple de 3 s ; le titre tombe sur l'entrée des cordes (12 s) ; la fin sur le retour du piano seul (84 s).
+« Guitar Vlog » — AtlasAudio (Pixabay, licence Pixabay : usage commercial, sans attribution obligatoire), 105 BPM.
+Mesurée : intro 8 mesures, plein 32 mesures (18,81–91,95 s), sortie 8 mesures. Montage en 3 morceaux coupés sur les mesures
+(16,53–55,39 · 73,67–96,53 · 105,67–fin), grille de temps continue aux coupes, −14 LUFS.
+Dans la vidéo : temps = 0,571 s, mesure = 2,286 s, la batterie entre à **2,29 s**.
 
-## Permanent
-Logo rond (vrai logo du propriétaire) en haut à gauche ; QR code sur cartouche ivoire en bas à droite, « Réserver » dessous.
-QR → `https://showf68.github.io/domaine-la-rosiere/visite/` = page relais qui renvoie vers la maquette A4 :
-**le jour où le site change d'adresse, on change la page relais, la vidéo reste valable.**
-À l'écran de fin, le petit logo et le petit QR viennent prendre leur grande place (continuité).
+## Mécanique (chaque échange = 2 mesures = 4,57 s)
+1er temps : le client écrit · 3e temps : « écrit… » (et l'en-tête passe de « en ligne » à « écrit… ») ·
+2e mesure : le propriétaire répond avec des vignettes, et ses photos montent à droite ; les photos suivantes claquent sur les demi-temps.
 
-## Plans (rythme : lent, lent, ample, vif, vif, ample, pic, tenue, résolution)
-| Temps | Média | Mouvement / 3D | Texte |
+| Temps | Client | Propriétaire | À droite |
 |---|---|---|---|
-| 0–9 | drone, champs dorés (rush 12–21 s) | plein écran, mouvement d'origine | « Cette fois, » / « réunissez tout le monde. » |
-| 9–18 | drone, façade puis montée au-dessus du toit (rush 0–9 s) | fondu lumineux d'entrée | 12 s (cordes) : « Diemeringen · Alsace » / **« Domaine La Rosière »**, filet laiton qui se dessine |
-| 18–27 | lobby, escalier, salons, salles à manger | **galerie 3D** : couloir de tableaux encadrés, la caméra avance et entre dans le lobby | « Une maison entière. » / « Rien que pour vous. » · « louée à un seul groupe · 1 000 m² » |
-| 27–33 | salle à manger dressée | avancée lente ; compteur 0 → 50 | **50** « personnes sous le même toit » |
-| 33–39 | terrasse couverte en charpente | recul qui révèle la tablée | « Une grande table. » / « Et vous tous autour. » |
-| 39–48 | 13 chambres + 2 salles de bain | **mur 3D de 15 cartes** qui se retournent une à une, le mur pivote, la caméra plonge dans une chambre | « Quinze chambres, » / « à chacun son espace. » · « sur trois niveaux » |
-| 48–57 | jardin, roses, brasero, four, barbecue, tennis, jeux, terrasse | **traversée en profondeur** : les photos flottent dans l'espace, la caméra passe entre elles | « Quatre mille mètres carrés » / « de jardins. » · équipements en ligne Jost |
-| 57–69 | 4 plateaux : 2e (chambre mansardée), 1er (balcon), RDC (lobby), sous-sol (piscine) | **coupe de la maison** : plateaux empilés qui s'écartent, étiquettes, la caméra descend jusqu'au sous-sol, le plateau se redresse et remplit l'écran | « Quatre niveaux. » / « Une seule maison. » |
-| 69–84 | vidéo piscine au ras de l'eau, ralenti ×0,5 | raccord direct depuis le plateau du sous-sol | « Une piscine intérieure, » / « chauffée toute l'année. » puis **« Le plaisir d'être ensemble, » / « toute l'année. »** (pic) |
-| 84–89,5 | drone, village au soleil couchant (rush 43–52 s) | fondu lumineux | « Vos prochaines retrouvailles » / « commencent ici. » |
-| 89,5–96,6 | façade de nuit, assombrie | écran de fin : logo, nom, réservation directe, grand QR, lien | « Réservez en direct auprès du propriétaire » · « Sans frais de plateforme » · « Jusqu'à 50 personnes · 15 chambres · piscine chauffée » |
+| 0 | Bonjour ! Nous serons une cinquantaine en famille cet été. Vous avez de la place ? | | façade fleurie |
+| 2,3 | | Bonjour ! La maison entière est à vous : 15 chambres, jusqu'à 50 personnes. | drone sur la façade, puis titre « Domaine La Rosière » |
+| 6,9 | Et pour les repas, tous ensemble ? | Deux salles à manger, et une terrasse couverte de 50 places. | 4 photos |
+| 11,4 | Nous aimerions faire des grillades. | Barbecue, four à bois pour les tartes flambées, et une grande terrasse. | 3 photos |
+| 16,0 | Et si nous cuisinons nous-mêmes ? | Deux cuisines, dont une professionnelle. | 3 photos |
+| 20,6 | Comment sont les chambres ? | 15 chambres sur trois niveaux, avec leurs salles d'eau. | mur de 15 photos qui se retournent |
+| 25,1 | Et s'il ne fait pas beau ? | Piscine intérieure, chauffée toute l'année. | vidéo de la piscine + 2 photos |
+| 29,7 | Il y aura beaucoup d'enfants. | Aire de jeux, balançoires, et 4 000 m² de jardins. | 5 photos |
+| 34,3 | Et pour occuper les plus grands ? | Tennis, ping-pong, baby-foot et billard. | 3 bandes |
+| 38,9 | Et les soirées ? | Le brasero au jardin, la cheminée au salon. | 3 photos |
+| 43,4 | Il nous faut aussi un lieu pour les discours. | Un lobby de 70 m², deux salons et une salle de réunion. | 5 photos |
+| 48,0 | Et c'est où, exactement ? | À Diemeringen, en Alsace, à 85 km de Strasbourg. | drone sur le village au couchant |
+| 52,6 | plein écran : « Le plaisir d'être ensemble, / toute l'année. » | | une photo par temps (8) |
+| 57,1 | C'est parfait. Comment réserver ? | Directement avec moi, sans frais de plateforme. À très bientôt ! | façade fleurie |
+| 61,7 | écran de fin : le logo sort de l'avatar de la discussion, grand QR, lien | | façade de nuit |
 
-## Passe critique retenue (Codex)
-- 3D dosée : trois grands gestes (galerie, mur des chambres, coupe), jamais une pile de cartes qui reste à l'écran.
-- Pas d'annonce immobilière : les textes disent ce qu'on VIT ; chiffres réservés à 50 / 15 / 4 000 m².
-- La piscine = la récompense : le plan le plus long, aucun effet par-dessus.
-- Écran de fin tenu 7 s, lisible et scannable.
+QR permanent en bas à droite → `https://showf68.github.io/domaine-la-rosiere/visite/` (page relais : on change la relais, pas la vidéo).

@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Domaine La Rosière — vidéo v2</title>
+<style>
+@font-face { font-family: "EB Garamond"; src: url(fonts/garamond.woff2) format("woff2"); font-weight: 400 600; font-style: normal; }
+@font-face { font-family: "EB Garamond"; src: url(fonts/garamond-italic.woff2) format("woff2"); font-weight: 400 500; font-style: italic; }
+@font-face { font-family: "Jost"; src: url(fonts/jost.woff2) format("woff2"); font-weight: 300 600; }
+:root { --ivory: #f4f0e8; --green: #22382c; --deep: #121c16; --brass: #a08559; --gold: #e2cfa8; --ink: #1b2a21; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--deep); }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--deep); color: var(--ivory); }
+
+/* Une sequence = une question + sa mosaique */
+.sq { position: absolute; inset: 0; display: none; overflow: hidden; background: radial-gradient(90% 90% at 60% 40%, #2a4234, #121c16 80%); }
+.cell { position: absolute; overflow: hidden; background: #0d1410; transform-origin: 50% 50%; }
+.cell img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
+.pill { position: absolute; left: 26px; bottom: 26px; padding: 12px 22px 11px; border-radius: 40px; background: rgba(244,240,232,.94);
+  font: 600 25px/1 "Jost", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--green); white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35); transform-origin: 0 100%; }
+.pill b { color: #8a6d3c; font-weight: 600; }
+.shadeL { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(10,16,12,.55), rgba(10,16,12,.18) 42%, rgba(10,16,12,0) 60%); }
+
+/* Question / reponse : cartes editoriales */
+.bq, .ba { position: absolute; box-sizing: border-box; transform-origin: 0 50%; white-space: nowrap; }
+.bq { left: 110px; top: 230px; padding: 22px 46px 26px 40px; background: rgba(244,240,232,.97); color: var(--ink); border-left: 6px solid var(--brass);
+  font: italic 500 66px/1.08 "EB Garamond", serif; box-shadow: 0 18px 50px rgba(0,0,0,.4); }
+.bq small { display: block; font: 600 21px/1 "Jost", sans-serif; font-style: normal; letter-spacing: .22em; text-transform: uppercase; color: #8a6d3c; margin-bottom: 12px; }
+.ba { left: 156px; top: 410px; padding: 26px 50px 30px; background: rgba(34,56,44,.96); color: var(--ivory);
+  font: 500 68px/1.1 "EB Garamond", serif; box-shadow: 0 18px 50px rgba(0,0,0,.5); border: 1px solid rgba(226,207,168,.6); }
+.ba i { color: var(--gold); }
+.ba .rule { display: block; height: 2px; background: var(--brass); margin: 0 0 18px; width: 90px; }
+
+/* Accroche */
+#hookB { position: absolute; left: 50%; top: 50%; padding: 46px 80px 54px; background: rgba(244,240,232,.97); color: var(--ink); text-align: center;
+  font: 500 112px/1.04 "EB Garamond", serif; box-shadow: 0 30px 90px rgba(0,0,0,.55); white-space: nowrap; border-top: 6px solid var(--brass); }
+#hookB i { color: var(--green); }
+#hookB b { color: #9a7a40; font-weight: 500; }
+#hookB small { display: block; font: 600 26px/1 "Jost", sans-serif; letter-spacing: .26em; text-transform: uppercase; color: #8a6d3c; margin-bottom: 26px; }
+
+/* Titre (reponse 1) */
+#t1shade { position: absolute; inset: 0; opacity: 0; background: radial-gradient(70% 42% at 50% 64%, rgba(8,14,10,.78), rgba(8,14,10,.45) 55%, rgba(8,14,10,0) 100%); }
+#title1 { position: absolute; left: 0; right: 0; top: 560px; text-align: center; }
+#title1 .k { font: 500 30px/1 "Jost", sans-serif; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); text-shadow: 0 2px 14px rgba(0,0,0,.7); }
+#title1 .t { font: 500 170px/1 "EB Garamond", serif; color: #fff; margin-top: 18px; text-shadow: 0 6px 50px rgba(0,0,0,.6); white-space: nowrap; }
+#title1 .r { height: 3px; background: var(--gold); margin: 26px auto 0; width: 0; }
+
+/* Final ensemble */
+#clim .ph { position: absolute; inset: 0; display: none; }
+#clim .ph img { width: 100%; height: 100%; object-fit: cover; }
+#climT { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+  background: radial-gradient(62% 56% at 50% 52%, rgba(8,14,10,.66), rgba(8,14,10,.28) 70%, rgba(8,14,10,.12)); }
+#climT .a { font: 500 124px/1.08 "EB Garamond", serif; color: #fff; text-shadow: 0 4px 40px rgba(0,0,0,.6); white-space: nowrap; }
+#climT .b { font: italic 400 124px/1.08 "EB Garamond", serif; color: #f6ead0; text-shadow: 0 4px 40px rgba(0,0,0,.6); white-space: nowrap; }
+
+/* Logo + QR permanents */
+#logo { z-index: 20; position: absolute; left: 0; top: 0; width: 800px; height: 800px; border-radius: 50%; transform-origin: 0 0; box-shadow: 0 10px 40px rgba(0,0,0,.45); }
+#logo img { width: 100%; height: 100%; display: block; border-radius: 50%; }
+#qr { z-index: 20; position: absolute; left: 0; top: 0; width: 300px; transform-origin: 0 0; background: var(--ivory); border-radius: 14px; padding: 22px 22px 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.4); box-sizing: content-box; }
+#qr img { width: 300px; height: 300px; display: block; }
+#qr div { font: 600 30px/1 "Jost", sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--green); text-align: center; margin-top: 14px; }
+
+/* Ecran de fin */
+#end .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.42) saturate(.85); }
+#end .tint { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(18,28,22,.55), rgba(18,28,22,.86) 55%, rgba(18,28,22,.92)); }
+#endR { position: absolute; left: 860px; top: 140px; width: 960px; }
+#endR .k { font: 500 26px/1 "Jost", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+#endR .t { font: 500 112px/1 "EB Garamond", serif; color: var(--ivory); margin-top: 22px; white-space: nowrap; }
+#endR .rr { height: 2px; width: 0; background: var(--brass); margin: 30px 0 28px; }
+#endR .a { font: 400 44px/1.3 "EB Garamond", serif; color: var(--ivory); }
+#endR .a i { color: var(--gold); }
+#endR .f { font: 400 27px/1.5 "Jost", sans-serif; color: rgba(244,240,232,.88); margin-top: 14px; letter-spacing: .02em; }
+#endR .u { position: absolute; left: 330px; top: 610px; width: 630px; }
+#endR .u .s { font: 500 28px/1.35 "Jost", sans-serif; color: var(--ivory); }
+#endR .u .l { font: 400 23px/1.4 "Jost", sans-serif; color: var(--gold); margin-top: 14px; letter-spacing: .02em; }
+.sub { opacity: 0; }
+
+#flash { z-index: 21; position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+#veil { z-index: 22; position: absolute; inset: 0; background: #0b120e; opacity: 0; pointer-events: none; }
+#grain { z-index: 23; position: absolute; inset: -50%; opacity: .045; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2' seed='7'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"); }
+#vign { z-index: 24; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 62%, rgba(0,0,0,.36)); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="seqs"></div>
+  <div class="sq" id="clim"><div id="climT"><div class="a" id="climA">Le plaisir d’être ensemble,</div><div class="b" id="climB">toute l’année.</div></div></div>
+  <div class="sq" id="end">
+    <img class="bg" src="media/img/facade-nuit.webp"><div class="tint"></div>
+    <div id="endR">
+      <div class="k sub">Diemeringen · Alsace</div>
+      <div class="t sub">Domaine La Rosière</div>
+      <div class="rr"></div>
+      <div class="a sub">Réservez <i>en direct</i> auprès du propriétaire.</div>
+      <div class="f sub">Sans frais de plateforme · réponse personnelle</div>
+      <div class="f sub">Jusqu’à 50 personnes · 15 chambres · piscine chauffée</div>
+      <div class="u sub"><div class="s">Scannez le code pour découvrir la maison et demander vos dates</div>
+        <div class="l">showf68.github.io/domaine-la-rosiere/visite</div></div>
+    </div>
+  </div>
+  <div id="logo"><img src="media/logo.png"></div>
+  <div id="qr"><img src="qr.svg"><div>Réserver</div></div>
+  <div id="flash"></div>
+  <div id="veil"></div>
+  <div id="grain"></div>
+  <div id="vign"></div>
+</div>
+<script>
+'use strict';
+// Musique : « Guitar Vlog » (AtlasAudio, Pixabay), 105 BPM, montee en 3 morceaux coupes sur les mesures (mix.wav).
+// Temps = 0,571 s ; mesure = 2,286 s ; la batterie entre a 2,286 s ; chaque question dure 2 mesures.
+var DUREE = 70.35, FPS = 30, B = 60 / 105, M = 4 * B;
+var $ = function (s) { return document.querySelector(s); };
+var cl = function (x, a, b) { a = a === undefined ? 0 : a; b = b === undefined ? 1 : b; return Math.min(b, Math.max(a, x)); };
+var P = function (t, a, b) { return cl((t - a) / (b - a)); };
+var eo = function (x) { return 1 - Math.pow(1 - x, 3); };
+var eo5 = function (x) { return 1 - Math.pow(1 - x, 5); };
+var ei = function (x) { return x * x * x; };
+var eio = function (x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+var lerp = function (a, b, x) { return a + (b - a) * x; };
+// ressort amorti en forme fermee (depassement sur les transforms seulement)
+var spring = function (x) { return x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.exp(-6 * x) * Math.cos(9 * x); };
+function el(tag, cls, parent, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (parent) parent.appendChild(e); return e; }
+var IMG = function (n) { return 'media/img/' + n + '.webp'; };
+
+// ---------- Sequences video (une image JPEG par image de la video) ----------
+var SEQN = { facade: 300, piscine: 480, coucher: 270 };
+var attente = [];
+function seqFrame(img, name, k) {
+  var n = Math.max(1, Math.min(SEQN[name], Math.floor(k) + 1));
+  var src = 'media/seq/' + name + '/f' + String(n).padStart(4, '0') + '.jpg';
+  if (img.getAttribute('src') !== src) { img.setAttribute('src', src); attente.push(img.decode().catch(function () {})); }
+}
+
+// ---------- Mises en page (plein cadre, joints de 12 px) ----------
+var G = 12;
+var LAY = {
+  full: [[0, 0, 1920, 1080]],
+  big3: [[0, 0, 1248, 1080], [1260, 0, 660, 534], [1260, 546, 660, 534]],
+  big3r: [[672, 0, 1248, 1080], [0, 0, 660, 534], [0, 546, 660, 534]],
+  g4: [[0, 0, 954, 534], [966, 0, 954, 534], [0, 546, 954, 534], [966, 546, 954, 534]],
+  col3: [[0, 0, 632, 1080], [644, 0, 632, 1080], [1288, 0, 632, 1080]],
+  big5: [[0, 0, 1100, 1080], [1112, 0, 398, 534], [1522, 0, 398, 534], [1112, 546, 398, 534], [1522, 546, 398, 534]],
+  top1b3: [[0, 0, 1920, 640], [0, 652, 632, 428], [644, 652, 632, 428], [1288, 652, 632, 428]]
+};
+(function () { var g = []; for (var r = 0; r < 3; r++) for (var c = 0; c < 5; c++) g.push([c * 381.6, r * 360, 369.6, 348]); LAY.g15 = g; })();
+
+// ---------- Le scenario : questions -> reponses ----------
+// t0 = debut (sur une barre de mesure). cells : [image ou 'seq:nom', etiquette]. tr = transition d'entree.
+var T = function (k) { return 2 * M * k + M; };   // debut de la k-ieme question (k = 0 : 2,33 s)
+var SQ = [
+  { t0: 0, hook: true, lay: 'col3', cells: [['terrasse-couverte'], ['piscine'], ['facade-roses']] },
+  { t0: T(0), lay: 'full', cells: [['seq:facade']], q: 'Où vous réunir ?', title: true, tr: 'x' },
+  { t0: T(1), lay: 'big3', cells: [['vue-aerienne', '<b>4 000 m²</b> de jardins'], ['lobby', '<b>1 000 m²</b> habitables'], ['facade-ete', 'jusqu’à <b>50</b> personnes']],
+    q: 'Une maison rien que pour vous ?', a: 'Louée entière,<br><i>à un seul groupe.</i>', tr: 'z' },
+  { t0: T(2), lay: 'g4', cells: [['salle-a-manger', 'Salle à manger'], ['salle-a-manger-2'], ['salle-a-manger-3', '2<sup></sup> salles'], ['terrasse-couverte-2']],
+    q: 'Où se retrouver à table ?', a: 'Deux salles à manger,<br><i>une seule grande tablée.</i>', tr: 'x' },
+  { t0: T(3), lay: 'big3r', cells: [['barbecue', 'Barbecue'], ['terrasse-couverte', 'Terrasse couverte · <b>50</b> places'], ['terrasse-table', 'Grande terrasse']],
+    q: 'Et aux beaux jours ?', a: 'Barbecue, four à bois,<br><i>terrasse couverte.</i>', tr: 'y', right: true },
+  { t0: T(4), lay: 'big3', cells: [['cuisine', 'Cuisine professionnelle'], ['four-pro'], ['cuisine-2', '2<sup></sup> cuisines']],
+    q: 'Cuisiner pour tous ?', a: 'Deux cuisines,<br><i>dont une professionnelle.</i>', tr: 'x' },
+  { t0: T(5), lay: 'g15', grid: true, cells: [['chambre-fleurie'], ['chambre-bleue'], ['chambre-rdc'], ['chambre-marbre'], ['chambre-ocre'],
+    ['chambre-verte'], ['chambre-bleue-2'], ['chambre-balcon'], ['chambre-double'], ['sdb-baignoire'], ['chambre-rdc-2'], ['chambre-marbre-2'], ['sdb-marbre'], ['chambre-bleue-3'], ['balcon-vue']],
+    q: 'Où dormir ?', a: '<span class="cnt">15</span> chambres,<br><i>sur trois niveaux.</i>', tr: 'flip' },
+  { t0: T(6), lay: 'full', cells: [['seq:piscine', 'Bassin 10 × 3,8 m · pataugeoire']], insets: ['piscine-2', 'piscine-3'],
+    q: 'Et si le temps tourne ?', a: 'Piscine intérieure,<br><i>chauffée toute l’année.</i>', tr: 'z' },
+  { t0: T(7), lay: 'big5', cells: [['jeux', 'Jeux d’enfants'], ['jardin'], ['arche-roses'], ['vue-jardin'], ['facade-roses', '<b>4 000 m²</b>']],
+    q: 'Et pour les enfants ?', a: 'Aire de jeux,<br><i>4 000 m² de jardins.</i>', tr: 'x' },
+  { t0: T(8), lay: 'col3', cells: [['tennis', 'Tennis'], ['pingpong', 'Ping-pong'], ['babyfoot', 'Baby-foot']],
+    q: 'Quelles activités ?', a: 'Tennis, ping-pong,<br><i>baby-foot.</i>', tr: 'y', low: true },
+  { t0: T(9), lay: 'big3', cells: [['brasero', 'Bois fourni'], ['facade-nuit'], ['lobby-cheminee', 'Cheminée']],
+    q: 'Et le soir venu ?', a: 'Le brasero au jardin,<br><i>la cheminée au salon.</i>', tr: 'z' },
+  { t0: T(10), lay: 'big5', cells: [['lobby-fauteuils', 'Lobby · 70 m²'], ['salon'], ['escalier'], ['salon-2'], ['salon-3', '2<sup></sup> salons']],
+    q: 'Un lieu pour se retrouver ?', a: 'Un lobby de 70 m²,<br><i>deux salons.</i>', tr: 'x' },
+  { t0: T(12), lay: 'top1b3', cells: [['facade-roses'], ['terrasse'], ['piscine-3'], ['salon-4']],
+    q: 'Comment réserver ?', a: 'En direct,<br><i>auprès du propriétaire.</i>', tr: 'x' }
+];
+var CLIM = T(11), END = T(13);   // 53,59 s : « le plaisir d'etre ensemble » ; 62,91 s : ecran de fin
+var CLIMP = ['facade-roses', 'piscine', 'salle-a-manger', 'chambre-bleue', 'brasero', 'terrasse-couverte', 'tennis', 'vue-aerienne'];
+
+var NUM = 0; SQ.forEach(function (s) { if (s.q && !s.title) s.n = String(++NUM).padStart(2, '0') + ' / 11'; });
+// ---------- Construction ----------
+SQ.forEach(function (s, k) {
+  s.t1 = k + 1 < SQ.length ? SQ[k + 1].t0 : END;
+  if (s.t0 === T(10)) { s.t1 = CLIM; s.nxt = { t0: CLIM, tr: 'x' }; }
+  var root = el('div', 'sq', $('#seqs')); s.root = root;
+  var box = LAY[s.lay];
+  s.cellEl = s.cells.map(function (c, i) {
+    var r = box[i], d = el('div', 'cell', root);
+    d.style.cssText = 'left:' + r[0] + 'px;top:' + r[1] + 'px;width:' + r[2] + 'px;height:' + r[3] + 'px';
+    var im = el('img', null, d);
+    if (c[0].indexOf('seq:') === 0) { im.dataset.seq = c[0].slice(4); } else im.src = IMG(c[0]);
+    var pill = null; if (c[1]) { pill = el('div', 'pill', d, c[1].replace('<sup></sup>', '')); }
+    return { d: d, im: im, pill: pill };
+  });
+  if (s.insets) s.ins = s.insets.map(function (n, i) {
+    var d = el('div', 'cell', root); d.style.cssText = 'width:520px;height:340px;left:' + (1290 - i * 40) + 'px;top:' + (110 + i * 380) + 'px;border:8px solid #f4f0e8;box-shadow:0 30px 60px rgba(0,0,0,.5)';
+    el('img', null, d).src = IMG(n); return d;
+  });
+  if (!s.hook && !s.title) el('div', 'shadeL', root);
+  if (s.q) { s.qEl = el('div', 'bq', root, (s.n ? '<small>' + s.n + '</small>' : '') + s.q); }
+  if (s.a) { s.aEl = el('div', 'ba', root, '<span class="rule"></span>' + s.a); }
+  if (s.right && s.qEl) { s.qEl.style.left = '760px'; s.aEl.style.left = '860px'; }
+  if (s.low && s.qEl) { s.qEl.style.top = '520px'; s.aEl.style.top = '684px'; }
+  if (s.hook) {
+    var hb = el('div', null, root, '<small>Familles · mariages · séminaires</small>Réunir <b>50</b> personnes<br><i>sous un même toit ?</i>'); hb.id = 'hookB';
+  }
+  if (s.title) {
+    var sh = el('div', null, root); sh.id = 't1shade';
+    var t1 = el('div', null, root, '<div class="k">Diemeringen · Alsace</div><div class="t">Domaine La Rosière</div><div class="r"></div>'); t1.id = 'title1';
+  }
+});
+var CLEL = CLIMP.map(function (n) { var d = el('div', 'ph', $('#clim')); el('img', null, d).src = IMG(n); $('#clim').insertBefore(d, $('#climT')); return d; });
+
+// ---------- Pose d'une sequence a l'instant t ----------
+function entree(s, t) {
+  // transition d'entree : la nouvelle sequence arrive pendant que l'ancienne part (memes instants)
+  var a = s.t0 - 0.16, b = s.t0 + 0.2, p = eo(P(t, a, b));
+  if (s.tr === 'x') return 'translateX(' + ((1 - p) * 1920).toFixed(1) + 'px)';
+  if (s.tr === 'y') return 'translateY(' + ((1 - p) * 1080).toFixed(1) + 'px)';
+  if (s.tr === 'z') return 'scale(' + lerp(1.35, 1, eo5(P(t, s.t0 - 0.05, s.t0 + 0.35))).toFixed(4) + ')';
+  return '';
+}
+function sortie(s, t, nxt) {
+  if (!nxt) return '';
+  var a = nxt.t0 - 0.16, b = nxt.t0 + 0.2, p = ei(P(t, a, b));
+  if (nxt.tr === 'x') return 'translateX(' + (-p * 1920).toFixed(1) + 'px)';
+  if (nxt.tr === 'y') return 'translateY(' + (-p * 1080).toFixed(1) + 'px)';
+  return '';
+}
+function poseSeq(s, k, t) {
+  var nxt = s.nxt || SQ[k + 1];
+  var inA = s.tr === 'x' || s.tr === 'y' ? s.t0 - 0.16 : s.t0;
+  var outB = nxt && (nxt.tr === 'x' || nxt.tr === 'y') ? nxt.t0 + 0.2 : s.t1;
+  if (s.hook) inA = -1;
+  if (t < inA || t >= outB) { s.root.style.display = 'none'; return; }
+  s.root.style.display = 'block';
+  s.root.style.transform = ((t < s.t0 + 0.4 ? entree(s, t) : '') + ' ' + sortie(s, t, nxt)).trim() || 'none';
+  s.root.style.zIndex = t < s.t0 + 0.2 ? 2 : 1;
+  var L = s.t1 - s.t0, u = P(t, s.t0, s.t1);
+  // cellules : la premiere est la des la coupe, les suivantes claquent sur les temps
+  s.cellEl.forEach(function (c, i) {
+    var te = s.grid ? s.t0 + 0.02 + i * 0.06 : s.t0 + i * B / 2, p;
+    if (s.hook) te = -1;
+    if (i === 0 && !s.grid) p = 1; else p = P(t, te, te + (s.grid ? 0.42 : 0.34));
+    var e = eo5(p);
+    if (s.grid) {
+      c.d.style.transform = 'perspective(1400px) rotateY(' + ((1 - e) * -110).toFixed(2) + 'deg) scale(' + lerp(0.7, 1, e).toFixed(4) + ')';
+      c.d.style.opacity = cl(p * 3).toFixed(3);
+    } else {
+      c.d.style.transform = 'scale(' + lerp(0.82, 1, spring(p)).toFixed(4) + ')';
+      c.d.style.opacity = cl(p * 4).toFixed(3);
+    }
+    if (c.im.dataset.seq) {
+      var nm = c.im.dataset.seq;
+      seqFrame(c.im, nm, (t - s.t0 + (nm === 'facade' ? 0.2 : 0)) * FPS * (nm === 'piscine' ? 1.5 : 1));
+      c.im.style.transform = 'scale(' + (1.03 + 0.03 * u).toFixed(4) + ')';
+    } else c.im.style.transform = 'scale(' + lerp(1.14, 1.02, eo(P(t, te, s.t1))).toFixed(4) + ')';
+    if (c.pill) {
+      var pp = P(t, s.t0 + M + 0.25 + i * B * 0.5, s.t0 + M + 0.6 + i * B * 0.5);
+      c.pill.style.opacity = cl(pp * 3).toFixed(3);
+      c.pill.style.transform = 'scale(' + lerp(0.6, 1, spring(pp)).toFixed(4) + ')';
+    }
+  });
+  if (s.ins) s.ins.forEach(function (d, i) {
+    var te = s.t0 + (i + 1) * B, p = P(t, te, te + 0.4);
+    d.style.opacity = cl(p * 4).toFixed(3);
+    d.style.transform = 'translateY(' + ((1 - eo5(p)) * 160).toFixed(1) + 'px) rotate(' + lerp(i ? 9 : -10, i ? 3 : -4, eo5(p)).toFixed(2) + 'deg)';
+  });
+  // bulles : question juste apres la coupe, reponse sur la 2e mesure
+  if (s.qEl) {
+    var pq = P(t, s.t0 + 0.12, s.t0 + 0.6);
+    s.qEl.style.opacity = cl(pq * 4).toFixed(3);
+    s.qEl.style.transform = 'translateX(' + ((1 - eo5(pq)) * -70).toFixed(1) + 'px)';
+  }
+  if (s.aEl) {
+    var pa = P(t, s.t0 + M, s.t0 + M + 0.5);
+    s.aEl.style.opacity = cl(pa * 4).toFixed(3);
+    s.aEl.style.transform = 'translateX(' + ((1 - eo5(pa)) * -70).toFixed(1) + 'px)';
+    s.aEl.querySelector('.rule').style.width = (eio(P(t, s.t0 + M + 0.2, s.t0 + M + 0.9)) * 90).toFixed(1) + 'px';
+    var cnt = s.aEl.querySelector('.cnt');
+    if (cnt) cnt.textContent = String(Math.max(1, Math.round(15 * eo(P(t, s.t0 + 0.05, s.t0 + 0.02 + 14 * 0.06 + 0.3)))));
+  }
+  if (s.hook) {
+    // image 0 deja pleine ; leger rebond sur chaque temps de la mesure d'intro
+    var bump = 0; for (var j = 1; j < 4; j++) bump = Math.max(bump, Math.exp(-14 * Math.max(0, t - j * B)) * (t >= j * B ? 1 : 0));
+    $('#hookB').style.transform = 'translate(-50%,-50%) scale(' + (1 + 0.02 * bump + 0.03 * P(t, 0, M)).toFixed(4) + ')';
+    s.cellEl.forEach(function (c) { c.im.style.filter = 'brightness(.6)'; });
+  }
+  if (s.title) {
+    var tt = $('#title1'), pk = P(t, s.t0 + M, s.t0 + M + 0.6), pt = P(t, s.t0 + M + 0.15, s.t0 + M + 0.85);
+    tt.querySelector('.k').style.opacity = cl(pk * 2).toFixed(3);
+    $('#t1shade').style.opacity = eo(P(t, s.t0 + M - 0.1, s.t0 + M + 0.5)).toFixed(3);
+    var tl = tt.querySelector('.t'); tl.style.opacity = cl(pt * 2).toFixed(3);
+    tl.style.transform = 'scale(' + lerp(1.25, 1, eo5(pt)).toFixed(4) + ')';
+    tt.querySelector('.r').style.width = (eio(P(t, s.t0 + M + 0.5, s.t0 + M + 1.5)) * 640).toFixed(1) + 'px';
+  }
+}
+
+// ---------- Pose generale ----------
+window.setT = function (t) {
+  attente = [];
+  SQ.forEach(function (s, k) { poseSeq(s, k, t); });
+  // le plaisir d'etre ensemble : une photo par temps, le texte reste immobile
+  var c = $('#clim');
+  if (t >= CLIM - 0.16 && t < CLIM + 2 * M + 0.2) {
+    c.style.display = 'block';
+    c.style.zIndex = 3;
+    var pin = eo(P(t, CLIM - 0.16, CLIM + 0.2)), pout = ei(P(t, CLIM + 2 * M - 0.16, CLIM + 2 * M + 0.2));
+    c.style.transform = 'translateX(' + ((1 - pin) * 1920 - pout * 1920).toFixed(1) + 'px)';
+    var bi = cl(Math.floor((t - CLIM) / B), 0, CLEL.length - 1);
+    CLEL.forEach(function (d, i) {
+      d.style.display = i === bi ? 'block' : 'none';
+      if (i === bi) d.querySelector('img').style.transform = 'scale(' + lerp(1.12, 1.0, eo(P(t, CLIM + i * B, CLIM + (i + 1) * B))).toFixed(4) + ')';
+    });
+    var pa = P(t, CLIM + 0.1, CLIM + 0.6), pb = P(t, CLIM + M, CLIM + M + 0.5);
+    $('#climA').style.opacity = cl(pa * 2).toFixed(3); $('#climA').style.transform = 'translateY(' + ((1 - eo(pa)) * 30).toFixed(1) + 'px)';
+    $('#climB').style.opacity = cl(pb * 2).toFixed(3); $('#climB').style.transform = 'translateY(' + ((1 - eo(pb)) * 30).toFixed(1) + 'px)';
+  } else c.style.display = 'none';
+  // fin
+  var e = $('#end');
+  if (t >= END - 0.5) {
+    e.style.display = 'block'; e.style.zIndex = 4; e.style.opacity = eo(P(t, END - 0.5, END + 0.2)).toFixed(3);
+    e.querySelector('.bg').style.transform = 'scale(' + (1.12 - 0.08 * eo(P(t, END, DUREE))).toFixed(4) + ')';
+    var subs = document.querySelectorAll('#endR .sub'), at = [0.5, 0.75, 1.4, 1.7, 2.0, 2.4];
+    subs.forEach(function (s, i) { var p = eo(P(t, END + at[i], END + at[i] + 0.8)); s.style.opacity = p.toFixed(3); s.style.transform = 'translateY(' + ((1 - p) * 24).toFixed(1) + 'px)'; });
+    $('#endR .rr').style.width = (eio(P(t, END + 1.0, END + 2.1)) * 520).toFixed(1) + 'px';
+  } else e.style.display = 'none';
+  // logo et QR permanents ; a la fin ils prennent leur grande place
+  var m = eio(P(t, END + 0.1, END + 1.4));
+  $('#logo').style.transform = 'translate(' + lerp(46, 190, m).toFixed(1) + 'px,' + lerp(40, 260, m).toFixed(1) + 'px) scale(' + (lerp(128, 560, m) / 800).toFixed(4) + ')';
+  $('#qr').style.transform = 'translate(' + lerp(1920 - 46 - 150, 860, m).toFixed(1) + 'px,' + lerp(1080 - 40 - 392 * 150 / 344, 700, m).toFixed(1) + 'px) scale(' + (lerp(150, 275, m) / 344).toFixed(4) + ')';
+  // eclair blanc sur l'entree de la batterie et sur « ensemble »
+  var fl = Math.max(1 - P(t, M, M + 0.22), 0) * (t >= M ? 1 : 0), fl2 = Math.max(1 - P(t, CLIM, CLIM + 0.2), 0) * (t >= CLIM ? 1 : 0);
+  $('#flash').style.opacity = (0.55 * Math.max(fl, fl2 * 0.6)).toFixed(3);
+  $('#veil').style.opacity = (0.9 * P(t, DUREE - 0.6, DUREE)).toFixed(3);
+  var k = Math.floor(t * 24);
+  $('#grain').style.transform = 'translate(' + ((k * 37) % 100 - 50) + 'px,' + ((k * 61) % 100 - 50) + 'px)';
+  return Promise.all(attente).then(function () { return t; });
+};
+window.DUREE = DUREE; window.DUR = DUREE;
+window.PRET = document.fonts.ready.then(function () {
+  return Promise.all([document.fonts.load('500 40px "EB Garamond"'), document.fonts.load('italic 400 40px "EB Garamond"'), document.fonts.load('600 40px Jost'), document.fonts.load('500 40px Jost')]);
+}).then(function () {
+  var imgs = Array.prototype.map.call(document.images, function (i) { return i.getAttribute('src') && i.decode ? i.decode().catch(function () {}) : 0; });
+  return Promise.all(imgs);
+}).then(function () { return window.setT(0); }).then(function () { return true; });
+window.ready = window.PRET;
+</script>
+</body>
+</html>
