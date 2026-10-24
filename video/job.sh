@@ -4,7 +4,7 @@
 cd /work
 python3 -m http.server 8777 --bind 127.0.0.1 >/dev/null 2>&1 &
 sleep 3
-N=$(python3 -c "import math;print(math.ceil(70.35*30))")
+N=$(python3 -c "import math;print(math.ceil(78*30))")
 mkdir -p /out/fr
 P=""
 for i in 0 1; do

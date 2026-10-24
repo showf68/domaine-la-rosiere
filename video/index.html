@@ -13,34 +13,35 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
   background: radial-gradient(80% 90% at 30% 40%, #2a4234, #121c16 75%); }
 
 /* Fenetre de discussion (a gauche) */
-#chat { position: absolute; left: 60px; top: 40px; width: 700px; height: 1000px; border-radius: 34px; overflow: hidden; z-index: 5;
+#chat { position: absolute; left: 40px; top: 40px; width: 560px; height: 1000px; border-radius: 34px; overflow: hidden; z-index: 5; transform-origin: 30% 50%; will-change: transform;
   background: #ece5da; box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 2px rgba(226,207,168,.35); }
 #chat .wall { position: absolute; left: 0; right: 0; top: 120px; bottom: 92px; overflow: hidden;
   background-color: #ece5da; background-image: radial-gradient(rgba(34,56,44,.07) 1.6px, transparent 1.7px); background-size: 26px 26px; }
-#chat .head { position: absolute; left: 0; right: 0; top: 0; height: 120px; background: var(--green); display: flex; align-items: center; padding: 0 28px; box-sizing: border-box; }
-#chat .head img { width: 76px; height: 76px; border-radius: 50%; border: 2px solid var(--gold); background: #fff; }
-#chat .head .nm { margin-left: 20px; }
-#chat .head .n1 { font: 500 36px/1.1 "EB Garamond", serif; color: #fff; }
-#chat .head .n2 { font: 400 22px/1.2 "Jost", sans-serif; color: rgba(244,240,232,.75); margin-top: 4px; }
+#chat .head { position: absolute; left: 0; right: 0; top: 0; height: 120px; background: var(--green); display: flex; align-items: center; padding: 0 24px; box-sizing: border-box; }
+#chat .head img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--gold); background: #fff; }
+#chat .head .nm { margin-left: 18px; }
+#chat .head .n1 { font: 500 33px/1.1 "EB Garamond", serif; color: #fff; }
+#chat .head .n2 { font: 400 20px/1.2 "Jost", sans-serif; color: rgba(244,240,232,.75); margin-top: 4px; }
 #chat .foot { position: absolute; left: 0; right: 0; bottom: 0; height: 92px; background: #f6f2ec; display: flex; align-items: center; padding: 0 22px; box-sizing: border-box; }
 #chat .foot div { flex: 1; height: 56px; border-radius: 28px; background: #fff; font: 400 26px/56px "Jost", sans-serif; color: #9a958c; padding-left: 26px; }
 #chat .foot span { width: 56px; height: 56px; border-radius: 50%; background: var(--green); margin-left: 14px; display: inline-block; }
 #scr { position: absolute; left: 0; right: 0; top: 0; }
-.msg { position: absolute; max-width: 540px; box-sizing: border-box; padding: 16px 22px 12px; border-radius: 20px; font: 400 35px/1.28 "Jost", sans-serif; color: #1e2a22;
+.msg { position: absolute; max-width: 440px; box-sizing: border-box; padding: 14px 20px 11px; border-radius: 20px; font: 400 31px/1.28 "Jost", sans-serif; color: #1e2a22;
   box-shadow: 0 2px 4px rgba(0,0,0,.12); }
 .msg.c { right: 22px; background: #d9ecce; border-bottom-right-radius: 6px; transform-origin: 100% 100%; }
 .msg.m { left: 22px; background: #fff; border-bottom-left-radius: 6px; transform-origin: 0 100%; }
 .msg .tm { display: block; text-align: right; font: 400 19px/1 "Jost", sans-serif; color: #8c9a8f; margin-top: 6px; }
 .msg .tm b { color: #4a90c8; font-weight: 500; letter-spacing: -.12em; margin-left: 6px; }
 .msg .th { display: flex; gap: 8px; margin: 2px 0 10px; }
-.msg .th img { width: 158px; height: 104px; object-fit: cover; border-radius: 10px; display: block; }
+.msg .th img { width: 124px; height: 84px; object-fit: cover; border-radius: 10px; display: block; }
 .msg.typing { left: 22px; background: #fff; padding: 22px 26px; border-bottom-left-radius: 6px; }
 .msg.typing i { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #9aa69c; margin: 0 4px; }
 
 /* Ce que le proprietaire envoie : la scene de droite */
-#media { position: absolute; left: 800px; top: 0; width: 1120px; height: 1080px; overflow: hidden; }
+#media { position: absolute; left: 640px; top: 0; width: 1280px; height: 1080px; overflow: hidden; will-change: transform; }
 .sq { position: absolute; inset: 0; display: none; overflow: hidden; background: #0d1410; }
 .cell { position: absolute; overflow: hidden; background: #0d1410; transform-origin: 50% 50%; }
+.cell .sh { position: absolute; top: -10%; bottom: -10%; left: 0; width: 60%; pointer-events: none; z-index: 3; background: linear-gradient(105deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.34) 50%, rgba(255,255,255,0) 70%); }
 .cell img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
 .pill { position: absolute; left: 22px; bottom: 22px; padding: 11px 20px 10px; border-radius: 40px; background: rgba(244,240,232,.94);
   font: 600 23px/1 "Jost", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--green); white-space: nowrap;
@@ -123,10 +124,10 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 </div>
 <script>
 'use strict';
-// Musique : « Guitar Vlog » (AtlasAudio, Pixabay), 105 BPM, montee en 3 morceaux coupes sur les mesures (mix.wav).
-// Temps = 0,571 s ; mesure = 2,286 s ; la batterie entre a 2,286 s ; chaque echange dure 2 mesures :
+// Musique : « Total War (Epic Action Cinematic Trailer Main) » (AudioAtlant, Pixabay), 90 BPM mesures, 1re mesure a 0 s (mix.wav : mesures 20-22 repetees).
+// Temps = 0,667 s ; mesure = 2,667 s ; mesures 9-25 = partie forte, mesure 26 = respiration, mesure 27 = coup final (fiche de fin) ; chaque echange dure 2 mesures :
 // le client ecrit sur le 1er temps, « ecrit... » sur le 3e, le proprietaire repond (et envoie ses photos) sur la 2e mesure.
-var DUREE = 70.35, FPS = 30, B = 60 / 105, M = 4 * B;
+var DUREE = 78, FPS = 30, B = 60 / 90, M = 4 * B;
 var $ = function (s) { return document.querySelector(s); };
 var cl = function (x, a, b) { a = a === undefined ? 0 : a; b = b === undefined ? 1 : b; return Math.min(b, Math.max(a, x)); };
 var P = function (t, a, b) { return cl((t - a) / (b - a)); };
@@ -149,13 +150,13 @@ function seqFrame(img, name, k) {
 
 // ---------- Mises en page de la scene de droite (1120 x 1080, joints de 12 px) ----------
 var LAY = {
-  full: [[0, 0, 1120, 1080]],
-  big3: [[0, 0, 1120, 640], [0, 652, 554, 428], [566, 652, 554, 428]],
-  g4: [[0, 0, 554, 534], [566, 0, 554, 534], [0, 546, 554, 534], [566, 546, 554, 534]],
-  row3: [[0, 0, 1120, 352], [0, 364, 1120, 352], [0, 728, 1120, 352]],
-  big5: [[0, 0, 1120, 600], [0, 612, 271, 468], [283, 612, 271, 468], [566, 612, 271, 468], [849, 612, 271, 468]]
+  full: [[0, 0, 1280, 1080]],
+  big3: [[0, 0, 1280, 640], [0, 652, 634, 428], [646, 652, 634, 428]],
+  g4: [[0, 0, 634, 534], [646, 0, 634, 534], [0, 546, 634, 534], [646, 546, 634, 534]],
+  row3: [[0, 0, 1280, 352], [0, 364, 1280, 352], [0, 728, 1280, 352]],
+  big5: [[0, 0, 1280, 600], [0, 612, 311, 468], [323, 612, 311, 468], [646, 612, 311, 468], [969, 612, 311, 468]]
 };
-(function () { var g = []; for (var r = 0; r < 3; r++) for (var c = 0; c < 5; c++) g.push([c * 226.4, r * 360, 214.4, 348]); LAY.g15 = g; })();
+(function () { var g = []; for (var r = 0; r < 3; r++) for (var c = 0; c < 5; c++) g.push([c * 258.4, r * 366, 246.4, 348]); LAY.g15 = g; })();
 
 // ---------- Le scenario : la conversation ----------
 var T = function (k) { return 2 * M * k + M; };   // debut du k-ieme echange (k = 0 : la batterie)
@@ -219,19 +220,19 @@ EX.forEach(function (x) {
   x.cellEl = x.cells.map(function (c, i) {
     var r = box[i], d = el('div', 'cell', root);
     d.style.cssText = 'left:' + r[0] + 'px;top:' + r[1] + 'px;width:' + r[2] + 'px;height:' + r[3] + 'px';
-    var im = el('img', null, d);
+    var im = el('img', null, d), sh = el('div', 'sh', d);
     if (c[0].indexOf('seq:') === 0) im.dataset.seq = c[0].slice(4); else im.src = IMG(c[0]);
     var pill = c[1] ? el('div', 'pill', d, c[1]) : null;
-    return { d: d, im: im, pill: pill };
+    return { d: d, im: im, pill: pill, sh: sh };
   });
   if (x.insets) x.ins = x.insets.map(function (n, i) {
-    var d = el('div', 'cell', root); d.style.cssText = 'width:440px;height:290px;left:' + (600 - i * 30) + 'px;top:' + (90 + i * 330) + 'px;border:8px solid #f4f0e8;box-shadow:0 30px 60px rgba(0,0,0,.5)';
+    var d = el('div', 'cell', root); d.style.cssText = 'width:440px;height:290px;left:' + (720 - i * 30) + 'px;top:' + (90 + i * 330) + 'px;border:8px solid #f4f0e8;box-shadow:0 30px 60px rgba(0,0,0,.5)';
     el('img', null, d).src = IMG(n); return d;
   });
   if (x.title) x.ttl = el('div', 'ttl', root, '<div class="k">Diemeringen · Alsace</div><div class="t">Domaine La Rosière</div><div class="r"></div>');
 });
 // accroche : la facade fleurie en attendant la reponse
-var HOOK = el('div', 'sq', $('#media')); var hc = el('div', 'cell', HOOK); hc.style.cssText = 'left:0;top:0;width:1120px;height:1080px'; var HIM = el('img', null, hc); HIM.src = IMG('facade-roses');
+var HOOK = el('div', 'sq', $('#media')); var hc = el('div', 'cell', HOOK); hc.style.cssText = 'left:0;top:0;width:1280px;height:1080px'; var HIM = el('img', null, hc); HIM.src = IMG('facade-roses');
 var CLEL = CLIMP.map(function (n) { var d = el('div', 'ph', $('#clim')); el('img', null, d).src = IMG(n); $('#clim').insertBefore(d, $('#climT')); return d; });
 
 // ---------- Pose ----------
@@ -256,45 +257,70 @@ function poseChat(t) {
   SCR.style.transform = 'translateY(' + (-Math.max(0, y - VIEW)).toFixed(1) + 'px)';
   $('#status').textContent = typingShown ? 'écrit…' : 'en ligne';
 }
+// Energie de la musique (mesures) et pulsation sur chaque temps : la partie forte (mesures 9-25) « tape » en 3D
+var INTS = function (t) { var b = t / M; return b < 3 ? 0.25 : b < 9 ? 0.25 + 0.4 * (b - 3) / 6 : b < 26 ? 1 : b < 27 ? 0.15 : 0.6; };
+var PUL = function (t, d) { var ph = (((t - (d || 0)) % B) + B) % B; return Math.exp(-ph * 8); };
+function fxIn(mode, e, i) {   // entree 3D d'une vignette (e peut depasser 1 : petit rebond)
+  var s = i % 2 ? 1 : -1;
+  if (mode === 0) return 'rotateY(' + (s * (1 - e) * 78).toFixed(2) + 'deg) translateZ(' + (-(1 - e) * 280).toFixed(1) + 'px)';
+  if (mode === 1) return 'rotateX(' + ((1 - e) * 72).toFixed(2) + 'deg) translateZ(' + (-(1 - e) * 220).toFixed(1) + 'px)';
+  return 'translateZ(' + (-(1 - e) * 760).toFixed(1) + 'px) rotateZ(' + (s * (1 - e) * 9).toFixed(2) + 'deg)';
+}
 function poseScene(x, k, t) {
-  var nxt = EX[k + 1], outB = x.t1 + (x.hold || (nxt && nxt.t0 === x.t1 ? 0.3 : 0));
+  var nxt = EX[k + 1], outB = x.t1 + (x.hold || (nxt && nxt.t0 === x.t1 ? 0.6 : 0));
   if (t < x.t0 - 0.16 || t >= outB) { x.root.style.display = 'none'; return; }
   x.root.style.display = 'block';
-  // entree : glissement depuis le bas (la photo « arrive » de la discussion) ; la precedente reste dessous
-  var pin = eo(P(t, x.t0 - 0.16, x.t0 + 0.24));
-  x.root.style.transform = 'translateY(' + ((1 - pin) * 1080).toFixed(1) + 'px)';
-  x.root.style.zIndex = t < x.t0 + 0.3 ? 3 : 1;
+  var iv = INTS(t), pu = PUL(t) * iv;
+  // entree : la scene pivote depuis la discussion comme une porte ; la precedente recule dessous
+  var pin = eo5(P(t, x.t0 - 0.16, x.t0 + 0.55));
+  if (t < x.t0 + 0.55) {
+    x.root.style.transformOrigin = '0% 50%'; x.root.style.filter = 'none';
+    x.root.style.transform = 'perspective(2400px) rotateY(' + lerp(-72, 0, pin).toFixed(2) + 'deg) translateX(' + lerp(-170, 0, pin).toFixed(1) + 'px)';
+    x.root.style.opacity = cl(pin * 4).toFixed(3);
+  } else {
+    var po = eo(P(t, x.t1 - 0.16, x.t1 + 0.55));
+    x.root.style.transformOrigin = '100% 50%'; x.root.style.opacity = 1;
+    x.root.style.transform = 'perspective(2400px) rotateY(' + (17 * po).toFixed(2) + 'deg) translateZ(' + (-280 * po).toFixed(1) + 'px)';
+    x.root.style.filter = po > 0 ? 'brightness(' + (1 - 0.55 * po).toFixed(3) + ')' : 'none';
+  }
+  x.root.style.zIndex = t < x.t0 + 0.6 ? 3 : 1;
   var u = P(t, x.t0, x.t1);
   x.cellEl.forEach(function (c, i) {
     var te = x.grid ? x.t0 + 0.02 + i * 0.06 : x.t0 + i * B / 2;
-    var p = i === 0 && !x.grid ? 1 : P(t, te, te + (x.grid ? 0.42 : 0.34)), e = eo5(p);
+    var p = i === 0 && !x.grid ? 1 : P(t, te, te + 0.5), e = spring(p), dr = cl(e), tr;
     if (x.grid) {
-      c.d.style.transform = 'perspective(1400px) rotateY(' + ((1 - e) * -110).toFixed(2) + 'deg) scale(' + lerp(0.7, 1, e).toFixed(4) + ')';
-      c.d.style.opacity = cl(p * 3).toFixed(3);
+      var col = i % 5, row = Math.floor(i / 5), w = PUL(t, col * 0.05 + row * 0.035) * iv;
+      tr = 'perspective(1500px) rotateY(' + ((1 - e) * -110 + (col - 2) * (-3.6 + 1.8 * Math.sin(t * 0.7)) * dr).toFixed(2) + 'deg) rotateX(' + ((row - 1) * 3.2 * dr * Math.sin(t * 0.5 + 1)).toFixed(2) + 'deg) translateZ(' + (w * 46 * dr - (1 - e) * 120).toFixed(1) + 'px) scale(' + lerp(0.7, 1, e).toFixed(4) + ')';
     } else {
-      c.d.style.transform = 'scale(' + lerp(0.82, 1, spring(p)).toFixed(4) + ')';
-      c.d.style.opacity = cl(p * 4).toFixed(3);
+      tr = 'perspective(1500px) ' + fxIn((k + i) % 3, e, i) + ' rotateY(' + (Math.sin(t * 0.8 + i * 1.7 + k) * 2.4 * dr).toFixed(2) + 'deg) rotateX(' + (Math.cos(t * 0.65 + i * 1.3) * 1.8 * dr).toFixed(2) + 'deg) translateZ(' + (pu * 30 * dr).toFixed(1) + 'px)';
     }
+    c.d.style.transform = tr;
+    c.d.style.opacity = cl(p * 4).toFixed(3);
+    if (c.sh) { var ps = P(t, te + 0.06, te + 0.95); c.sh.style.opacity = ps > 0 && ps < 1 ? 1 : 0; c.sh.style.transform = 'translateX(' + lerp(-130, 260, eo(ps)).toFixed(1) + '%)'; }
     if (c.im.dataset.seq) {
       var nm = c.im.dataset.seq;
       seqFrame(c.im, nm, (t - x.t0 + (nm === 'facade' ? 0.2 : 0)) * FPS * (nm === 'piscine' ? 1.5 : 1));
-      c.im.style.transform = 'scale(' + (1.03 + 0.03 * u).toFixed(4) + ')';
-    } else c.im.style.transform = 'scale(' + lerp(1.14, 1.02, eo(P(t, te, x.t1))).toFixed(4) + ')';
+      c.im.style.transform = 'scale(' + (1.05 + 0.04 * u + 0.012 * pu).toFixed(4) + ')';
+    } else {
+      var pz = eo(P(t, te, x.t1)), sg = i % 2 ? 1 : -1;
+      c.im.style.transform = 'translate(' + (sg * lerp(-16, 16, pz)).toFixed(1) + 'px,' + (lerp(8, -8, pz)).toFixed(1) + 'px) scale(' + (lerp(1.2, 1.08, pz) + 0.01 * pu).toFixed(4) + ')';
+    }
     if (c.pill) {
       var pp = P(t, x.t0 + M * 0.75 + i * B * 0.5, x.t0 + M * 0.75 + 0.35 + i * B * 0.5);
       c.pill.style.opacity = cl(pp * 3).toFixed(3);
-      c.pill.style.transform = 'scale(' + lerp(0.6, 1, spring(pp)).toFixed(4) + ')';
+      c.pill.style.transform = 'perspective(600px) rotateX(' + ((1 - cl(spring(pp))) * 70).toFixed(1) + 'deg) scale(' + lerp(0.6, 1, spring(pp)).toFixed(4) + ')';
     }
   });
   if (x.ins) x.ins.forEach(function (d, i) {
-    var te = x.t0 + (i + 1) * B, p = P(t, te, te + 0.4);
+    var te = x.t0 + (i + 1) * B, p = P(t, te, te + 0.5), e = eo5(p);
     d.style.opacity = cl(p * 4).toFixed(3);
-    d.style.transform = 'translateY(' + ((1 - eo5(p)) * 160).toFixed(1) + 'px) rotate(' + lerp(i ? 9 : -10, i ? 3 : -4, eo5(p)).toFixed(2) + 'deg)';
+    d.style.transform = 'perspective(1400px) translateZ(' + ((1 - e) * -520).toFixed(1) + 'px) rotateY(' + lerp(i ? 42 : -42, i ? -6 : 6, e).toFixed(2) + 'deg) translateY(' + ((1 - e) * 160).toFixed(1) + 'px) rotate(' + lerp(i ? 9 : -10, i ? 3 : -4, e).toFixed(2) + 'deg) translateZ(' + (pu * 22).toFixed(1) + 'px)';
   });
   if (x.ttl) {
     var pk = P(t, x.t0 + M, x.t0 + M + 0.5), pt = P(t, x.t0 + M + 0.15, x.t0 + M + 0.8);
     x.ttl.style.opacity = cl(pk * 2).toFixed(3);
-    var tl = x.ttl.querySelector('.t'); tl.style.opacity = cl(pt * 2).toFixed(3); tl.style.transform = 'scale(' + lerp(1.2, 1, eo5(pt)).toFixed(4) + ')';
+    var tl = x.ttl.querySelector('.t'); tl.style.opacity = cl(pt * 2).toFixed(3); tl.style.transformOrigin = '50% 100%';
+    tl.style.transform = 'perspective(900px) rotateX(' + lerp(62, 0, eo5(pt)).toFixed(2) + 'deg) translateZ(' + lerp(-200, 0, eo5(pt)).toFixed(1) + 'px) scale(' + lerp(1.2, 1, eo5(pt)).toFixed(4) + ')';
     x.ttl.querySelector('.r').style.width = (eio(P(t, x.t0 + M + 0.5, x.t0 + M + 1.4)) * 560).toFixed(1) + 'px';
   }
 }
@@ -302,8 +328,11 @@ function poseScene(x, k, t) {
 window.setT = function (t) {
   attente = [];
   poseChat(t);
-  HOOK.style.display = t < EX[0].t0 + 0.3 ? 'block' : 'none';
-  HIM.style.transform = 'scale(' + (1.1 - 0.05 * P(t, 0, M)).toFixed(4) + ')';
+  var iv = INTS(t), pu = PUL(t) * iv, calm = 1 - P(t, END - 1.2, END);
+  $('#chat').style.transform = 'perspective(2600px) rotateY(' + ((7 + 3 * Math.sin(t * 0.6)) * calm).toFixed(2) + 'deg) rotateX(' + (1.6 * Math.sin(t * 0.43) * calm).toFixed(2) + 'deg) translateZ(' + (pu * 18).toFixed(1) + 'px)';
+  $('#media').style.transform = 'scale(' + (1 + 0.010 * pu).toFixed(4) + ')';
+  HOOK.style.display = t < EX[0].t0 + 0.6 ? 'block' : 'none';
+  HIM.style.transform = 'scale(' + (1.14 - 0.07 * P(t, 0, M) + 0.012 * pu).toFixed(4) + ')';
   HIM.style.filter = 'brightness(.8)';
   EX.forEach(function (x, k) { poseScene(x, k, t); });
   // le plaisir d'etre ensemble : plein ecran, une photo par temps, le texte reste immobile
@@ -311,11 +340,17 @@ window.setT = function (t) {
   if (t >= CLIM - 0.16 && t < CLIM + 2 * M + 0.2) {
     c.style.display = 'block';
     var pin = eo(P(t, CLIM - 0.16, CLIM + 0.2)), pout = ei(P(t, CLIM + 2 * M - 0.16, CLIM + 2 * M + 0.2));
-    c.style.transform = 'translateX(' + ((1 - pin) * 1920 - pout * 1920).toFixed(1) + 'px)';
+    c.style.transformOrigin = '0 50%'; c.style.transform = 'perspective(2600px) rotateY(' + ((1 - pin) * -55 + pout * 40).toFixed(2) + 'deg) translateX(' + ((1 - pin) * 1920 - pout * 1920).toFixed(1) + 'px)';
     var bi = cl(Math.floor((t - CLIM) / B), 0, CLEL.length - 1);
     CLEL.forEach(function (d, i) {
-      d.style.display = i === bi ? 'block' : 'none';
-      if (i === bi) d.querySelector('img').style.transform = 'scale(' + lerp(1.12, 1.0, eo(P(t, CLIM + i * B, CLIM + (i + 1) * B))).toFixed(4) + ')';
+      var cur = i === bi, prev = i === bi - 1, pe = eo5(P(t, CLIM + i * B, CLIM + i * B + 0.42)), sg = i % 2 ? 1 : -1;
+      d.style.display = cur || prev ? 'block' : 'none';
+      d.style.zIndex = cur ? 2 : 1;
+      var im = d.querySelector('img');
+      if (cur) {
+        d.style.transform = 'perspective(1800px) rotateY(' + (sg * (1 - pe) * 82).toFixed(2) + 'deg) translateZ(' + (-(1 - pe) * 500).toFixed(1) + 'px) translateX(' + (sg * (1 - pe) * 260).toFixed(1) + 'px)';
+        im.style.transform = 'scale(' + lerp(1.14, 1.0, eo(P(t, CLIM + i * B, CLIM + (i + 1) * B))).toFixed(4) + ')';
+      } else { d.style.transform = 'perspective(1800px) scale(' + lerp(1, 0.9, pe).toFixed(3) + ')'; im.style.transform = 'scale(1)'; }
     });
     var pa = P(t, CLIM + 0.1, CLIM + 0.6), pb = P(t, CLIM + M, CLIM + M + 0.5);
     $('#climA').style.opacity = cl(pa * 2).toFixed(3); $('#climA').style.transform = 'translateY(' + ((1 - eo(pa)) * 30).toFixed(1) + 'px)';
@@ -327,13 +362,13 @@ window.setT = function (t) {
     e.style.display = 'block'; e.style.opacity = eo(P(t, END - 0.5, END + 0.2)).toFixed(3);
     e.querySelector('.bg').style.transform = 'scale(' + (1.12 - 0.08 * eo(P(t, END, DUREE))).toFixed(4) + ')';
     var subs = document.querySelectorAll('#endR .sub'), at = [0.5, 0.75, 1.4, 1.7, 2.0, 2.4];
-    subs.forEach(function (s, i) { var p = eo(P(t, END + at[i], END + at[i] + 0.8)); s.style.opacity = p.toFixed(3); s.style.transform = 'translateY(' + ((1 - p) * 24).toFixed(1) + 'px)'; });
+    subs.forEach(function (s, i) { var p = eo(P(t, END + at[i], END + at[i] + 0.8)); s.style.opacity = p.toFixed(3); s.style.transformOrigin = '0 100%'; s.style.transform = 'perspective(900px) rotateX(' + ((1 - p) * -38).toFixed(1) + 'deg) translateY(' + ((1 - p) * 24).toFixed(1) + 'px)'; });
     $('#endR .rr').style.width = (eio(P(t, END + 1.0, END + 2.1)) * 520).toFixed(1) + 'px';
   } else e.style.display = 'none';
   // le logo n'apparait qu'a la fin : il part de l'avatar de la discussion ; le QR reste en bas a droite
   var m = eio(P(t, END + 0.1, END + 1.4));
   $('#logo').style.display = t >= END ? 'block' : 'none';
-  $('#logo').style.transform = 'translate(' + lerp(88, 190, m).toFixed(1) + 'px,' + lerp(62, 260, m).toFixed(1) + 'px) scale(' + (lerp(76, 560, m) / 800).toFixed(4) + ')';
+  $('#logo').style.transform = 'translate(' + lerp(64, 190, m).toFixed(1) + 'px,' + lerp(65, 260, m).toFixed(1) + 'px) scale(' + (lerp(70, 560, m) / 800).toFixed(4) + ')';
   $('#qr').style.transform = 'translate(' + lerp(1920 - 46 - 150, 860, m).toFixed(1) + 'px,' + lerp(1080 - 40 - 392 * 150 / 344, 700, m).toFixed(1) + 'px) scale(' + (lerp(150, 275, m) / 344).toFixed(4) + ')';
   var fl2 = t >= CLIM ? Math.max(1 - P(t, CLIM, CLIM + 0.2), 0) : 0;
   $('#flash').style.opacity = (0.35 * fl2).toFixed(3);
