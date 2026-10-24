@@ -85,6 +85,17 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 #endR .u .s { font: 500 28px/1.35 "Jost", sans-serif; color: var(--ivory); }
 #endR .u .l { font: 400 23px/1.4 "Jost", sans-serif; color: var(--gold); margin-top: 14px; letter-spacing: .02em; }
 .sub { opacity: 0; }
+/* Coupe de la maison : quatre niveaux empiles (comme en V1) */
+.stackw { position: absolute; inset: 0; perspective: 2200px; }
+.w3s { position: absolute; left: 880px; top: 540px; width: 0; height: 0; transform-style: preserve-3d; }
+.plate { position: absolute; width: 1200px; height: 675px; margin: -337px 0 0 -600px; box-sizing: border-box; border: 6px solid var(--gold);
+  box-shadow: 0 40px 90px rgba(0,0,0,.55); backface-visibility: hidden; background: #0d1410; }
+.plate img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lab { position: absolute; left: 50px; width: 430px; }
+.lab .n { font: 500 48px/1 "EB Garamond", serif; color: var(--ivory); }
+.lab .n span { color: var(--gold); font-style: italic; font-weight: 400; }
+.lab .d { margin-top: 8px; font: 400 23px/1.35 "Jost", sans-serif; color: rgba(244,240,232,.86); letter-spacing: .01em; }
+.lab .r { width: 0; height: 2px; background: var(--brass); margin-top: 14px; }
 
 #flash { z-index: 21; position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
 #veil { z-index: 22; position: absolute; inset: 0; background: #0b120e; opacity: 0; pointer-events: none; }
@@ -184,15 +195,15 @@ var EX = [
     lay: 'row3', cells: [['tennis', 'Tennis'], ['pingpong', 'Ping-pong'], ['babyfoot', 'Baby-foot']] },
   { k: 8, c: 'Et les soirées ?', m: 'Le brasero au jardin, la cheminée au salon.', th: ['brasero', 'lobby-cheminee'],
     lay: 'big3', cells: [['brasero', 'Bois fourni'], ['facade-nuit'], ['lobby-cheminee', 'Cheminée']] },
-  { k: 9, c: 'Il nous faut aussi un lieu pour les discours.', m: 'Un lobby de 70 m², deux salons et une salle de réunion.', th: ['lobby-fauteuils', 'reunion'],
-    lay: 'big5', cells: [['lobby-fauteuils', 'Lobby · 70 m²'], ['salon'], ['escalier'], ['salon-2'], ['reunion', 'Salle de réunion']] },
+  { k: 9, c: 'Et la maison, comment est-elle organisée ?', m: 'Quatre niveaux : lobby et salons en bas, chambres aux étages, piscine au sous-sol.', th: ['lobby-fauteuils', 'chambre-balcon'],
+    lay: 'full', stack: true, cells: [] },
   { k: 10, c: 'Et c’est où, exactement ?', m: 'À Diemeringen, en Alsace, à 85 km de Strasbourg.', th: [],
     lay: 'full', cells: [['seq:coucher', 'Diemeringen · Alsace']] },
   { k: 12, c: 'C’est parfait. Comment réserver ?', m: 'Directement avec moi, sans frais de plateforme. À très bientôt !', th: [],
     lay: 'full', cells: [['facade-roses']] }
 ];
+EX.forEach(function (x) { if (x.k !== undefined) { x.tc = T(x.k) + 0.05; x.tm = T(x.k) + M; } });   // tous les instants d'abord : t1 lit le tm du suivant
 EX.forEach(function (x, i) {
-  if (x.k !== undefined) { x.tc = T(x.k) + 0.05; x.tm = T(x.k) + M; }
   x.t0 = x.tm;                                         // la scene de droite change avec la reponse
   x.t1 = i + 1 < EX.length ? (EX[i + 1].k === 12 ? T(12) : EX[i + 1].tm) : END;
   if (x.k === 10) { x.t1 = CLIM; x.hold = 0.25; }
@@ -217,6 +228,17 @@ function mesure() { MSG.forEach(function (m) { m.h = m.e.offsetHeight; }); TYP.h
 EX.forEach(function (x) {
   var root = el('div', 'sq', $('#media')); x.root = root;
   var box = LAY[x.lay];
+  if (x.stack) {
+    var sw = el('div', 'stackw', root), w3 = el('div', 'w3s', sw); x.plates = []; x.labs = [];
+    [['chambre-bleue-2', '2<sup>e</sup> étage', '7 chambres sous les toits'],
+     ['chambre-balcon', '1<sup>er</sup> étage', '5 chambres, balcon, grande terrasse'],
+     ['lobby', 'Rez-de-chaussée', 'lobby, deux salons, deux salles à manger, cuisine professionnelle'],
+     ['piscine', 'Sous-sol', 'piscine chauffée, cinéma de 40 places, jeux']].forEach(function (g) {
+      var pl = el('div', 'plate', w3); el('img', null, pl).src = IMG(g[0]); x.plates.push(pl);
+      var lb = el('div', 'lab', root); el('div', 'n', lb, g[1].replace(/<sup>/g, '<span>').replace(/<\/sup>/g, '</span>'));
+      el('div', 'd', lb, g[2]); el('div', 'r', lb); x.labs.push(lb);
+    });
+  }
   x.cellEl = x.cells.map(function (c, i) {
     var r = box[i], d = el('div', 'cell', root);
     d.style.cssText = 'left:' + r[0] + 'px;top:' + r[1] + 'px;width:' + r[2] + 'px;height:' + r[3] + 'px';
@@ -240,13 +262,13 @@ function poseChat(t) {
   // pile des messages deja envoyes, ancree en bas ; la discussion remonte a chaque nouveau message
   var y = 18, typingShown = false;
   MSG.forEach(function (m) {
-    var p = P(t, m.t, m.t + 0.28);
+    var p = P(t, m.t, m.t + 0.45);
     if (t < m.t) { m.e.style.display = 'none'; if (m.typ !== undefined && t >= m.typ && !typingShown) typingShown = m; return; }
     m.e.style.display = 'block';
     m.e.style.top = y + 'px';
     m.e.style.opacity = cl(p * 3).toFixed(3);
-    m.e.style.transform = 'scale(' + lerp(0.86, 1, spring(p)).toFixed(4) + ')';
-    y += (m.h + GAP) * eo(cl(p * 1.4));
+    m.e.style.transform = 'scale(' + lerp(0.94, 1, eo(p)).toFixed(4) + ')';
+    y += (m.h + GAP) * eo(cl(p * 1.2));
   });
   if (typingShown) {
     TYP.style.display = 'block'; TYP.style.top = y + 'px';
@@ -257,82 +279,67 @@ function poseChat(t) {
   SCR.style.transform = 'translateY(' + (-Math.max(0, y - VIEW)).toFixed(1) + 'px)';
   $('#status').textContent = typingShown ? 'écrit…' : 'en ligne';
 }
-// Energie de la musique (mesures) et pulsation sur chaque temps : la partie forte (mesures 9-25) « tape » en 3D
-var INTS = function (t) { var b = t / M; return b < 3 ? 0.25 : b < 9 ? 0.25 + 0.4 * (b - 3) / 6 : b < 26 ? 1 : b < 27 ? 0.15 : 0.6; };
-var PUL = function (t, d) { var ph = (((t - (d || 0)) % B) + B) % B; return Math.exp(-ph * 8); };
-function fxIn(mode, e, i) {   // entree 3D d'une vignette (e peut depasser 1 : petit rebond)
-  var s = i % 2 ? 1 : -1;
-  if (mode === 0) return 'rotateY(' + (s * (1 - e) * 78).toFixed(2) + 'deg) translateZ(' + (-(1 - e) * 280).toFixed(1) + 'px)';
-  if (mode === 1) return 'rotateX(' + ((1 - e) * 72).toFixed(2) + 'deg) translateZ(' + (-(1 - e) * 220).toFixed(1) + 'px)';
-  return 'translateZ(' + (-(1 - e) * 760).toFixed(1) + 'px) rotateZ(' + (s * (1 - e) * 9).toFixed(2) + 'deg)';
-}
 function poseScene(x, k, t) {
-  var nxt = EX[k + 1], outB = x.t1 + (x.hold || (nxt && nxt.t0 === x.t1 ? 0.6 : 0));
-  if (t < x.t0 - 0.16 || t >= outB) { x.root.style.display = 'none'; return; }
+  var nxt = EX[k + 1], outB = x.t1 + (x.hold || (nxt && nxt.t0 === x.t1 ? 0.8 : 0));
+  if (t < x.t0 - 0.1 || t >= outB) { x.root.style.display = 'none'; return; }
   x.root.style.display = 'block';
-  var iv = INTS(t), pu = PUL(t) * iv;
-  // entree : la scene pivote depuis la discussion comme une porte ; la precedente recule dessous
-  var pin = eo5(P(t, x.t0 - 0.16, x.t0 + 0.55));
-  if (t < x.t0 + 0.55) {
-    x.root.style.transformOrigin = '0% 50%'; x.root.style.filter = 'none';
-    x.root.style.transform = 'perspective(2400px) rotateY(' + lerp(-72, 0, pin).toFixed(2) + 'deg) translateX(' + lerp(-170, 0, pin).toFixed(1) + 'px)';
-    x.root.style.opacity = cl(pin * 4).toFixed(3);
-  } else {
-    var po = eo(P(t, x.t1 - 0.16, x.t1 + 0.55));
-    x.root.style.transformOrigin = '100% 50%'; x.root.style.opacity = 1;
-    x.root.style.transform = 'perspective(2400px) rotateY(' + (17 * po).toFixed(2) + 'deg) translateZ(' + (-280 * po).toFixed(1) + 'px)';
-    x.root.style.filter = po > 0 ? 'brightness(' + (1 - 0.55 * po).toFixed(3) + ')' : 'none';
-  }
-  x.root.style.zIndex = t < x.t0 + 0.6 ? 3 : 1;
+  // entree : un glissement doux depuis la discussion, fondu ; la scene precedente reste dessous, immobile
+  var pin = eo(P(t, x.t0 - 0.1, x.t0 + 0.7));
+  x.root.style.transform = 'translateX(' + ((1 - pin) * -70).toFixed(1) + 'px)';
+  x.root.style.opacity = cl(pin * 2).toFixed(3);
+  x.root.style.zIndex = t < x.t0 + 0.8 ? 3 : 1;
   var u = P(t, x.t0, x.t1);
+  if (x.stack) poseCoupe(x, t, u);
   x.cellEl.forEach(function (c, i) {
-    var te = x.grid ? x.t0 + 0.02 + i * 0.06 : x.t0 + i * B / 2;
-    var p = i === 0 && !x.grid ? 1 : P(t, te, te + 0.5), e = spring(p), dr = cl(e), tr;
-    if (x.grid) {
-      var col = i % 5, row = Math.floor(i / 5), w = PUL(t, col * 0.05 + row * 0.035) * iv;
-      tr = 'perspective(1500px) rotateY(' + ((1 - e) * -110 + (col - 2) * (-3.6 + 1.8 * Math.sin(t * 0.7)) * dr).toFixed(2) + 'deg) rotateX(' + ((row - 1) * 3.2 * dr * Math.sin(t * 0.5 + 1)).toFixed(2) + 'deg) translateZ(' + (w * 46 * dr - (1 - e) * 120).toFixed(1) + 'px) scale(' + lerp(0.7, 1, e).toFixed(4) + ')';
-    } else {
-      tr = 'perspective(1500px) ' + fxIn((k + i) % 3, e, i) + ' rotateY(' + (Math.sin(t * 0.8 + i * 1.7 + k) * 2.4 * dr).toFixed(2) + 'deg) rotateX(' + (Math.cos(t * 0.65 + i * 1.3) * 1.8 * dr).toFixed(2) + 'deg) translateZ(' + (pu * 30 * dr).toFixed(1) + 'px)';
-    }
-    c.d.style.transform = tr;
-    c.d.style.opacity = cl(p * 4).toFixed(3);
-    if (c.sh) { var ps = P(t, te + 0.06, te + 0.95); c.sh.style.opacity = ps > 0 && ps < 1 ? 1 : 0; c.sh.style.transform = 'translateX(' + lerp(-130, 260, eo(ps)).toFixed(1) + '%)'; }
+    var te = x.grid ? x.t0 + 0.02 + i * 0.07 : x.t0 + i * B / 2;
+    var p = i === 0 && !x.grid ? 1 : P(t, te, te + (x.grid ? 0.7 : 0.6)), e = eo(p);
+    if (x.grid) c.d.style.transform = 'perspective(1500px) rotateY(' + ((1 - e) * -90).toFixed(2) + 'deg) scale(' + lerp(0.8, 1, e).toFixed(4) + ')';
+    else c.d.style.transform = 'scale(' + lerp(0.96, 1, e).toFixed(4) + ')';
+    c.d.style.opacity = cl(p * 2.5).toFixed(3);
     if (c.im.dataset.seq) {
       var nm = c.im.dataset.seq;
       seqFrame(c.im, nm, (t - x.t0 + (nm === 'facade' ? 0.2 : 0)) * FPS * (nm === 'piscine' ? 1.5 : 1));
-      c.im.style.transform = 'scale(' + (1.05 + 0.04 * u + 0.012 * pu).toFixed(4) + ')';
-    } else {
-      var pz = eo(P(t, te, x.t1)), sg = i % 2 ? 1 : -1;
-      c.im.style.transform = 'translate(' + (sg * lerp(-16, 16, pz)).toFixed(1) + 'px,' + (lerp(8, -8, pz)).toFixed(1) + 'px) scale(' + (lerp(1.2, 1.08, pz) + 0.01 * pu).toFixed(4) + ')';
-    }
+      c.im.style.transform = 'scale(' + (1.03 + 0.03 * u).toFixed(4) + ')';
+    } else c.im.style.transform = 'scale(' + lerp(1.1, 1.02, eo(P(t, te, x.t1))).toFixed(4) + ')';
     if (c.pill) {
-      var pp = P(t, x.t0 + M * 0.75 + i * B * 0.5, x.t0 + M * 0.75 + 0.35 + i * B * 0.5);
-      c.pill.style.opacity = cl(pp * 3).toFixed(3);
-      c.pill.style.transform = 'perspective(600px) rotateX(' + ((1 - cl(spring(pp))) * 70).toFixed(1) + 'deg) scale(' + lerp(0.6, 1, spring(pp)).toFixed(4) + ')';
+      var pp = P(t, x.t0 + M * 0.75 + i * B * 0.5, x.t0 + M * 0.75 + 0.5 + i * B * 0.5);
+      c.pill.style.opacity = cl(pp * 2).toFixed(3);
+      c.pill.style.transform = 'scale(' + lerp(0.9, 1, eo(pp)).toFixed(4) + ')';
     }
   });
   if (x.ins) x.ins.forEach(function (d, i) {
-    var te = x.t0 + (i + 1) * B, p = P(t, te, te + 0.5), e = eo5(p);
-    d.style.opacity = cl(p * 4).toFixed(3);
-    d.style.transform = 'perspective(1400px) translateZ(' + ((1 - e) * -520).toFixed(1) + 'px) rotateY(' + lerp(i ? 42 : -42, i ? -6 : 6, e).toFixed(2) + 'deg) translateY(' + ((1 - e) * 160).toFixed(1) + 'px) rotate(' + lerp(i ? 9 : -10, i ? 3 : -4, e).toFixed(2) + 'deg) translateZ(' + (pu * 22).toFixed(1) + 'px)';
+    var te = x.t0 + (i + 1) * B, p = P(t, te, te + 0.7), e = eo(p);
+    d.style.opacity = cl(p * 3).toFixed(3);
+    d.style.transform = 'translateY(' + ((1 - e) * 70).toFixed(1) + 'px) rotate(' + (i ? 3 : -4) + 'deg)';
   });
   if (x.ttl) {
-    var pk = P(t, x.t0 + M, x.t0 + M + 0.5), pt = P(t, x.t0 + M + 0.15, x.t0 + M + 0.8);
+    var pk = P(t, x.t0 + M, x.t0 + M + 0.6), pt = P(t, x.t0 + M + 0.15, x.t0 + M + 1.0);
     x.ttl.style.opacity = cl(pk * 2).toFixed(3);
-    var tl = x.ttl.querySelector('.t'); tl.style.opacity = cl(pt * 2).toFixed(3); tl.style.transformOrigin = '50% 100%';
-    tl.style.transform = 'perspective(900px) rotateX(' + lerp(62, 0, eo5(pt)).toFixed(2) + 'deg) translateZ(' + lerp(-200, 0, eo5(pt)).toFixed(1) + 'px) scale(' + lerp(1.2, 1, eo5(pt)).toFixed(4) + ')';
-    x.ttl.querySelector('.r').style.width = (eio(P(t, x.t0 + M + 0.5, x.t0 + M + 1.4)) * 560).toFixed(1) + 'px';
+    var tl = x.ttl.querySelector('.t'); tl.style.opacity = cl(pt * 2).toFixed(3); tl.style.transform = 'scale(' + lerp(1.08, 1, eo(pt)).toFixed(4) + ')';
+    x.ttl.querySelector('.r').style.width = (eio(P(t, x.t0 + M + 0.5, x.t0 + M + 1.5)) * 560).toFixed(1) + 'px';
   }
+}
+// La maison en quatre niveaux : les plaques s'ecartent doucement, un libelle par niveau (meme geste qu'en V1)
+function poseCoupe(x, t, u) {
+  var t0 = x.t0, ent = eo(P(t, t0, t0 + 1.0)), ex = eio(P(t, t0 + 0.7, t0 + 2.4)), gap = lerp(40, 190, ex);
+  x.plates.forEach(function (pl, i) {
+    var y = (i - 1.5) * gap, rz = lerp(-34, -28, u);
+    pl.style.transform = 'translate3d(0,' + (y + (1 - ent) * 200).toFixed(1) + 'px,0) rotateX(62deg) rotateZ(' + rz.toFixed(3) + 'deg) scale(0.56)';
+    pl.style.opacity = ent.toFixed(3);
+    var L = x.labs[i], lp = eo(P(t, t0 + 1.7 + i * 0.4, t0 + 2.5 + i * 0.4));
+    L.style.top = (540 - 50 + y).toFixed(1) + 'px';
+    L.style.opacity = lp.toFixed(3);
+    L.style.transform = 'translateX(' + ((1 - lp) * -30).toFixed(1) + 'px)';
+    L.querySelector('.r').style.width = (eio(P(t, t0 + 2.0 + i * 0.4, t0 + 3.0 + i * 0.4)) * 380).toFixed(1) + 'px';
+  });
 }
 
 window.setT = function (t) {
   attente = [];
   poseChat(t);
-  var iv = INTS(t), pu = PUL(t) * iv, calm = 1 - P(t, END - 1.2, END);
-  $('#chat').style.transform = 'perspective(2600px) rotateY(' + ((7 + 3 * Math.sin(t * 0.6)) * calm).toFixed(2) + 'deg) rotateX(' + (1.6 * Math.sin(t * 0.43) * calm).toFixed(2) + 'deg) translateZ(' + (pu * 18).toFixed(1) + 'px)';
-  $('#media').style.transform = 'scale(' + (1 + 0.010 * pu).toFixed(4) + ')';
-  HOOK.style.display = t < EX[0].t0 + 0.6 ? 'block' : 'none';
-  HIM.style.transform = 'scale(' + (1.14 - 0.07 * P(t, 0, M) + 0.012 * pu).toFixed(4) + ')';
+  $('#chat').style.transform = 'perspective(2600px) rotateY(' + (5 * (1 - P(t, END - 1.2, END))).toFixed(2) + 'deg)';
+  HOOK.style.display = t < EX[0].t0 + 0.8 ? 'block' : 'none';
+  HIM.style.transform = 'scale(' + (1.1 - 0.05 * P(t, 0, M)).toFixed(4) + ')';
   HIM.style.filter = 'brightness(.8)';
   EX.forEach(function (x, k) { poseScene(x, k, t); });
   // le plaisir d'etre ensemble : plein ecran, une photo par temps, le texte reste immobile
@@ -340,17 +347,15 @@ window.setT = function (t) {
   if (t >= CLIM - 0.16 && t < CLIM + 2 * M + 0.2) {
     c.style.display = 'block';
     var pin = eo(P(t, CLIM - 0.16, CLIM + 0.2)), pout = ei(P(t, CLIM + 2 * M - 0.16, CLIM + 2 * M + 0.2));
-    c.style.transformOrigin = '0 50%'; c.style.transform = 'perspective(2600px) rotateY(' + ((1 - pin) * -55 + pout * 40).toFixed(2) + 'deg) translateX(' + ((1 - pin) * 1920 - pout * 1920).toFixed(1) + 'px)';
+    c.style.transform = 'translateX(' + ((1 - pin) * 1920 - pout * 1920).toFixed(1) + 'px)';
     var bi = cl(Math.floor((t - CLIM) / B), 0, CLEL.length - 1);
     CLEL.forEach(function (d, i) {
-      var cur = i === bi, prev = i === bi - 1, pe = eo5(P(t, CLIM + i * B, CLIM + i * B + 0.42)), sg = i % 2 ? 1 : -1;
+      var cur = i === bi, prev = i === bi - 1, pe = eo(P(t, CLIM + i * B, CLIM + i * B + 0.4));
       d.style.display = cur || prev ? 'block' : 'none';
       d.style.zIndex = cur ? 2 : 1;
-      var im = d.querySelector('img');
-      if (cur) {
-        d.style.transform = 'perspective(1800px) rotateY(' + (sg * (1 - pe) * 82).toFixed(2) + 'deg) translateZ(' + (-(1 - pe) * 500).toFixed(1) + 'px) translateX(' + (sg * (1 - pe) * 260).toFixed(1) + 'px)';
-        im.style.transform = 'scale(' + lerp(1.14, 1.0, eo(P(t, CLIM + i * B, CLIM + (i + 1) * B))).toFixed(4) + ')';
-      } else { d.style.transform = 'perspective(1800px) scale(' + lerp(1, 0.9, pe).toFixed(3) + ')'; im.style.transform = 'scale(1)'; }
+      d.style.opacity = cur ? pe.toFixed(3) : 1;
+      d.style.transform = 'none';
+      d.querySelector('img').style.transform = 'scale(' + (cur ? lerp(1.1, 1.0, eo(P(t, CLIM + i * B, CLIM + (i + 1) * B))) : 1).toFixed(4) + ')';
     });
     var pa = P(t, CLIM + 0.1, CLIM + 0.6), pb = P(t, CLIM + M, CLIM + M + 0.5);
     $('#climA').style.opacity = cl(pa * 2).toFixed(3); $('#climA').style.transform = 'translateY(' + ((1 - eo(pa)) * 30).toFixed(1) + 'px)';
@@ -362,7 +367,7 @@ window.setT = function (t) {
     e.style.display = 'block'; e.style.opacity = eo(P(t, END - 0.5, END + 0.2)).toFixed(3);
     e.querySelector('.bg').style.transform = 'scale(' + (1.12 - 0.08 * eo(P(t, END, DUREE))).toFixed(4) + ')';
     var subs = document.querySelectorAll('#endR .sub'), at = [0.5, 0.75, 1.4, 1.7, 2.0, 2.4];
-    subs.forEach(function (s, i) { var p = eo(P(t, END + at[i], END + at[i] + 0.8)); s.style.opacity = p.toFixed(3); s.style.transformOrigin = '0 100%'; s.style.transform = 'perspective(900px) rotateX(' + ((1 - p) * -38).toFixed(1) + 'deg) translateY(' + ((1 - p) * 24).toFixed(1) + 'px)'; });
+    subs.forEach(function (s, i) { var p = eo(P(t, END + at[i], END + at[i] + 0.8)); s.style.opacity = p.toFixed(3); s.style.transform = 'translateY(' + ((1 - p) * 24).toFixed(1) + 'px)'; });
     $('#endR .rr').style.width = (eio(P(t, END + 1.0, END + 2.1)) * 520).toFixed(1) + 'px';
   } else e.style.display = 'none';
   // le logo n'apparait qu'a la fin : il part de l'avatar de la discussion ; le QR reste en bas a droite
