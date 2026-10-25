@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Domaine La Rosière — vidéo v3</title>
+<style>
+@font-face { font-family: "EB Garamond"; src: url(fonts/garamond.woff2) format("woff2"); font-weight: 400 600; font-style: normal; }
+@font-face { font-family: "EB Garamond"; src: url(fonts/garamond-italic.woff2) format("woff2"); font-weight: 400 500; font-style: italic; }
+@font-face { font-family: "Jost"; src: url(fonts/jost.woff2) format("woff2"); font-weight: 300 600; }
+:root { --ivory: #f4f0e8; --green: #22382c; --deep: #121c16; --brass: #a08559; --gold: #e2cfa8; --ink: #1b2a21; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--deep); }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; color: var(--ivory);
+  background: radial-gradient(80% 90% at 30% 40%, #2a4234, #121c16 75%); }
+
+/* Fenetre de discussion (a gauche) */
+#chat { position: absolute; left: 60px; top: 40px; width: 700px; height: 1000px; border-radius: 34px; overflow: hidden; z-index: 5;
+  background: #ece5da; box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 2px rgba(226,207,168,.35); }
+#chat .wall { position: absolute; left: 0; right: 0; top: 120px; bottom: 92px; overflow: hidden;
+  background-color: #ece5da; background-image: radial-gradient(rgba(34,56,44,.07) 1.6px, transparent 1.7px); background-size: 26px 26px; }
+#chat .head { position: absolute; left: 0; right: 0; top: 0; height: 120px; background: var(--green); display: flex; align-items: center; padding: 0 28px; box-sizing: border-box; }
+#chat .head img { width: 76px; height: 76px; border-radius: 50%; border: 2px solid var(--gold); background: #fff; }
+#chat .head .nm { margin-left: 20px; }
+#chat .head .n1 { font: 500 36px/1.1 "EB Garamond", serif; color: #fff; }
+#chat .head .n2 { font: 400 22px/1.2 "Jost", sans-serif; color: rgba(244,240,232,.75); margin-top: 4px; }
+#chat .foot { position: absolute; left: 0; right: 0; bottom: 0; height: 92px; background: #f6f2ec; display: flex; align-items: center; padding: 0 22px; box-sizing: border-box; }
+#chat .foot div { flex: 1; height: 56px; border-radius: 28px; background: #fff; font: 400 26px/56px "Jost", sans-serif; color: #9a958c; padding-left: 26px; }
+#chat .foot span { width: 56px; height: 56px; border-radius: 50%; background: var(--green); margin-left: 14px; display: inline-block; }
+#scr { position: absolute; left: 0; right: 0; top: 0; }
+.msg { position: absolute; max-width: 540px; box-sizing: border-box; padding: 16px 22px 12px; border-radius: 20px; font: 400 35px/1.28 "Jost", sans-serif; color: #1e2a22;
+  box-shadow: 0 2px 4px rgba(0,0,0,.12); }
+.msg.c { right: 22px; background: #d9ecce; border-bottom-right-radius: 6px; transform-origin: 100% 100%; }
+.msg.m { left: 22px; background: #fff; border-bottom-left-radius: 6px; transform-origin: 0 100%; }
+.msg .tm { display: block; text-align: right; font: 400 19px/1 "Jost", sans-serif; color: #8c9a8f; margin-top: 6px; }
+.msg .tm b { color: #4a90c8; font-weight: 500; letter-spacing: -.12em; margin-left: 6px; }
+.msg .th { display: flex; gap: 8px; margin: 2px 0 10px; }
+.msg .th img { width: 158px; height: 104px; object-fit: cover; border-radius: 10px; display: block; }
+.msg.typing { left: 22px; background: #fff; padding: 22px 26px; border-bottom-left-radius: 6px; }
+.msg.typing i { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #9aa69c; margin: 0 4px; }
+
+/* Ce que le proprietaire envoie : la scene de droite */
+#media { position: absolute; left: 800px; top: 0; width: 1120px; height: 1080px; overflow: hidden; }
+.sq { position: absolute; inset: 0; display: none; overflow: hidden; background: #0d1410; }
+.cell { position: absolute; overflow: hidden; background: #0d1410; transform-origin: 50% 50%; }
+.cell img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
+.pill { position: absolute; left: 22px; bottom: 22px; padding: 11px 20px 10px; border-radius: 40px; background: rgba(244,240,232,.94);
+  font: 600 23px/1 "Jost", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--green); white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35); transform-origin: 0 100%; }
+.pill b { color: #8a6d3c; font-weight: 600; }
+.ttl { position: absolute; left: 0; right: 0; bottom: 0; height: 640px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 250px; box-sizing: border-box;
+  background: linear-gradient(0deg, rgba(8,14,10,.82), rgba(8,14,10,.45) 55%, rgba(8,14,10,0)); text-align: center; }
+.ttl .k { font: 500 28px/1 "Jost", sans-serif; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
+.ttl .t { font: 500 92px/1 "EB Garamond", serif; color: #fff; margin-top: 16px; white-space: nowrap; text-shadow: 0 4px 30px rgba(0,0,0,.5); }
+.ttl .r { height: 2px; background: var(--gold); margin: 22px auto 0; width: 0; }
+
+/* Final ensemble (plein ecran) */
+#clim { position: absolute; inset: 0; display: none; overflow: hidden; z-index: 8; background: #000; }
+#clim .ph { position: absolute; inset: 0; display: none; }
+#clim .ph img { width: 100%; height: 100%; object-fit: cover; }
+#climT { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+  background: radial-gradient(62% 56% at 50% 52%, rgba(8,14,10,.66), rgba(8,14,10,.28) 70%, rgba(8,14,10,.12)); }
+#climT .a { font: 500 124px/1.08 "EB Garamond", serif; color: #fff; text-shadow: 0 4px 40px rgba(0,0,0,.6); white-space: nowrap; }
+#climT .b { font: italic 400 124px/1.08 "EB Garamond", serif; color: #f6ead0; text-shadow: 0 4px 40px rgba(0,0,0,.6); white-space: nowrap; }
+
+/* Logo (part de l'avatar) + QR */
+#logo { z-index: 20; position: absolute; left: 0; top: 0; width: 800px; height: 800px; border-radius: 50%; transform-origin: 0 0; box-shadow: 0 10px 40px rgba(0,0,0,.45); }
+#logo img { width: 100%; height: 100%; display: block; border-radius: 50%; }
+#qr { z-index: 20; position: absolute; left: 0; top: 0; width: 300px; transform-origin: 0 0; background: var(--ivory); border-radius: 14px; padding: 22px 22px 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.4); box-sizing: content-box; }
+#qr img { width: 300px; height: 300px; display: block; }
+#qr div { font: 600 30px/1 "Jost", sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--green); text-align: center; margin-top: 14px; }
+
+/* Ecran de fin */
+#end { position: absolute; inset: 0; display: none; z-index: 9; }
+#end .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.42) saturate(.85); }
+#end .tint { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(18,28,22,.55), rgba(18,28,22,.86) 55%, rgba(18,28,22,.92)); }
+#endR { position: absolute; left: 860px; top: 140px; width: 960px; }
+#endR .k { font: 500 26px/1 "Jost", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+#endR .t { font: 500 112px/1 "EB Garamond", serif; color: var(--ivory); margin-top: 22px; white-space: nowrap; }
+#endR .rr { height: 2px; width: 0; background: var(--brass); margin: 30px 0 28px; }
+#endR .a { font: 400 44px/1.3 "EB Garamond", serif; color: var(--ivory); }
+#endR .a i { color: var(--gold); }
+#endR .f { font: 400 27px/1.5 "Jost", sans-serif; color: rgba(244,240,232,.88); margin-top: 14px; letter-spacing: .02em; }
+#endR .u { position: absolute; left: 330px; top: 610px; width: 630px; }
+#endR .u .s { font: 500 28px/1.35 "Jost", sans-serif; color: var(--ivory); }
+#endR .u .l { font: 400 23px/1.4 "Jost", sans-serif; color: var(--gold); margin-top: 14px; letter-spacing: .02em; }
+.sub { opacity: 0; }
+
+#flash { z-index: 21; position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+#veil { z-index: 22; position: absolute; inset: 0; background: #0b120e; opacity: 0; pointer-events: none; }
+#grain { z-index: 23; position: absolute; inset: -50%; opacity: .04; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2' seed='7'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"); }
+#vign { z-index: 24; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 62%, rgba(0,0,0,.34)); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="media"></div>
+  <div id="chat">
+    <div class="head"><img src="media/logo.png"><div class="nm"><div class="n1">Domaine La Rosière</div><div class="n2" id="status">en ligne</div></div></div>
+    <div class="wall"><div id="scr"></div></div>
+    <div class="foot"><div>Message</div><span></span></div>
+  </div>
+  <div id="clim"><div id="climT"><div class="a" id="climA">Le plaisir d’être ensemble,</div><div class="b" id="climB">toute l’année.</div></div></div>
+  <div id="end">
+    <img class="bg" src="media/img/facade-nuit.webp"><div class="tint"></div>
+    <div id="endR">
+      <div class="k sub">Diemeringen · Alsace</div>
+      <div class="t sub">Domaine La Rosière</div>
+      <div class="rr"></div>
+      <div class="a sub">Réservez <i>en direct</i> auprès du propriétaire.</div>
+      <div class="f sub">Sans frais de plateforme · réponse personnelle</div>
+      <div class="f sub">Jusqu’à 50 personnes · 15 chambres · piscine chauffée</div>
+      <div class="u sub"><div class="s">Scannez le code pour découvrir la maison et demander vos dates</div>
+        <div class="l">showf68.github.io/domaine-la-rosiere/visite</div></div>
+    </div>
+  </div>
+  <div id="logo"><img src="media/logo.png"></div>
+  <div id="qr"><img src="qr.svg"><div>Réserver</div></div>
+  <div id="flash"></div>
+  <div id="veil"></div>
+  <div id="grain"></div>
+  <div id="vign"></div>
+</div>
+<script>
+'use strict';
+// Musique : « Guitar Vlog » (AtlasAudio, Pixabay), 105 BPM, montee en 3 morceaux coupes sur les mesures (mix.wav).
+// Temps = 0,571 s ; mesure = 2,286 s ; la batterie entre a 2,286 s ; chaque echange dure 2 mesures :
+// le client ecrit sur le 1er temps, « ecrit... » sur le 3e, le proprietaire repond (et envoie ses photos) sur la 2e mesure.
+var DUREE = 70.35, FPS = 30, B = 60 / 105, M = 4 * B;
+var $ = function (s) { return document.querySelector(s); };
+var cl = function (x, a, b) { a = a === undefined ? 0 : a; b = b === undefined ? 1 : b; return Math.min(b, Math.max(a, x)); };
+var P = function (t, a, b) { return cl((t - a) / (b - a)); };
+var eo = function (x) { return 1 - Math.pow(1 - x, 3); };
+var eo5 = function (x) { return 1 - Math.pow(1 - x, 5); };
+var ei = function (x) { return x * x * x; };
+var eio = function (x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+var lerp = function (a, b, x) { return a + (b - a) * x; };
+var spring = function (x) { return x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.exp(-6 * x) * Math.cos(9 * x); };
+function el(tag, cls, parent, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (parent) parent.appendChild(e); return e; }
+var IMG = function (n) { return 'media/img/' + n + '.webp'; };
+
+var SEQN = { facade: 300, piscine: 480, coucher: 270 };
+var attente = [];
+function seqFrame(img, name, k) {
+  var n = Math.max(1, Math.min(SEQN[name], Math.floor(k) + 1));
+  var src = 'media/seq/' + name + '/f' + String(n).padStart(4, '0') + '.jpg';
+  if (img.getAttribute('src') !== src) { img.setAttribute('src', src); attente.push(img.decode().catch(function () {})); }
+}
+
+// ---------- Mises en page de la scene de droite (1120 x 1080, joints de 12 px) ----------
+var LAY = {
+  full: [[0, 0, 1120, 1080]],
+  big3: [[0, 0, 1120, 640], [0, 652, 554, 428], [566, 652, 554, 428]],
+  g4: [[0, 0, 554, 534], [566, 0, 554, 534], [0, 546, 554, 534], [566, 546, 554, 534]],
+  row3: [[0, 0, 1120, 352], [0, 364, 1120, 352], [0, 728, 1120, 352]],
+  big5: [[0, 0, 1120, 600], [0, 612, 271, 468], [283, 612, 271, 468], [566, 612, 271, 468], [849, 612, 271, 468]]
+};
+(function () { var g = []; for (var r = 0; r < 3; r++) for (var c = 0; c < 5; c++) g.push([c * 226.4, r * 360, 214.4, 348]); LAY.g15 = g; })();
+
+// ---------- Le scenario : la conversation ----------
+var T = function (k) { return 2 * M * k + M; };   // debut du k-ieme echange (k = 0 : la batterie)
+var CLIM = T(11), END = T(13);
+var H0 = 17, MN0 = 2;                              // heure affichee du premier message : 17 h 02
+// c = message du client ; m = reponse ; tc / tm = instants ; th = vignettes jointes ; lay/cells = ce qui s'ouvre a droite
+var EX = [
+  { tc: -0.4, tm: T(0), c: 'Bonjour ! Nous serons une cinquantaine en famille cet été. Vous avez de la place ?',
+    m: 'Bonjour ! La maison entière est à vous : 15 chambres, jusqu’à 50 personnes.', th: ['facade-roses', 'vue-aerienne', 'lobby'],
+    lay: 'full', cells: [['seq:facade']], title: true },
+  { k: 1, c: 'Et pour les repas, tous ensemble ?', m: 'Deux salles à manger, et une terrasse couverte de 50 places.', th: ['salle-a-manger', 'terrasse-couverte'],
+    lay: 'g4', cells: [['salle-a-manger', 'Salle à manger'], ['salle-a-manger-2'], ['terrasse-couverte', 'Terrasse couverte · <b>50</b> places'], ['salle-a-manger-3']] },
+  { k: 2, c: 'Nous aimerions faire des grillades.', m: 'Barbecue, four à bois pour les tartes flambées, et une grande terrasse.', th: ['barbecue'],
+    lay: 'big3', cells: [['barbecue', 'Barbecue'], ['terrasse-couverte-2'], ['terrasse-table', 'Grande terrasse']] },
+  { k: 3, c: 'Et si nous cuisinons nous-mêmes ?', m: 'Deux cuisines, dont une professionnelle.', th: ['cuisine', 'four-pro'],
+    lay: 'big3', cells: [['cuisine', 'Cuisine professionnelle'], ['four-pro'], ['cuisine-2', '2 cuisines']] },
+  { k: 4, c: 'Comment sont les chambres ?', m: '15 chambres sur trois niveaux, avec leurs salles d’eau.', th: ['chambre-bleue', 'chambre-double', 'chambre-fleurie'],
+    lay: 'g15', grid: true, cells: [['chambre-fleurie'], ['chambre-bleue'], ['chambre-rdc'], ['chambre-marbre'], ['chambre-ocre'], ['chambre-verte'], ['chambre-bleue-2'],
+    ['chambre-balcon'], ['chambre-double'], ['sdb-baignoire'], ['chambre-rdc-2'], ['chambre-marbre-2'], ['sdb-marbre'], ['chambre-bleue-3'], ['balcon-vue']] },
+  { k: 5, c: 'Et s’il ne fait pas beau ?', m: 'Piscine intérieure, chauffée toute l’année.', th: ['piscine', 'piscine-2'],
+    lay: 'full', cells: [['seq:piscine', 'Bassin 10 × 3,8 m · pataugeoire']], insets: ['piscine-2', 'piscine-3'] },
+  { k: 6, c: 'Il y aura beaucoup d’enfants.', m: 'Aire de jeux, balançoires, et 4 000 m² de jardins.', th: ['jeux', 'jardin'],
+    lay: 'big5', cells: [['jeux', 'Aire de jeux'], ['jardin'], ['arche-roses'], ['vue-jardin'], ['facade-roses', '<b>4 000 m²</b>']] },
+  { k: 7, c: 'Et pour occuper les plus grands ?', m: 'Tennis, ping-pong, baby-foot et billard.', th: ['tennis', 'pingpong', 'babyfoot'],
+    lay: 'row3', cells: [['tennis', 'Tennis'], ['pingpong', 'Ping-pong'], ['babyfoot', 'Baby-foot']] },
+  { k: 8, c: 'Et les soirées ?', m: 'Le brasero au jardin, la cheminée au salon.', th: ['brasero', 'lobby-cheminee'],
+    lay: 'big3', cells: [['brasero', 'Bois fourni'], ['facade-nuit'], ['lobby-cheminee', 'Cheminée']] },
+  { k: 9, c: 'Il nous faut aussi un lieu pour les discours.', m: 'Un lobby de 70 m², deux salons et une salle de réunion.', th: ['lobby-fauteuils', 'reunion'],
+    lay: 'big5', cells: [['lobby-fauteuils', 'Lobby · 70 m²'], ['salon'], ['escalier'], ['salon-2'], ['reunion', 'Salle de réunion']] },
+  { k: 10, c: 'Et c’est où, exactement ?', m: 'À Diemeringen, en Alsace, à 85 km de Strasbourg.', th: [],
+    lay: 'full', cells: [['seq:coucher', 'Diemeringen · Alsace']] },
+  { k: 12, c: 'C’est parfait. Comment réserver ?', m: 'Directement avec moi, sans frais de plateforme. À très bientôt !', th: [],
+    lay: 'full', cells: [['facade-roses']] }
+];
+EX.forEach(function (x, i) {
+  if (x.k !== undefined) { x.tc = T(x.k) + 0.05; x.tm = T(x.k) + M; }
+  x.t0 = x.tm;                                         // la scene de droite change avec la reponse
+  x.t1 = i + 1 < EX.length ? (EX[i + 1].k === 12 ? T(12) : EX[i + 1].tm) : END;
+  if (x.k === 10) { x.t1 = CLIM; x.hold = 0.25; }
+  if (x.k === 12) x.t0 = T(12);                       // la facade revient des la sortie du final
+});
+var CLIMP = ['facade-roses', 'piscine', 'salle-a-manger', 'chambre-bleue', 'brasero', 'terrasse-couverte', 'tennis', 'vue-aerienne'];
+
+// ---------- Construction : messages ----------
+var SCR = $('#scr'), MSG = [], VIEW = 1000 - 120 - 92, GAP = 14;
+function heure(i) { var mn = MN0 + i * 2, h = H0 + Math.floor(mn / 60); mn = mn % 60; return h + ':' + String(mn).padStart(2, '0'); }
+EX.forEach(function (x, i) {
+  var c = el('div', 'msg c', SCR, x.c + '<span class="tm">' + heure(i) + '<b><svg width="30" height="16" viewBox="0 0 30 16"><path d="M1 8l5 5 9-11M11 12l2 1 9-11" fill="none" stroke="#4a90c8" stroke-width="2.4"/></svg></b></span>');
+  MSG.push({ e: c, t: x.tc, side: 'c' });
+  var th = x.th && x.th.length ? '<div class="th">' + x.th.map(function (n) { return '<img src="' + IMG(n) + '">'; }).join('') + '</div>' : '';
+  var m = el('div', 'msg m', SCR, th + x.m + '<span class="tm">' + heure(i) + '</span>');
+  MSG.push({ e: m, t: x.tm, side: 'm', typ: x.tm - (x.k === undefined ? 1.6 * B : 2 * B) });
+});
+var TYP = el('div', 'msg typing', SCR, '<i></i><i></i><i></i>');
+function mesure() { MSG.forEach(function (m) { m.h = m.e.offsetHeight; }); TYP.h = TYP.offsetHeight; }
+
+// ---------- Construction : scene de droite ----------
+EX.forEach(function (x) {
+  var root = el('div', 'sq', $('#media')); x.root = root;
+  var box = LAY[x.lay];
+  x.cellEl = x.cells.map(function (c, i) {
+    var r = box[i], d = el('div', 'cell', root);
+    d.style.cssText = 'left:' + r[0] + 'px;top:' + r[1] + 'px;width:' + r[2] + 'px;height:' + r[3] + 'px';
+    var im = el('img', null, d);
+    if (c[0].indexOf('seq:') === 0) im.dataset.seq = c[0].slice(4); else im.src = IMG(c[0]);
+    var pill = c[1] ? el('div', 'pill', d, c[1]) : null;
+    return { d: d, im: im, pill: pill };
+  });
+  if (x.insets) x.ins = x.insets.map(function (n, i) {
+    var d = el('div', 'cell', root); d.style.cssText = 'width:440px;height:290px;left:' + (600 - i * 30) + 'px;top:' + (90 + i * 330) + 'px;border:8px solid #f4f0e8;box-shadow:0 30px 60px rgba(0,0,0,.5)';
+    el('img', null, d).src = IMG(n); return d;
+  });
+  if (x.title) x.ttl = el('div', 'ttl', root, '<div class="k">Diemeringen · Alsace</div><div class="t">Domaine La Rosière</div><div class="r"></div>');
+});
+// accroche : la facade fleurie en attendant la reponse
+var HOOK = el('div', 'sq', $('#media')); var hc = el('div', 'cell', HOOK); hc.style.cssText = 'left:0;top:0;width:1120px;height:1080px'; var HIM = el('img', null, hc); HIM.src = IMG('facade-roses');
+var CLEL = CLIMP.map(function (n) { var d = el('div', 'ph', $('#clim')); el('img', null, d).src = IMG(n); $('#clim').insertBefore(d, $('#climT')); return d; });
+
+// ---------- Pose ----------
+function poseChat(t) {
+  // pile des messages deja envoyes, ancree en bas ; la discussion remonte a chaque nouveau message
+  var y = 18, typingShown = false;
+  MSG.forEach(function (m) {
+    var p = P(t, m.t, m.t + 0.28);
+    if (t < m.t) { m.e.style.display = 'none'; if (m.typ !== undefined && t >= m.typ && !typingShown) typingShown = m; return; }
+    m.e.style.display = 'block';
+    m.e.style.top = y + 'px';
+    m.e.style.opacity = cl(p * 3).toFixed(3);
+    m.e.style.transform = 'scale(' + lerp(0.86, 1, spring(p)).toFixed(4) + ')';
+    y += (m.h + GAP) * eo(cl(p * 1.4));
+  });
+  if (typingShown) {
+    TYP.style.display = 'block'; TYP.style.top = y + 'px';
+    var k = Math.floor((t - typingShown.typ) / 0.18);
+    TYP.querySelectorAll('i').forEach(function (d, i) { d.style.transform = 'translateY(' + (k % 3 === i ? -6 : 0) + 'px)'; d.style.opacity = k % 3 === i ? 1 : 0.55; });
+    y += (TYP.h + GAP) * eo(P(t, typingShown.typ, typingShown.typ + 0.2));
+  } else TYP.style.display = 'none';
+  SCR.style.transform = 'translateY(' + (-Math.max(0, y - VIEW)).toFixed(1) + 'px)';
+  $('#status').textContent = typingShown ? 'écrit…' : 'en ligne';
+}
+function poseScene(x, k, t) {
+  var nxt = EX[k + 1], outB = x.t1 + (x.hold || (nxt && nxt.t0 === x.t1 ? 0.3 : 0));
+  if (t < x.t0 - 0.16 || t >= outB) { x.root.style.display = 'none'; return; }
+  x.root.style.display = 'block';
+  // entree : glissement depuis le bas (la photo « arrive » de la discussion) ; la precedente reste dessous
+  var pin = eo(P(t, x.t0 - 0.16, x.t0 + 0.24));
+  x.root.style.transform = 'translateY(' + ((1 - pin) * 1080).toFixed(1) + 'px)';
+  x.root.style.zIndex = t < x.t0 + 0.3 ? 3 : 1;
+  var u = P(t, x.t0, x.t1);
+  x.cellEl.forEach(function (c, i) {
+    var te = x.grid ? x.t0 + 0.02 + i * 0.06 : x.t0 + i * B / 2;
+    var p = i === 0 && !x.grid ? 1 : P(t, te, te + (x.grid ? 0.42 : 0.34)), e = eo5(p);
+    if (x.grid) {
+      c.d.style.transform = 'perspective(1400px) rotateY(' + ((1 - e) * -110).toFixed(2) + 'deg) scale(' + lerp(0.7, 1, e).toFixed(4) + ')';
+      c.d.style.opacity = cl(p * 3).toFixed(3);
+    } else {
+      c.d.style.transform = 'scale(' + lerp(0.82, 1, spring(p)).toFixed(4) + ')';
+      c.d.style.opacity = cl(p * 4).toFixed(3);
+    }
+    if (c.im.dataset.seq) {
+      var nm = c.im.dataset.seq;
+      seqFrame(c.im, nm, (t - x.t0 + (nm === 'facade' ? 0.2 : 0)) * FPS * (nm === 'piscine' ? 1.5 : 1));
+      c.im.style.transform = 'scale(' + (1.03 + 0.03 * u).toFixed(4) + ')';
+    } else c.im.style.transform = 'scale(' + lerp(1.14, 1.02, eo(P(t, te, x.t1))).toFixed(4) + ')';
+    if (c.pill) {
+      var pp = P(t, x.t0 + M * 0.75 + i * B * 0.5, x.t0 + M * 0.75 + 0.35 + i * B * 0.5);
+      c.pill.style.opacity = cl(pp * 3).toFixed(3);
+      c.pill.style.transform = 'scale(' + lerp(0.6, 1, spring(pp)).toFixed(4) + ')';
+    }
+  });
+  if (x.ins) x.ins.forEach(function (d, i) {
+    var te = x.t0 + (i + 1) * B, p = P(t, te, te + 0.4);
+    d.style.opacity = cl(p * 4).toFixed(3);
+    d.style.transform = 'translateY(' + ((1 - eo5(p)) * 160).toFixed(1) + 'px) rotate(' + lerp(i ? 9 : -10, i ? 3 : -4, eo5(p)).toFixed(2) + 'deg)';
+  });
+  if (x.ttl) {
+    var pk = P(t, x.t0 + M, x.t0 + M + 0.5), pt = P(t, x.t0 + M + 0.15, x.t0 + M + 0.8);
+    x.ttl.style.opacity = cl(pk * 2).toFixed(3);
+    var tl = x.ttl.querySelector('.t'); tl.style.opacity = cl(pt * 2).toFixed(3); tl.style.transform = 'scale(' + lerp(1.2, 1, eo5(pt)).toFixed(4) + ')';
+    x.ttl.querySelector('.r').style.width = (eio(P(t, x.t0 + M + 0.5, x.t0 + M + 1.4)) * 560).toFixed(1) + 'px';
+  }
+}
+
+window.setT = function (t) {
+  attente = [];
+  poseChat(t);
+  HOOK.style.display = t < EX[0].t0 + 0.3 ? 'block' : 'none';
+  HIM.style.transform = 'scale(' + (1.1 - 0.05 * P(t, 0, M)).toFixed(4) + ')';
+  HIM.style.filter = 'brightness(.8)';
+  EX.forEach(function (x, k) { poseScene(x, k, t); });
+  // le plaisir d'etre ensemble : plein ecran, une photo par temps, le texte reste immobile
+  var c = $('#clim');
+  if (t >= CLIM - 0.16 && t < CLIM + 2 * M + 0.2) {
+    c.style.display = 'block';
+    var pin = eo(P(t, CLIM - 0.16, CLIM + 0.2)), pout = ei(P(t, CLIM + 2 * M - 0.16, CLIM + 2 * M + 0.2));
+    c.style.transform = 'translateX(' + ((1 - pin) * 1920 - pout * 1920).toFixed(1) + 'px)';
+    var bi = cl(Math.floor((t - CLIM) / B), 0, CLEL.length - 1);
+    CLEL.forEach(function (d, i) {
+      d.style.display = i === bi ? 'block' : 'none';
+      if (i === bi) d.querySelector('img').style.transform = 'scale(' + lerp(1.12, 1.0, eo(P(t, CLIM + i * B, CLIM + (i + 1) * B))).toFixed(4) + ')';
+    });
+    var pa = P(t, CLIM + 0.1, CLIM + 0.6), pb = P(t, CLIM + M, CLIM + M + 0.5);
+    $('#climA').style.opacity = cl(pa * 2).toFixed(3); $('#climA').style.transform = 'translateY(' + ((1 - eo(pa)) * 30).toFixed(1) + 'px)';
+    $('#climB').style.opacity = cl(pb * 2).toFixed(3); $('#climB').style.transform = 'translateY(' + ((1 - eo(pb)) * 30).toFixed(1) + 'px)';
+  } else c.style.display = 'none';
+  // fin
+  var e = $('#end');
+  if (t >= END - 0.5) {
+    e.style.display = 'block'; e.style.opacity = eo(P(t, END - 0.5, END + 0.2)).toFixed(3);
+    e.querySelector('.bg').style.transform = 'scale(' + (1.12 - 0.08 * eo(P(t, END, DUREE))).toFixed(4) + ')';
+    var subs = document.querySelectorAll('#endR .sub'), at = [0.5, 0.75, 1.4, 1.7, 2.0, 2.4];
+    subs.forEach(function (s, i) { var p = eo(P(t, END + at[i], END + at[i] + 0.8)); s.style.opacity = p.toFixed(3); s.style.transform = 'translateY(' + ((1 - p) * 24).toFixed(1) + 'px)'; });
+    $('#endR .rr').style.width = (eio(P(t, END + 1.0, END + 2.1)) * 520).toFixed(1) + 'px';
+  } else e.style.display = 'none';
+  // le logo n'apparait qu'a la fin : il part de l'avatar de la discussion ; le QR reste en bas a droite
+  var m = eio(P(t, END + 0.1, END + 1.4));
+  $('#logo').style.display = t >= END ? 'block' : 'none';
+  $('#logo').style.transform = 'translate(' + lerp(88, 190, m).toFixed(1) + 'px,' + lerp(62, 260, m).toFixed(1) + 'px) scale(' + (lerp(76, 560, m) / 800).toFixed(4) + ')';
+  $('#qr').style.transform = 'translate(' + lerp(1920 - 46 - 150, 860, m).toFixed(1) + 'px,' + lerp(1080 - 40 - 392 * 150 / 344, 700, m).toFixed(1) + 'px) scale(' + (lerp(150, 275, m) / 344).toFixed(4) + ')';
+  var fl2 = t >= CLIM ? Math.max(1 - P(t, CLIM, CLIM + 0.2), 0) : 0;
+  $('#flash').style.opacity = (0.35 * fl2).toFixed(3);
+  $('#veil').style.opacity = (0.9 * P(t, DUREE - 0.6, DUREE)).toFixed(3);
+  var k = Math.floor(t * 24);
+  $('#grain').style.transform = 'translate(' + ((k * 37) % 100 - 50) + 'px,' + ((k * 61) % 100 - 50) + 'px)';
+  return Promise.all(attente).then(function () { return t; });
+};
+window.DUREE = DUREE; window.DUR = DUREE;
+window.PRET = document.fonts.ready.then(function () {
+  return Promise.all([document.fonts.load('500 40px "EB Garamond"'), document.fonts.load('italic 400 40px "EB Garamond"'), document.fonts.load('600 40px Jost'), document.fonts.load('400 40px Jost')]);
+}).then(function () {
+  var imgs = Array.prototype.map.call(document.images, function (i) { return i.getAttribute('src') && i.decode ? i.decode().catch(function () {}) : 0; });
+  return Promise.all(imgs);
+}).then(function () { mesure(); return window.setT(0); }).then(function () { return true; });
+window.ready = window.PRET;
+</script>
+</body>
+</html>
