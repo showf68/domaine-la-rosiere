@@ -65,5 +65,37 @@ h = h[:i] + (HERE / 'a5-form.js').read_text(encoding='utf-8') + '\n' + h[j:]
 
 # --- etages : photos qui suivent l'onglet ---
 rep('  // visionneuse (un jeu de photos', (HERE / 'a5-floors.js').read_text(encoding='utf-8') + '\n  // visionneuse (un jeu de photos')
+rep('<li>Vous envoyez vos dates et votre groupe.</li>\n        <li>Le propriétaire répond avec la disponibilité et le tarif.</li>\n        <li>Vous confirmez ; le contrat et un acompte de 30 % finalisent la réservation.</li>',
+    '<li>Choisissez vos dates libres dans le calendrier : le montant du séjour s’affiche aussitôt.</li>\n        <li>Votre demande arrive directement chez le propriétaire, qui vous répond.</li>\n        <li>Un acompte de 30 %, par virement ou par carte bancaire, et le contrat finalisent la réservation.</li>')
+rep('<p>Vous écrivez directement au propriétaire, sans intermédiaire ni frais de plateforme.</p>',
+    '<p>Vous écrivez directement au propriétaire, sans intermédiaire ni frais de plateforme.</p>\n      <p class="ask__tel">Une question ? <a href="tel:+33771712015">07 71 71 20 15</a> · <a href="mailto:domainelarosiere@gmail.com">domainelarosiere@gmail.com</a></p>')
 (D / 'a5-demeure.html').write_text(h, encoding='utf-8')
-print('ok', len(h))
+
+# --- le site publie : FR a la racine, DE dans de/ ---
+from a5_de import DE
+SITE = 'https://showf68.github.io/domaine-la-rosiere/'
+HEAD = ('<meta name="description" content="Domaine La Rosière, à Diemeringen en Alsace : grande demeure privatisée pour les groupes jusqu’à 50 personnes, piscine intérieure chauffée, 15 chambres, 4 000 m² de jardins. Calendrier des disponibilités et réservation directe.">\n'
+        f'<link rel="alternate" hreflang="fr" href="{SITE}">\n<link rel="alternate" hreflang="de" href="{SITE}de/">\n'
+        f'<meta property="og:title" content="Domaine La Rosière - Alsace">\n<meta property="og:image" content="{SITE}assets/img/piscine.webp">')
+
+
+def site(lang):
+    s = h.replace('<meta name="robots" content="noindex, nofollow">', '<meta name="robots" content="noindex, nofollow">\n' + HEAD)
+    s = s.replace('../../assets/', ('' if lang == 'fr' else '../') + 'assets/')
+    fr, de = ('./', 'de/') if lang == 'fr' else ('../', './')
+    cf, cd = (' aria-current="true"', '') if lang == 'fr' else ('', ' aria-current="true"')
+    s = s.replace('<a href="#" aria-current="true">FR</a><a href="#">DE</a>', f'<a href="{fr}"{cf}>FR</a><a href="{de}"{cd}>DE</a>')
+    s = s.replace('<a href="#" aria-current="true">Français</a><a href="#">Deutsch</a>', f'<a href="{fr}"{cf}>Français</a><a href="{de}"{cd}>Deutsch</a>')
+    if lang == 'de':
+        s0 = s
+        for a, b in DE:
+            assert a in s0, 'DE introuvable: ' + a[:80]
+            s = s.replace(a, b)
+    return s
+
+
+out = HERE.parent / 'docs'
+(out / 'index.html').write_text(site('fr'), encoding='utf-8')
+(out / 'de').mkdir(exist_ok=True)
+(out / 'de/index.html').write_text(site('de'), encoding='utf-8')
+print('ok : maquette a5, docs/index.html, docs/de/index.html')

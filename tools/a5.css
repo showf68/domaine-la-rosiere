@@ -1,0 +1,38 @@
+
+/* a5 : calendrier, estimation, itineraire */
+.cal{margin:0 0 18px;border:1px solid var(--line);background:#fff;padding:12px 14px}
+.cal__nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cal__nav b{font:400 1.1rem/1 var(--serif);text-transform:capitalize}
+.cal__nav button{all:unset;cursor:pointer;width:36px;height:36px;display:grid;place-items:center;font-size:1.4rem;color:var(--green)}
+.cal__nav button:hover{background:#f1ece2}
+.cal__nav button:focus-visible{outline:2px solid var(--green)}
+.cal__months{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cal__m h4{margin:0 0 4px;font:500 .78rem/1.2 var(--sans);text-align:center;text-transform:capitalize;color:var(--soft)}
+.cal__g{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal__g span{font:500 .62rem/1 var(--sans);text-align:center;color:var(--soft);padding:3px 0;text-transform:uppercase}
+.cal__g button{all:unset;box-sizing:border-box;cursor:pointer;height:34px;display:grid;place-items:center;font:400 .85rem/1 var(--sans);border:1px solid transparent;background:#f7f4ec}
+.cal__g button:hover:not(:disabled){border-color:var(--green)}
+.cal__g button:focus-visible{outline:2px solid var(--green);outline-offset:-2px}
+.cal__g button:disabled{cursor:not-allowed}
+.cal__g button.busy{background:repeating-linear-gradient(135deg,#e8ddd9,#e8ddd9 4px,#f2e9e6 4px,#f2e9e6 8px);color:#a4443d;text-decoration:line-through}
+.cal__g button.past{background:none;color:#b7b1a5}
+.cal__g button.sel{background:#d9e5dc;border-color:#d9e5dc}
+.cal__g button.end{background:var(--green);color:var(--paper);border-color:var(--green)}
+.cal__key{display:flex;gap:16px;flex-wrap:wrap;list-style:none;margin:10px 0 0;padding:0;font-size:.75rem;color:var(--soft)}
+.cal__key i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-2px;border:1px solid var(--line)}
+.k-free{background:#f7f4ec}.k-busy{background:#e8ddd9}.k-sel{background:var(--green)}
+.estim{margin:14px 0 0;padding:12px 14px;background:var(--sand);border-left:3px solid var(--brass);font-size:.9rem}
+.estim b{font:400 1.45rem/1 var(--serif)}
+.estim small{display:block;color:var(--soft);margin-top:4px;font-size:.76rem}
+.route__form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:end;margin-bottom:12px}
+.route__form .send{min-height:44px}
+.route__map{border:1px solid var(--line);background:var(--paper)}
+.route__map iframe{display:block;width:100%;height:340px;border:0}
+.legend a{color:var(--green)}
+.foot address a{color:inherit}
+@media (max-width:900px){.cal__months{grid-template-columns:1fr}.cal__m + .cal__m{display:none}.route__form{grid-template-columns:1fr}}
+.ask__tel{font-size:.9rem}.ask__tel a{color:var(--gold)}
+.send:disabled{opacity:.6;cursor:wait}
+.pay{margin:22px auto 0;max-width:46ch;text-align:left;border-top:1px solid var(--line);padding-top:16px}
+.pay p{margin:0 0 10px;color:var(--ink)}.pay .send{width:100%;justify-content:center;margin:4px 0 12px}
+.pay .iban{font-size:.88rem;background:var(--sand);padding:10px 12px;word-break:break-word}.pay .small{font-size:.8rem;color:var(--soft)}

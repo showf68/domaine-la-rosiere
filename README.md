@@ -23,16 +23,22 @@ avec piscine intérieure chauffée, à Diemeringen (Alsace). Projet client isol�
   `docs/assets/vid/` (4 boucles muettes : drone maison, drone champs, drone coucher, piscine ; 1920 + 960 px + poster).
 - Aperçu `noindex` : le domaine `domainelarosiere.com` (registrar OVH, DNS Cloudflare, site actuel Goliday) n'est pas touché.
 
-## Retours du propriétaire (26/10/2026) — maquette A5
-`docs/maquettes/2026-10-22_haute-classe/a5-demeure.html`, produite par `python tools/make-a5.py` (A4 + `tools/a5-*.{js,css,html}`) : textes corrigés, photos qui suivent l'étage, itinéraire Google Maps depuis n'importe quel départ, téléphone obligatoire, estimation du prix, calendrier des nuits prises (`docs/data/disponibilites.json`), coordonnées en pied. `server/` : Worker + D1 (e-mail, calendrier, import/export iCal Abritel/Airbnb), écrit, **non déployé** (`server/README.md`). Reste : saisons haute / très haute (dates) à fournir, acompte Stancer, liens iCal Abritel/Airbnb, adresse d'expédition vérifiée.
+## État (26/10/2026 au soir) — site A5 en ligne (FR/DE), service de réservation en service
+Retours du propriétaire du 26/10 (fil y68 `1a179d6c56403bb6`) appliqués à A4 : titre, textes, photos qui suivent l'étage,
+itinéraire Google Maps depuis n'importe quel départ, téléphone obligatoire, montant calculé, calendrier des dates prises,
+e-mail réel, synchronisation iCal, acompte par virement ou carte (Stancer), coordonnées en pied.
+- **Le site publié est construit par `python tools/make-a5.py`** : A4 + `tools/a5-*.{js,css,html}` → `docs/index.html` (FR),
+  `docs/de/index.html` (DE, couples dans `tools/a5_de.py` ; le build refuse un texte FR disparu) et la maquette
+  `docs/maquettes/2026-10-22_haute-classe/a5-demeure.html`. ⛔ `tools/build.mjs` (ancienne piste v3b, `src/`) ÉCRASERAIT le site : ne plus le lancer.
+- **Service `server/`** (Worker Cloudflare `rosiere` + D1) : `https://rosiere.boyoss.workers.dev`, `bash server/deploy.sh`. Voir `server/README.md`.
+  Calendrier = calendrier Goliday actuel relu toutes les 30 min (réservations + saisons) + liens iCal + blocages manuels + séjours confirmés.
+- Prix (tarifs du site actuel) : nuit 1 200 / 1 300 / 1 450 € (tarif 1 / haute / très haute), semaine 6 750 / 7 600 / 10 150 €,
+  20 personnes incluses, supplément 30 / 26 € par personne et par nuit, minimum 2 / 4 / 4 nuits. Mêmes règles dans `a5-form.js` et `price()` du Worker.
 
-## Reste à faire (dans cet ordre)
-1. Intégrer A4 dans `src/` (gabarit + `i18n/fr.json` / `de.json`) → `docs/index.html` et `docs/de/`.
-2. Version allemande relue (titres plus longs : vérifier les retours à la ligne).
-3. Envoi réel du formulaire (aujourd'hui simulé dans A4 ; l'ancienne page ouvrait un mail prérempli).
-4. Calendrier synchronisé iCal : import Abritel, export GrandsGites (serveur nécessaire).
-5. Validation du propriétaire : couchages chambre par chambre, acompte 30 %, prix draps/serviettes, tarifs.
-6. Bascule du domaine, quand il le décide.
+## Reste à faire
+1. Le propriétaire, dans `/admin` : coller ses liens iCal Abritel / Airbnb, saisir IBAN et clé Stancer ; coller `/calendrier.ics` dans Abritel / Airbnb.
+2. Bascule du domaine, quand il le décide ; Goliday arrêté → retirer `GOLIDAY_URL` de `server/deploy.sh`.
+3. Paiement Stancer : codé d'après l'API v2, jamais essayé faute de clé.
 
 ## Outils de contrôle
 - `node tools/cdp-shot.mjs <url> <largeur> <png> [scrollY] [script]` : capture à largeur réelle (390 px compris),
