@@ -20,9 +20,9 @@ rep('<h1><span>Le plaisir d’être ensemble,</span><em>toute l’année.</em></
 rep('Une demeure de 1947 louée entière à votre groupe, jusqu’à cinquante personnes, avec sa piscine intérieure chauffée et quatre mille mètres carrés de jardins.',
     'Bienvenue au Domaine La Rosière, une grande demeure de caractère entièrement privatisée pour votre groupe jusqu\'à 50 personnes, avec piscine intérieure chauffée et 4 000 m² de jardins.')
 rep('Au sous-sol de la villa, un bassin', 'À l’entre-sol de la villa, un bassin')
-rep('<h2 class="h2">La Rosière, depuis 1947.</h2>', '<h2 class="h2">La Rosière, depuis 2014.</h2>')
+rep('<h2 class="h2">La Rosière, depuis 1947.</h2>', '<h2 class="h2">Le Domaine La Rosière vous accueille depuis 2014.</h2>')
 rep('<p class="muted">Une grande maison de famille au cœur des Vosges du Nord, louée entière à votre groupe : un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, au sous-sol, la piscine.</p>',
-    '<p class="muted">Le Domaine La Rosière, vous accueille depuis 2014.<br>Une grande maison de famille au cœur des Vosges du Nord, louée en totalité à votre groupe : un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, au sous-sol, la piscine.</p>')
+    '<p class="muted">Une grande maison de famille au cœur des Vosges du Nord, louée en totalité à votre groupe : un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, au sous-sol, la piscine.</p>')
 
 # --- chambres : photos par etage ---
 m = re.search(r'<div class="rooms__pics">.*?</div>\n    <div>\n      <div class="floors"', h, re.S)
