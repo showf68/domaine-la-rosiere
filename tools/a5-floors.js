@@ -2,7 +2,7 @@
   var FP=[
     [['chambre-rdc','Chambre du rez-de-chaussée'],['chambre-rdc-2','Chambre à deux lits, rez-de-chaussée'],['sdb-douche','Douche à l’italienne, adaptée PMR']],
     [['chambre-double','Chambre double'],['chambre-fleurie','Chambre double fleurie'],['chambre-balcon','Chambre avec balcon'],['sdb-baignoire','Salle de bain privée']],
-    [['chambre-verte','Chambre sous les toits'],['chambre-bleue','Chambre familiale'],['chambre-ocre','Chambre sous les combles'],['chambre-bleue-3','Chambre familiale, coin salon']]
+    [['chambre-verte','Chambre sous les toits'],['chambre-bleue','Chambre familiale'],['chambre-combles','Chambre sous les combles'],['chambre-bleue-3','Chambre familiale, coin salon']]
   ];
   var rp=document.querySelector('[data-roompics]'),floorSet=[];
   function pics(n){

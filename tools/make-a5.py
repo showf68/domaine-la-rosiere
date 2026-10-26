@@ -20,9 +20,19 @@ rep('<h1><span>Le plaisir d’être ensemble,</span><em>toute l’année.</em></
 rep('Une demeure de 1947 louée entière à votre groupe, jusqu’à cinquante personnes, avec sa piscine intérieure chauffée et quatre mille mètres carrés de jardins.',
     'Bienvenue au Domaine La Rosière, une grande demeure de caractère entièrement privatisée pour votre groupe jusqu\'à 50 personnes, avec piscine intérieure chauffée et 4 000 m² de jardins.')
 rep('Au sous-sol de la villa, un bassin', 'À l’entre-sol de la villa, un bassin')
-rep('<h2 class="h2">La Rosière, depuis 1947.</h2>', '<h2 class="h2">Le Domaine La Rosière vous accueille depuis 2014.</h2>')
+rep('<h2 class="h2">La Rosière, depuis 1947.</h2>', '<h2 class="h2">Une maison de famille, depuis 2014.</h2>')
 rep('<p class="muted">Une grande maison de famille au cœur des Vosges du Nord, louée entière à votre groupe : un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, au sous-sol, la piscine.</p>',
-    '<p class="muted">Une grande maison de famille au cœur des Vosges du Nord, louée en totalité à votre groupe : un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, au sous-sol, la piscine.</p>')
+    '<p class="muted">Le Domaine La Rosière vous accueille au cœur des Vosges du Nord, dans une grande maison de famille louée en totalité à votre groupe : un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, à l’entre-sol, la piscine.</p>')
+# dehors : la terrasse couverte s'appelle « le grand chalet » (proprietaire 26/10)
+rep('une terrasse couverte pour les repas de groupe', 'un grand chalet pour les repas de groupe')
+rep('alt="La terrasse couverte" loading="lazy"><figcaption>La terrasse couverte</figcaption>', 'alt="Le grand chalet" loading="lazy"><figcaption>Le grand chalet</figcaption>')
+rep("['terrasse-couverte','La terrasse couverte']", "['terrasse-couverte','Le grand chalet']")
+rep('<b>La Rosière en photos</b>', '<b>Le Domaine La Rosière en photos</b>')
+# vos sejours : chaque photo montre ce que dit son texte (proprietaire 26/10)
+rep('terrasse-table-s.webp" alt="" loading="lazy"></figure><h3 class="h3">Cousinades', 'salon-s.webp" alt="Le grand salon" loading="lazy"></figure><h3 class="h3">Cousinades')
+rep('salle-a-manger-3-s.webp" alt="" loading="lazy"></figure><h3 class="h3">Fiançailles', 'salle-a-manger-s.webp" alt="La salle à manger" loading="lazy"></figure><h3 class="h3">Fiançailles')
+rep('jardin-s.webp" alt="" loading="lazy"></figure><h3 class="h3">Associations', 'babyfoot-s.webp" alt="La salle de jeux et son écran de cinéma" loading="lazy"></figure><h3 class="h3">Associations')
+rep('lobby-cheminee-s.webp" alt="" loading="lazy"></figure><h3 class="h3">Séminaires', 'reunion-s.webp" alt="La salle de réunion" loading="lazy"></figure><h3 class="h3">Séminaires')
 
 # --- chambres : photos par etage ---
 m = re.search(r'<div class="rooms__pics">.*?</div>\n    <div>\n      <div class="floors"', h, re.S)
