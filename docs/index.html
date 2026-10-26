@@ -649,7 +649,7 @@ dialog[open]{animation:fade .3s var(--ease)}
           <label class="fld c2"><span>E-mail</span><input type="email" name="email" autocomplete="email" required></label>
           <label class="fld c2 tel"><span>Téléphone</span><input type="tel" name="phone" autocomplete="tel" required></label>
           <div class="fld c6"><span>Options</span><div class="chips"><label><input type="checkbox" name="sheets"><span>Draps · 10 € / pers.</span></label><label><input type="checkbox" name="towels"><span>Serviettes · 3 € / pers.</span></label></div></div>
-          <label class="fld c6"><span>Message, facultatif</span><textarea name="message" rows="2" placeholder="Vos questions, vos besoins particuliers…"></textarea></label>
+          <label class="fld c6"><span>Message</span><textarea name="message" rows="2" required placeholder="Présentez votre groupe, vos questions, vos besoins particuliers…"></textarea></label>
         </div>
         <div class="card__foot">
           <dl class="recap" aria-live="polite">
@@ -829,7 +829,7 @@ dialog[open]{animation:fade .3s var(--ease)}
   fetch((CFG.api||'../..')+(CFG.api?'/disponibilites.json':'/data/disponibilites.json'),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){setBusy(j.booked);SEASONS=j.seasons||[];PAY=j.payment||{};nights()}).catch(function(){});
   function err(input,msg){var fl=input.closest('.fld');var o=fl.querySelector('.err');if(o)o.remove();fl.classList.toggle('bad',!!msg);input.setAttribute('aria-invalid',msg?'true':'false');if(msg){var e=document.createElement('span');e.className='err';e.textContent=msg;fl.appendChild(e)}}
   f.addEventListener('submit',function(ev){ev.preventDefault();var first=null;function bad(i,m){err(i,m);if(!first)first=i}
-    ['arrival','departure','people','name','email','phone'].forEach(function(n){err(el[n],'')});
+    ['arrival','departure','people','name','email','phone','message'].forEach(function(n){err(el[n],'')});
     if(!el.arrival.value)bad(el.arrival,'Date d’arrivée ?');
     if(!el.departure.value)bad(el.departure,'Date de départ ?');else if(el.arrival.value&&el.departure.value<=el.arrival.value)bad(el.departure,'Après l’arrivée.');
     else if(!freeRange(el.arrival.value,el.departure.value))bad(el.departure,'Dates déjà réservées.');
@@ -837,6 +837,7 @@ dialog[open]{animation:fade .3s var(--ease)}
     if(!el.name.value.trim())bad(el.name,'Votre nom ?');
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.email.value.trim()))bad(el.email,'E-mail incomplet.');
     if(el.phone.value.replace(/\D/g,'').length<8)bad(el.phone,'Téléphone ?');
+    if(el.message.value.trim().length<3)bad(el.message,'Votre message ?');
     if(first){first.focus();return}
     var n=nightsBetween(el.arrival.value,el.departure.value),q=price(n,pp,el.arrival.value);
     var d={arrival:el.arrival.value,departure:el.departure.value,people:pp,type:f.querySelector('[name=type]:checked').value,name:el.name.value.trim(),email:el.email.value.trim(),phone:el.phone.value.trim(),sheets:el.sheets.checked,towels:el.towels.checked,message:el.message.value.trim(),estimate:q.total,nights:n};

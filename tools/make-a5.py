@@ -41,7 +41,9 @@ h = h.replace(m.group(0), route)
 rep('<label class="fld c2 tel"><span>Téléphone, facultatif</span><input type="tel" name="phone" autocomplete="tel"></label>',
     '<label class="fld c2 tel"><span>Téléphone</span><input type="tel" name="phone" autocomplete="tel" required></label>')
 rep('<label class="fld c6"><span>Message, facultatif</span>',
-    '<div class="fld c6"><span>Options</span><div class="chips"><label><input type="checkbox" name="sheets"><span>Draps · 10 € / pers.</span></label><label><input type="checkbox" name="towels"><span>Serviettes · 3 € / pers.</span></label></div></div>\n          <label class="fld c6"><span>Message, facultatif</span>')
+    '<div class="fld c6"><span>Options</span><div class="chips"><label><input type="checkbox" name="sheets"><span>Draps · 10 € / pers.</span></label><label><input type="checkbox" name="towels"><span>Serviettes · 3 € / pers.</span></label></div></div>\n          <label class="fld c6"><span>Message</span>')
+rep('<textarea name="message" rows="2" placeholder="Vos questions, vos besoins particuliers…"></textarea>',
+    '<textarea name="message" rows="2" required placeholder="Présentez votre groupe, vos questions, vos besoins particuliers…"></textarea>')
 rep('<div class="card__head"><h3>Votre demande</h3><span>Réponse personnelle du propriétaire</span></div>',
     '<div class="card__head"><h3>Votre demande</h3><span>Réponse personnelle du propriétaire</span></div>\n'
     '        <div class="cal" data-cal aria-label="Disponibilités"><div class="cal__nav"><button type="button" data-calnav="-1" aria-label="Mois précédent">‹</button><b data-calttl></b><button type="button" data-calnav="1" aria-label="Mois suivant">›</button></div><div class="cal__months" data-calm></div><ul class="cal__key"><li><i class="k-free"></i>Libre</li><li><i class="k-busy"></i>Déjà réservé</li><li><i class="k-sel"></i>Votre séjour</li></ul></div>')

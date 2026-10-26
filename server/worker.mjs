@@ -284,7 +284,7 @@ export default {
       let d; try { d = await req.json(); } catch { return json(env, { ok: false, error: 'format' }, 400); }
       const p = Number(d.people);
       if (!isoOk(d.arrival) || !isoOk(d.departure) || d.departure <= d.arrival || d.arrival < today() || !(p >= 1 && p <= 50)
-        || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email || '') || String(d.phone || '').replace(/\D/g, '').length < 8 || !oneLine(d.name))
+        || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email || '') || String(d.phone || '').replace(/\D/g, '').length < 8 || !oneLine(d.name) || String(d.message || '').trim().length < 3)
         return json(env, { ok: false, error: 'invalide' }, 422);
       if (clash(await booked(env), d.arrival, d.departure)) return json(env, { ok: false, error: 'dates_prises' }, 409);
       const seasons = await setting(env, 'seasons', []);

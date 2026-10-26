@@ -60,7 +60,7 @@
   fetch((CFG.api||'../..')+(CFG.api?'/disponibilites.json':'/data/disponibilites.json'),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){setBusy(j.booked);SEASONS=j.seasons||[];PAY=j.payment||{};nights()}).catch(function(){});
   function err(input,msg){var fl=input.closest('.fld');var o=fl.querySelector('.err');if(o)o.remove();fl.classList.toggle('bad',!!msg);input.setAttribute('aria-invalid',msg?'true':'false');if(msg){var e=document.createElement('span');e.className='err';e.textContent=msg;fl.appendChild(e)}}
   f.addEventListener('submit',function(ev){ev.preventDefault();var first=null;function bad(i,m){err(i,m);if(!first)first=i}
-    ['arrival','departure','people','name','email','phone'].forEach(function(n){err(el[n],'')});
+    ['arrival','departure','people','name','email','phone','message'].forEach(function(n){err(el[n],'')});
     if(!el.arrival.value)bad(el.arrival,'Date d’arrivée ?');
     if(!el.departure.value)bad(el.departure,'Date de départ ?');else if(el.arrival.value&&el.departure.value<=el.arrival.value)bad(el.departure,'Après l’arrivée.');
     else if(!freeRange(el.arrival.value,el.departure.value))bad(el.departure,'Dates déjà réservées.');
@@ -68,6 +68,7 @@
     if(!el.name.value.trim())bad(el.name,'Votre nom ?');
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.email.value.trim()))bad(el.email,'E-mail incomplet.');
     if(el.phone.value.replace(/\D/g,'').length<8)bad(el.phone,'Téléphone ?');
+    if(el.message.value.trim().length<3)bad(el.message,'Votre message ?');
     if(first){first.focus();return}
     var n=nightsBetween(el.arrival.value,el.departure.value),q=price(n,pp,el.arrival.value);
     var d={arrival:el.arrival.value,departure:el.departure.value,people:pp,type:f.querySelector('[name=type]:checked').value,name:el.name.value.trim(),email:el.email.value.trim(),phone:el.phone.value.trim(),sheets:el.sheets.checked,towels:el.towels.checked,message:el.message.value.trim(),estimate:q.total,nights:n};
