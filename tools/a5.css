@@ -34,3 +34,8 @@
 .ask__tel{font-size:.9rem}.ask__tel a{color:var(--gold)}
 .send:disabled{opacity:.6;cursor:wait}
 .optin{display:flex;gap:10px;align-items:flex-start;font-size:.82rem;color:var(--soft);cursor:pointer}.optin input{margin:3px 0 0;width:16px;height:16px;accent-color:var(--green)}
+/* telephone : le nom long (Domaine La Rosiere) ne doit pas pousser le menu hors de l'ecran */
+@media (max-width:480px){.mark b{font-size:1rem;letter-spacing:.08em}.burger{margin-right:-2px}.top__end{gap:8px}}
+@media (max-width:359px){.top__in{padding-left:var(--pad);padding-right:var(--pad);gap:10px}.mark b{font-size:.84rem;letter-spacing:.04em}.burger{margin-right:0;width:40px}.lang a{padding:5px 6px}.fgrid .c2{grid-column:1/-1}}
+/* telephone : photos des chambres en 2 colonnes lisibles, avec leur legende */
+@media (max-width:560px){.rooms__pics{grid-template-columns:1fr 1fr;gap:10px}.rooms__pics figcaption{display:block}}
