@@ -25,11 +25,15 @@ export function tarifOf(iso, seasons) {
   for (const s of seasons || []) if (iso >= s.from && iso <= s.to && TARIFS[s.t]) return TARIFS[s.t];
   return TARIFS.rate1;
 }
+// Chaque nuit au tarif de SA saison (propriétaire, 26/10/2026) ; le prix semaine s'applique par tranche de 7 nuits
+// d'une même saison ; le séjour minimum est celui de la saison du jour d'arrivée.
 export function price(arrival, departure, people, sheets, towels, seasons) {
-  const n = nightsBetween(arrival, departure), T = tarifOf(arrival, seasons);
-  const base = Math.floor(n / 7) * T.w + (n % 7) * T.n, extra = Math.max(0, people - INCL) * T.x * n;
+  const n = nightsBetween(arrival, departure), T = tarifOf(arrival, seasons), per = new Map();
+  for (let i = 0; i < n; i++) { const t = tarifOf(addDays(arrival, i), seasons); per.set(t, (per.get(t) || 0) + 1); }
+  let base = 0, extra = 0;
+  for (const [t, k] of per) { base += Math.floor(k / 7) * t.w + (k % 7) * t.n; extra += Math.max(0, people - INCL) * t.x * k; }
   const opt = (sheets ? SHEETS * people : 0) + (towels ? TOWELS * people : 0);
-  return { nights: n, base, extra, opt, total: base + extra + opt, min: T.min, label: T.label };
+  return { nights: n, base, extra, opt, total: base + extra + opt, min: T.min, label: [...per.keys()].map((t) => t.label).join(' + ') };
 }
 
 // Fusionne les periodes qui se chevauchent ou se touchent (une plateforme liste souvent une ligne par contrat).
@@ -170,6 +174,7 @@ async function adminPage(env, origin, msg) {
   return page('Domaine La Rosière — gestion', `<h1>Domaine La Rosière</h1><p class="muted">Espace du propriétaire${msg ? ' · <b>' + h(msg) + '</b>' : ''}</p>
 <h2>Demandes</h2>${rows ? `<table><thead><tr><th>Dates</th><th>Contact</th><th>Séjour</th><th>Montant</th><th>État</th><th></th></tr></thead><tbody>${rows}</tbody></table>` : '<p class="muted">Aucune demande pour l’instant.</p>'}
 <p class="muted">« Confirmer » bloque les dates sur le site et dans l’export vers Abritel / Airbnb. Ensuite, « Envoyer la confirmation et l’acompte » ouvre un e-mail prêt à envoyer au client, avec le montant, l’IBAN et le lien de paiement par carte. Le client ne peut payer qu’une demande que vous avez confirmée.</p>
+<p><a class="btn ghost" href="/admin/contacts.csv">Télécharger le fichier des contacts</a> <span class="muted">(tous les clients et demandes, avec leur accord ou non pour recevoir vos offres par e-mail)</span></p>
 <h2>Calendrier : dates bloquées</h2><form method="post" action="/admin/action" class="row"><label><span>Première nuit</span><input type="date" name="start" required></label><label><span>Jour de départ</span><input type="date" name="end" required></label><button name="do" value="bloquer">Bloquer ces dates</button></form>
 <table><thead><tr><th>Période</th><th>Origine</th><th></th></tr></thead><tbody>${brows || '<tr><td colspan="3" class="muted">Aucune date bloquée.</td></tr>'}</tbody></table>
 <h2>Synchronisation Abritel / Airbnb</h2>
@@ -334,9 +339,9 @@ export default {
       const recent = await env.DB.prepare("SELECT SUM(email=?) e, SUM(ip=?) i FROM requests WHERE created > datetime('now','-1 hour')").bind(email, ip).first();
       if ((recent.e || 0) >= 5 || (ip && (recent.i || 0) >= 10)) return json(env, { ok: false, error: 'trop' }, 429);
       const subject = `Demande de séjour : ${oneLine(d.name, 60)}, du ${frDate(d.arrival)} au ${frDate(d.departure)}`;
-      const body = `Nouvelle demande depuis le site.\n\nArrivée : ${frDate(d.arrival)}\nDépart : ${frDate(d.departure)} (${q.nights} nuits)\nPersonnes : ${p}\nOccasion : ${oneLine(d.type, 40)}\nDraps : ${d.sheets ? 'oui' : 'non'} · Serviettes : ${d.towels ? 'oui' : 'non'}\nMontant calculé : ${eur(q.total)} (${q.label}), acompte 30 % : ${eur(Math.round(q.total * DEPOSIT))}\n\nNom : ${oneLine(d.name, 120)}\nTéléphone : ${oneLine(d.phone, 40)}\nE-mail : ${email}\n\nMessage :\n${String(d.message).slice(0, 3000)}\n\nPour répondre au client : répondez simplement à cet e-mail.\nPour confirmer et bloquer les dates : ${origin}/admin`;
-      const r = await env.DB.prepare("INSERT INTO requests (arrival, departure, nights, people, kind, name, email, phone, sheets, towels, message, estimate, status, created, ip, mail_subject, mail_body) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'nouvelle',datetime('now'),?,?,?)")
-        .bind(d.arrival, d.departure, q.nights, p, oneLine(d.type, 40), oneLine(d.name, 120), email, oneLine(d.phone, 40), d.sheets ? 1 : 0, d.towels ? 1 : 0, String(d.message).slice(0, 3000), q.total, ip, subject, body).run();
+      const body = `Nouvelle demande depuis le site.\n\nArrivée : ${frDate(d.arrival)}\nDépart : ${frDate(d.departure)} (${q.nights} nuits)\nPersonnes : ${p}\nOccasion : ${oneLine(d.type, 40)}\nDraps : ${d.sheets ? 'oui' : 'non'} · Serviettes : ${d.towels ? 'oui' : 'non'}\nAccepte de recevoir vos offres : ${d.offers === true ? 'oui' : 'non'}\nMontant calculé : ${eur(q.total)} (${q.label}), acompte 30 % : ${eur(Math.round(q.total * DEPOSIT))}\n\nNom : ${oneLine(d.name, 120)}\nTéléphone : ${oneLine(d.phone, 40)}\nE-mail : ${email}\n\nMessage :\n${String(d.message).slice(0, 3000)}\n\nPour répondre au client : répondez simplement à cet e-mail.\nPour confirmer et bloquer les dates : ${origin}/admin`;
+      const r = await env.DB.prepare("INSERT INTO requests (arrival, departure, nights, people, kind, name, email, phone, sheets, towels, message, estimate, status, created, ip, mail_subject, mail_body, offers) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'nouvelle',datetime('now'),?,?,?,?)")
+        .bind(d.arrival, d.departure, q.nights, p, oneLine(d.type, 40), oneLine(d.name, 120), email, oneLine(d.phone, 40), d.sheets ? 1 : 0, d.towels ? 1 : 0, String(d.message).slice(0, 3000), q.total, ip, subject, body, d.offers === true ? 1 : 0).run();
       const id = r.meta.last_row_id;
       try { await mailOwner(env, subject, body, email); }
       catch (e) { await env.DB.prepare('UPDATE requests SET mail_error=? WHERE id=?').bind(String(e.message).slice(0, 300), id).run(); } // le cron réessaie
@@ -391,6 +396,14 @@ export default {
         return new Response(null, { status: 303, headers: { location: '/admin', 'set-cookie': `rs=${await hmac(env, 'session' + exp)}.${exp}; Path=/; Max-Age=${SESSION_DAYS * 86400}; HttpOnly; Secure; SameSite=Lax` } });
       }
       if (!(await sessionOk(env, req))) return page('Connexion', `<h1>Domaine La Rosière</h1><p>Espace de gestion du propriétaire.</p><form method="post" action="/admin/lien"><button>Recevoir le lien de connexion par e-mail</button></form><p class="muted">Le lien arrive sur l’adresse e-mail du domaine.</p>`);
+      if (path === '/admin/contacts.csv') {
+        // fichier de TOUS les contacts (le propriétaire les garde, 26/10/2026) ; « accepte les offres » = accord pour recevoir ses offres par e-mail
+        const rows = (await env.DB.prepare('SELECT created, name, email, phone, kind, arrival, departure, people, status, offers FROM requests ORDER BY created').all()).results;
+        const c = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+        const csv = '\ufeff' + ['date demande;nom;e-mail;téléphone;occasion;arrivée;départ;personnes;état;accepte les offres']
+          .concat(rows.map((r) => [r.created, r.name, r.email, r.phone, r.kind, r.arrival, r.departure, r.people, (STATUS[r.status] || [r.status])[0], r.offers ? 'oui' : 'non'].map(c).join(';'))).join('\r\n');
+        return new Response(csv, { headers: { 'content-type': 'text/csv; charset=utf-8', 'content-disposition': 'attachment; filename="contacts-la-rosiere.csv"', 'cache-control': 'no-store' } });
+      }
       if (path === '/admin/action' && req.method === 'POST') {
         if (req.headers.get('origin') !== origin) return new Response('Origine refusée', { status: 403 }); // CSRF
         const msg = await adminAction(env, await req.formData(), origin);

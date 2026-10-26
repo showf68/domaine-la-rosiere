@@ -33,3 +33,4 @@
 @media (max-width:900px){.cal__months{grid-template-columns:1fr}.cal__m + .cal__m{display:none}.route__form{grid-template-columns:1fr}}
 .ask__tel{font-size:.9rem}.ask__tel a{color:var(--gold)}
 .send:disabled{opacity:.6;cursor:wait}
+.optin{display:flex;gap:10px;align-items:flex-start;font-size:.82rem;color:var(--soft);cursor:pointer}.optin input{margin:3px 0 0;width:16px;height:16px;accent-color:var(--green)}

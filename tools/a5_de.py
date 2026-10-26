@@ -171,6 +171,7 @@ _DE = [
     ('<span>Message</span><textarea', '<span>Nachricht</span><textarea'),
     ('Présentez votre groupe, vos questions, vos besoins particuliers…', 'Stellen Sie Ihre Gruppe vor, Ihre Fragen, besondere Wünsche…'),
     ("'Votre message ?'", "'Ihre Nachricht?'"),
+    ('J’accepte de recevoir de temps en temps les offres du Domaine La Rosière par e-mail.', 'Ich möchte ab und zu Angebote des Domaine La Rosière per E-Mail erhalten.'),
     ('<dt>Arrivée</dt><dd data-r-arr>à choisir</dd>', '<dt>Anreise</dt><dd data-r-arr>wählen</dd>'),
     ('<dt>Départ</dt><dd data-r-dep>à choisir</dd>', '<dt>Abreise</dt><dd data-r-dep>wählen</dd>'),
     ('<dt>Séjour</dt>', '<dt>Aufenthalt</dt>'),

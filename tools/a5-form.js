@@ -16,7 +16,9 @@
   var BUSY={};
   function setBusy(list){BUSY={};(list||[]).forEach(function(r){for(var d=r.start;d<r.end;d=addDays(d,1))BUSY[d]=1})}
   function freeRange(a,b){for(var d=a;d<b;d=addDays(d,1)){if(BUSY[d])return false}return true}
-  function price(n,p,a){var T=tarifOf(a),base=Math.floor(n/7)*T.w+(n%7)*T.n,extra=Math.max(0,p-INCL)*T.x*n;
+  // chaque nuit au tarif de sa saison, prix semaine par tranche de 7 nuits d'une meme saison (memes regles que server/worker.mjs)
+  function price(n,p,a){var T=tarifOf(a),cnt=new Map(),base=0,extra=0;for(var i=0;i<n;i++){var t=tarifOf(addDays(a,i));cnt.set(t,(cnt.get(t)||0)+1)}
+    cnt.forEach(function(k,t){base+=Math.floor(k/7)*t.w+(k%7)*t.n;extra+=Math.max(0,p-INCL)*t.x*k});
     var opt=(el.sheets.checked?10*p:0)+(el.towels.checked?3*p:0);return {base:base,extra:extra,opt:opt,total:base+extra+opt,min:T.min}}
   function eur(v){return v.toLocaleString('fr-FR')+' €'}
   function nights(){
@@ -71,7 +73,7 @@
     if(el.message.value.trim().length<3)bad(el.message,'Votre message ?');
     if(first){first.focus();return}
     var n=nightsBetween(el.arrival.value,el.departure.value),q=price(n,pp,el.arrival.value);
-    var d={arrival:el.arrival.value,departure:el.departure.value,people:pp,type:f.querySelector('[name=type]:checked').value,name:el.name.value.trim(),email:el.email.value.trim(),phone:el.phone.value.trim(),sheets:el.sheets.checked,towels:el.towels.checked,message:el.message.value.trim(),estimate:q.total,nights:n};
+    var d={arrival:el.arrival.value,departure:el.departure.value,people:pp,type:f.querySelector('[name=type]:checked').value,name:el.name.value.trim(),email:el.email.value.trim(),phone:el.phone.value.trim(),sheets:el.sheets.checked,towels:el.towels.checked,offers:el.offers.checked,message:el.message.value.trim(),estimate:q.total,nights:n};
     var send=f.querySelector('.send');
     function done(title,txt){f.querySelector('[data-formbody]').hidden=true;f.querySelector('[data-done]').hidden=false;f.querySelector('[data-donetitle]').textContent=title;f.querySelector('[data-donetxt]').textContent=txt}
     send.disabled=true;send.classList.add('busy');
