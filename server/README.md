@@ -18,7 +18,7 @@ Mise en ligne / mise à jour : `bash server/deploy.sh` (idempotent ; secrets lus
 - E-mail : le Worker poste sur `https://api.i-call.me/rosiere_mail.php` (dépôt ICALL) avec la clé `MAIL_KEY` ; le mail part par Mailgun
   (« Site Domaine La Rosière <rosiere@i-call.me> », Reply-To = client) vers domainelarosiere@gmail.com SEULEMENT. ⛔ Jamais depuis y68 (Yossef Haim, 26/10).
 - Un Worker ne peut pas lire sa propre adresse workers.dev (`/calendrier.ics` importé chez lui-même = « lien illisible ») : normal.
-- Paiement Stancer : codé d'après l'API v2 (`payment_intents`, auth Basic clé secrète), jamais essayé faute de clé.
+- Paiement Stancer : ÉPROUVÉ le 26/10/2026 avec la clé de test du propriétaire (carte 4242… tapée par lui) : intent créé et réutilisé, paiement reçu, statut « acompte », e-mail « Acompte payé » délivré (Mailgun). Reste : clé `sprod_` quand Stancer aura validé son dossier.
 
 ## Durcissements du 26/10 (relecture Codex, chaque point vérifié en réel)
 - Confirmer = une seule instruction SQL qui bloque **seulement si libre** (`blockIfFree`) : 2 confirmations simultanées sur des dates qui se chevauchent → une seule passe (testé).
@@ -27,4 +27,4 @@ Mise en ligne / mise à jour : `bash server/deploy.sh` (idempotent ; secrets lus
 - Dates réelles seulement (`2027-02-30` refusé), personnes entières, corps JSON `null` = 400, 5 demandes/h par e-mail et 10/h par connexion.
 - iCal : document sans `END:VCALENDAR` n'efface rien ; nom de source stable (empreinte du lien) ; lectures bornées à 15 s.
 - Goliday : seule l'entrée de 20 ans est écartée (plus de seuil à 90 nuits). Bouton « Reprendre les réservations Goliday » à utiliser AVANT d'arrêter Goliday (sinon ses réservations ne partent jamais vers Abritel / Airbnb).
-- Non traité, à décider : prix selon la saison de l'ARRIVÉE (règle à confirmer), lien de connexion réutilisable 30 min, iCal à RRULE/DURATION (les plateformes donnent DTSTART/DTEND en dates), durée de conservation des demandes (RGPD).
+- Décidé par le propriétaire (26/10) : chaque nuit au tarif de sa saison ; contacts gardés sans limite (fichier `/admin/contacts.csv`, case d'accord « offres »). Non traité : lien de connexion réutilisable 30 min, iCal à RRULE/DURATION.
