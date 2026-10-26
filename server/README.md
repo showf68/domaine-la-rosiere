@@ -15,7 +15,7 @@ Mise en ligne / mise à jour : `bash server/deploy.sh` (idempotent ; secrets lus
 - Les calendriers importés ne sont jamais ré-exportés (pas de boucle entre plateformes).
 - Une source qui ne répond pas n'efface rien (le calendrier garde la dernière lecture).
 - Goliday note la DERNIÈRE nuit incluse : vérifié le 26/10/2026 contre son calendrier affiché (octobre-décembre 2026, jour pour jour).
-- E-mail : le Worker poste sur `https://api.i-call.me/rosiere_mail.php` (dépôt ICALL) avec la clé `MAIL_KEY` ; le mail part de y68
-  (nom « Site Domaine La Rosière ») vers domainelarosiere@gmail.com SEULEMENT.
+- E-mail : le Worker poste sur `https://api.i-call.me/rosiere_mail.php` (dépôt ICALL) avec la clé `MAIL_KEY` ; le mail part par Mailgun
+  (« Site Domaine La Rosière <rosiere@i-call.me> », Reply-To = client) vers domainelarosiere@gmail.com SEULEMENT. ⛔ Jamais depuis y68 (Yossef Haim, 26/10).
 - Un Worker ne peut pas lire sa propre adresse workers.dev (`/calendrier.ics` importé chez lui-même = « lien illisible ») : normal.
 - Paiement Stancer : codé d'après l'API v2 (`payment_intents`, auth Basic clé secrète), jamais essayé faute de clé.
