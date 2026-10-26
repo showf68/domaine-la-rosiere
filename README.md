@@ -23,6 +23,9 @@ avec piscine intérieure chauffée, à Diemeringen (Alsace). Projet client isol�
   `docs/assets/vid/` (4 boucles muettes : drone maison, drone champs, drone coucher, piscine ; 1920 + 960 px + poster).
 - Aperçu `noindex` : le domaine `domainelarosiere.com` (registrar OVH, DNS Cloudflare, site actuel Goliday) n'est pas touché.
 
+## Retours du propriétaire (26/10/2026) — maquette A5
+`docs/maquettes/2026-10-22_haute-classe/a5-demeure.html`, produite par `python tools/make-a5.py` (A4 + `tools/a5-*.{js,css,html}`) : textes corrigés, photos qui suivent l'étage, itinéraire Google Maps depuis n'importe quel départ, téléphone obligatoire, estimation du prix, calendrier des nuits prises (`docs/data/disponibilites.json`), coordonnées en pied. `server/` : Worker + D1 (e-mail, calendrier, import/export iCal Abritel/Airbnb), écrit, **non déployé** (`server/README.md`). Reste : saisons haute / très haute (dates) à fournir, acompte Stancer, liens iCal Abritel/Airbnb, adresse d'expédition vérifiée.
+
 ## Reste à faire (dans cet ordre)
 1. Intégrer A4 dans `src/` (gabarit + `i18n/fr.json` / `de.json`) → `docs/index.html` et `docs/de/`.
 2. Version allemande relue (titres plus longs : vérifier les retours à la ligne).
