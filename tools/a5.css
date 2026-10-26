@@ -33,6 +33,3 @@
 @media (max-width:900px){.cal__months{grid-template-columns:1fr}.cal__m + .cal__m{display:none}.route__form{grid-template-columns:1fr}}
 .ask__tel{font-size:.9rem}.ask__tel a{color:var(--gold)}
 .send:disabled{opacity:.6;cursor:wait}
-.pay{margin:22px auto 0;max-width:46ch;text-align:left;border-top:1px solid var(--line);padding-top:16px}
-.pay p{margin:0 0 10px;color:var(--ink)}.pay .send{width:100%;justify-content:center;margin:4px 0 12px}
-.pay .iban{font-size:.88rem;background:var(--sand);padding:10px 12px;word-break:break-word}.pay .small{font-size:.8rem;color:var(--soft)}

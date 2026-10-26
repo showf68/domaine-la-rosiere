@@ -8,9 +8,9 @@ Mise en ligne / mise à jour : `bash server/deploy.sh` (idempotent ; secrets lus
 | `GET /disponibilites.json` | nuits prises + saisons + moyens de paiement actifs (lu par le calendrier du site) |
 | `GET /calendrier.ics` | export iCal des séjours **directs confirmés** et des **blocages manuels** : l'URL à coller dans Abritel / Airbnb |
 | `POST /demande` | valide (dates libres, séjour minimum, téléphone), enregistre, e-mail au propriétaire (Reply-To = client) |
-| `POST /acompte`, `GET /payer?id=` | paiement de l'acompte 30 % par carte (Stancer, si la clé est saisie) |
+| `GET /payer?id=&t=` | paiement par carte (Stancer) de l'acompte 30 %, **seulement pour une demande CONFIRMÉE** par le propriétaire ; lien signé mis dans son e-mail de confirmation ; un seul paiement par demande (réutilisé) |
 | `GET /admin` | espace du propriétaire, connexion par lien envoyé à domainelarosiere@gmail.com (cookie 30 jours) |
-| cron `*/30` | Goliday (page du site actuel), liens iCal importés, paiements Stancer en attente |
+| cron `*/30` | Goliday (page du site actuel), liens iCal importés, nouvel essai des e-mails non partis, paiements Stancer en attente |
 
 - Les calendriers importés ne sont jamais ré-exportés (pas de boucle entre plateformes).
 - Une source qui ne répond pas n'efface rien (le calendrier garde la dernière lecture).
@@ -19,3 +19,12 @@ Mise en ligne / mise à jour : `bash server/deploy.sh` (idempotent ; secrets lus
   (« Site Domaine La Rosière <rosiere@i-call.me> », Reply-To = client) vers domainelarosiere@gmail.com SEULEMENT. ⛔ Jamais depuis y68 (Yossef Haim, 26/10).
 - Un Worker ne peut pas lire sa propre adresse workers.dev (`/calendrier.ics` importé chez lui-même = « lien illisible ») : normal.
 - Paiement Stancer : codé d'après l'API v2 (`payment_intents`, auth Basic clé secrète), jamais essayé faute de clé.
+
+## Durcissements du 26/10 (relecture Codex, chaque point vérifié en réel)
+- Confirmer = une seule instruction SQL qui bloque **seulement si libre** (`blockIfFree`) : 2 confirmations simultanées sur des dates qui se chevauchent → une seule passe (testé).
+- Paiement : jamais avant confirmation ; `authorized` ne compte pas ; montant + devise contrôlés (sinon « paiement à vérifier », rien de bloqué) ; acompte payé = dates impossibles à libérer / refuser.
+- `/payer` et `/acompte/etat` exigent le jeton signé ; `/admin/action` refuse une autre origine (CSRF).
+- Dates réelles seulement (`2027-02-30` refusé), personnes entières, corps JSON `null` = 400, 5 demandes/h par e-mail et 10/h par connexion.
+- iCal : document sans `END:VCALENDAR` n'efface rien ; nom de source stable (empreinte du lien) ; lectures bornées à 15 s.
+- Goliday : seule l'entrée de 20 ans est écartée (plus de seuil à 90 nuits). Bouton « Reprendre les réservations Goliday » à utiliser AVANT d'arrêter Goliday (sinon ses réservations ne partent jamais vers Abritel / Airbnb).
+- Non traité, à décider : prix selon la saison de l'ARRIVÉE (règle à confirmer), lien de connexion réutilisable 30 min, iCal à RRULE/DURATION (les plateformes donnent DTSTART/DTEND en dates), durée de conservation des demandes (RGPD).

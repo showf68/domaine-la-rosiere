@@ -2,7 +2,7 @@
 //  GET  /disponibilites.json : nuits prises + saisons (lu par le calendrier du site)
 //  GET  /calendrier.ics      : export iCal des séjours DIRECTS et des blocages manuels (à donner à Abritel/Airbnb)
 //  POST /demande             : enregistre la demande, l'envoie par e-mail au propriétaire
-//  POST /acompte             : lien de paiement Stancer de l'acompte (30 %)
+//  GET  /payer?id=&t=        : paiement par carte (Stancer) de l'acompte 30 %, seulement après confirmation du propriétaire
 //  GET  /admin               : espace du propriétaire (connexion par lien reçu par e-mail)
 //  cron                      : relit le calendrier Goliday, les liens iCal importés, les paiements Stancer
 // Les calendriers importés ne sont JAMAIS ré-exportés (sinon boucle entre plateformes).
@@ -10,7 +10,8 @@
 const DAY = 864e5;
 const addDays = (s, n) => new Date(Date.parse(s + 'T12:00:00Z') + n * DAY).toISOString().slice(0, 10);
 const nightsBetween = (a, b) => Math.round((Date.parse(b + 'T12:00:00Z') - Date.parse(a + 'T12:00:00Z')) / DAY);
-const isoOk = (s) => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(Date.parse(s + 'T12:00:00Z'));
+// date réelle seulement : Date.parse accepte « 2027-02-30 » (il en fait le 2 mars), d'où l'aller-retour
+const isoOk = (s) => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(Date.parse(s + 'T12:00:00Z')) && addDays(s, 0) === s;
 const today = () => new Date().toISOString().slice(0, 10);
 const h = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const oneLine = (s, n = 300) => String(s ?? '').replace(/[\r\n]+/g, ' ').trim().slice(0, n);
@@ -73,7 +74,7 @@ export function parseGoliday(html) {
     if (a.propertyAvailable === '1') {
       const t = String(a.css_class || '').replace(/_bg$/, '');
       if (t !== 'rate1' && TARIFS[t]) seasons.push({ from: s, to: e, t });
-    } else if (nightsBetween(s, e) < 90) booked.push({ start: s, end: addDays(e, 1) }); // l'entrée 2024-2044 n'est pas affichée par Goliday
+    } else if (nightsBetween(s, e) < 3650) booked.push({ start: s, end: addDays(e, 1) }); // l'entrée 2024-2044 (20 ans) n'est pas affichée par Goliday
   }
   return { booked: merge(booked), seasons };
 }
@@ -85,7 +86,7 @@ async function hmac(env, msg) {
 }
 const eq = (a, b) => typeof a === 'string' && a.length === b.length && [...a].reduce((r, c, i) => r | (c.charCodeAt(0) ^ b.charCodeAt(i)), 0) === 0;
 
-// E-mail au propriétaire : relais ICALL (boîte Gmail y68), destinataire fixé côté serveur.
+// E-mail au propriétaire : relais ICALL (Mailgun rosiere@i-call.me, jamais y68), destinataire fixé côté serveur.
 async function mailOwner(env, subject, body, replyTo) {
   const r = await fetch(env.MAIL_RELAY_URL, { method: 'POST', headers: { 'content-type': 'application/json', 'x-rosiere-key': env.MAIL_KEY }, body: JSON.stringify({ subject, body, replyTo: replyTo || '' }) });
   const j = await r.json().catch(() => ({}));
@@ -96,6 +97,17 @@ async function setting(env, k, def = null) { const r = await env.DB.prepare('SEL
 async function setSetting(env, k, v) { await env.DB.prepare('INSERT INTO settings (k, v) VALUES (?, ?) ON CONFLICT(k) DO UPDATE SET v=excluded.v').bind(k, JSON.stringify(v)).run(); }
 async function booked(env) { return (await env.DB.prepare('SELECT start, end FROM blocks WHERE end >= ? ORDER BY start').bind(addDays(today(), -1)).all()).results; }
 const clash = (list, a, b) => list.some((x) => x.start < b && x.end > a);
+// Bloque des dates SEULEMENT si elles sont encore libres, en une seule instruction (pas de course entre lecture et écriture).
+async function blockIfFree(env, ref, a, b) {
+  const r = await env.DB.prepare("INSERT OR IGNORE INTO blocks (source, ref, start, end) SELECT 'direct', ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM blocks WHERE start < ? AND end > ? AND NOT (source='direct' AND ref=?))")
+    .bind(ref, a, b, b, a, ref).run();
+  return r.meta.changes > 0 || !!(await env.DB.prepare("SELECT 1 FROM blocks WHERE source='direct' AND ref=?").bind(ref).first());
+}
+// Nom stable d'une source iCal, tiré de son lien (pas de sa position dans la liste)
+async function sourceName(url) {
+  const b = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(url)));
+  return (/abritel|vrbo|homeaway/i.test(url) ? 'abritel' : /airbnb/i.test(url) ? 'airbnb' : 'cal') + '-' + [...b.slice(0, 3)].map((x) => x.toString(16).padStart(2, '0')).join('');
+}
 
 const CORS = (env) => ({ 'access-control-allow-origin': env.SITE_ORIGIN || '*', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET, POST, OPTIONS' });
 const json = (env, o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...CORS(env) } });
@@ -137,32 +149,36 @@ async function adminPage(env, origin, msg) {
   const sync = await setting(env, 'last_sync', {});
   const iban = await setting(env, 'iban', '');
   const hasStancer = !!(await setting(env, 'stancer_key', ''));
-  const rows = reqs.map((r) => {
+  const rows = (await Promise.all(reqs.map(async (r) => {
     const st = STATUS[r.status] || [r.status, ''];
     const dep = Math.round(r.estimate * DEPOSIT);
-    const mail = `mailto:${encodeURIComponent(r.email)}?subject=${encodeURIComponent('Votre séjour au Domaine La Rosière du ' + frDate(r.arrival) + ' au ' + frDate(r.departure))}&body=${encodeURIComponent(`Bonjour ${r.name},\n\nMerci pour votre demande. Les dates du ${frDate(r.arrival)} au ${frDate(r.departure)} sont disponibles pour votre groupe de ${r.people} personnes.\n\nMontant du séjour : ${eur(r.estimate)}\nAcompte de 30 % pour réserver : ${eur(dep)}${iban ? `\nVirement : IBAN ${iban}, référence RS-${r.id}` : ''}${hasStancer ? `\nPaiement par carte : ${origin}/payer?id=${r.id}` : ''}\n\nBien cordialement,\nDomaine La Rosière\n07 71 71 20 15`)}`;
+    const payLink = hasStancer ? `${origin}/payer?id=${r.id}&t=${await hmac(env, 'client' + r.id)}` : '';
+    const mail = `mailto:${encodeURIComponent(r.email)}?subject=${encodeURIComponent('Votre séjour au Domaine La Rosière du ' + frDate(r.arrival) + ' au ' + frDate(r.departure))}&body=${encodeURIComponent(r.status === 'confirmee' || r.status === 'acompte'
+      ? `Bonjour ${r.name},\n\nVotre séjour du ${frDate(r.arrival)} au ${frDate(r.departure)} pour ${r.people} personnes est confirmé, les dates vous sont réservées.\n\nMontant du séjour : ${eur(r.estimate)}\nAcompte de 30 % : ${eur(dep)}${iban ? `\nPar virement : IBAN ${iban}, référence RS-${r.id}` : ''}${payLink ? `\nPar carte bancaire : ${payLink}` : ''}\n\nBien cordialement,\nDomaine La Rosière\n07 71 71 20 15`
+      : `Bonjour ${r.name},\n\nMerci pour votre demande du ${frDate(r.arrival)} au ${frDate(r.departure)} pour ${r.people} personnes.\n\n\n\nBien cordialement,\nDomaine La Rosière\n07 71 71 20 15`)}`;
     return `<tr><td><b>${h(frDate(r.arrival))}</b><br>→ ${h(frDate(r.departure))}<br><span class="muted">${r.nights} nuits · ${r.people} pers.</span></td>
 <td>${h(r.name)}<br><a href="tel:${h(r.phone)}">${h(r.phone)}</a><br><a href="mailto:${h(r.email)}">${h(r.email)}</a></td>
 <td>${h(r.kind)}${r.sheets ? '<br>draps' : ''}${r.towels ? '<br>serviettes' : ''}${r.message ? `<br><span class="muted">${h(r.message)}</span>` : ''}</td>
 <td>${eur(r.estimate)}<br><span class="muted">acompte ${eur(dep)}</span></td>
-<td><span class="tag ${st[1]}">${st[0]}</span>${r.paid_at ? `<br><span class="muted">payé le ${h(r.paid_at.slice(0, 10))}</span>` : ''}</td>
+<td><span class="tag ${st[1]}">${st[0]}</span>${r.paid_at ? `<br><span class="muted">payé le ${h(r.paid_at.slice(0, 10))}</span>` : ''}${r.mail_error ? '<br><span class="tag no">' + (r.mail_error === 'paiement à vérifier' ? 'paiement à vérifier' : 'e-mail non parti') + '</span>' : ''}</td>
 <td>${r.status === 'nouvelle' ? `<form method="post" action="/admin/action"><input type="hidden" name="id" value="${r.id}"><button name="do" value="confirmer">Confirmer</button> <button class="ghost" name="do" value="refuser">Refuser</button></form>` : ''}
-<a class="btn ghost" href="${mail}">Répondre</a></td></tr>`;
-  }).join('');
+<a class="btn ghost" href="${mail}">${r.status === 'confirmee' ? 'Envoyer la confirmation et l’acompte' : 'Répondre'}</a></td></tr>`;
+  }))).join('');
   const SRC = { direct: 'Réservation directe', manuel: 'Blocage manuel', goliday: 'Goliday (site actuel)' };
   const brows = blocks.map((b) => `<tr><td>${h(frDate(b.start))} → ${h(frDate(b.end))}</td><td>${h(SRC[b.source] || b.source.replace(/^ical:/, 'iCal '))}</td><td>${b.source === 'manuel' || b.source === 'direct' ? `<form method="post" action="/admin/action"><input type="hidden" name="bid" value="${b.id}"><button class="ghost" name="do" value="debloquer">Libérer</button></form>` : ''}</td></tr>`).join('');
   const syncTxt = Object.entries(sync).map(([k, v]) => `<li>${h(k)} : ${h(v)}</li>`).join('');
   return page('Domaine La Rosière — gestion', `<h1>Domaine La Rosière</h1><p class="muted">Espace du propriétaire${msg ? ' · <b>' + h(msg) + '</b>' : ''}</p>
 <h2>Demandes</h2>${rows ? `<table><thead><tr><th>Dates</th><th>Contact</th><th>Séjour</th><th>Montant</th><th>État</th><th></th></tr></thead><tbody>${rows}</tbody></table>` : '<p class="muted">Aucune demande pour l’instant.</p>'}
-<p class="muted">« Confirmer » bloque les dates sur le site et dans l’export vers Abritel / Airbnb. « Répondre » ouvre un e-mail prêt à envoyer au client avec le montant et l’acompte.</p>
+<p class="muted">« Confirmer » bloque les dates sur le site et dans l’export vers Abritel / Airbnb. Ensuite, « Envoyer la confirmation et l’acompte » ouvre un e-mail prêt à envoyer au client, avec le montant, l’IBAN et le lien de paiement par carte. Le client ne peut payer qu’une demande que vous avez confirmée.</p>
 <h2>Calendrier : dates bloquées</h2><form method="post" action="/admin/action" class="row"><label><span>Première nuit</span><input type="date" name="start" required></label><label><span>Jour de départ</span><input type="date" name="end" required></label><button name="do" value="bloquer">Bloquer ces dates</button></form>
 <table><thead><tr><th>Période</th><th>Origine</th><th></th></tr></thead><tbody>${brows || '<tr><td colspan="3" class="muted">Aucune date bloquée.</td></tr>'}</tbody></table>
 <h2>Synchronisation Abritel / Airbnb</h2>
 <div class="card"><b>Exporter</b> mon calendrier vers Abritel ou Airbnb : coller ce lien dans « Importer un calendrier » de la plateforme.<br><code>${h(origin)}/calendrier.ics</code></div>
 <form method="post" action="/admin/action" class="card"><b>Importer</b> les calendriers d’Abritel / Airbnb : un lien iCal par ligne (dans Abritel : Calendrier → Synchronisation → Exporter ; dans Airbnb : Calendrier → Disponibilités → Exporter le calendrier).<textarea name="imports" placeholder="https://www.abritel.fr/icalendar/...ics">${h(imports.map((x) => x.url).join('\n'))}</textarea><button name="do" value="imports">Enregistrer et synchroniser</button></form>
 <p class="muted">Synchronisation automatique toutes les 30 minutes.</p><ul class="muted">${syncTxt}</ul>
+<form method="post" action="/admin/action" class="card"><b>Avant d’arrêter Goliday</b> : reprendre ses réservations à venir comme blocages, pour qu’elles restent sur le site et partent vers Abritel / Airbnb.<br><button class="ghost" name="do" value="reprendre_goliday">Reprendre les réservations Goliday</button></form>
 <h2>Paiement de l’acompte</h2>
-<form method="post" action="/admin/action" class="card"><label><span>IBAN pour les virements (affiché au client après sa demande)</span><input name="iban" value="${h(iban)}" placeholder="FR76 ..."></label>
+<form method="post" action="/admin/action" class="card"><label><span>IBAN pour les virements (mis dans l’e-mail de confirmation au client)</span><input name="iban" value="${h(iban)}" placeholder="FR76 ..."></label>
 <label><span>Clé secrète Stancer (paiement par carte) ${hasStancer ? '— <b>enregistrée</b>, laisser vide pour la garder' : ''}</span><input name="stancer" placeholder="sprod_..." autocomplete="off"></label><button name="do" value="paiement">Enregistrer</button></form>`);
 }
 
@@ -172,11 +188,19 @@ async function adminAction(env, form, origin) {
     const id = Number(form.get('id'));
     const r = await env.DB.prepare('SELECT * FROM requests WHERE id=?').bind(id).first();
     if (!r) return 'Demande introuvable.';
-    if (d === 'refuser') { await env.DB.prepare("UPDATE requests SET status='refusee' WHERE id=?").bind(id).run(); return 'Demande refusée.'; }
-    if (clash(await booked(env), r.arrival, r.departure)) return 'Impossible : ces dates sont déjà prises.';
-    await env.DB.batch([env.DB.prepare("UPDATE requests SET status='confirmee' WHERE id=?").bind(id),
-      env.DB.prepare("INSERT OR IGNORE INTO blocks (source, ref, start, end) VALUES ('direct', ?, ?, ?)").bind('req' + id, r.arrival, r.departure)]);
-    return 'Séjour confirmé, dates bloquées.';
+    if (r.paid_at) return 'Acompte déjà payé : rien à changer ici (remboursement éventuel dans Stancer).';
+    if (d === 'refuser') {
+      await env.DB.batch([env.DB.prepare("UPDATE requests SET status='refusee' WHERE id=?").bind(id), env.DB.prepare("DELETE FROM blocks WHERE source='direct' AND ref=?").bind('req' + id)]);
+      return 'Demande refusée.';
+    }
+    if (!(await blockIfFree(env, 'req' + id, r.arrival, r.departure))) return 'Impossible : ces dates sont déjà prises.';
+    await env.DB.prepare("UPDATE requests SET status='confirmee' WHERE id=?").bind(id).run();
+    return 'Séjour confirmé, dates bloquées. Envoyez maintenant la confirmation au client.';
+  }
+  if (d === 'reprendre_goliday') {
+    // à faire juste avant d'arrêter Goliday : ses réservations deviennent des blocages manuels, donc exportés vers Abritel / Airbnb
+    const n = (await env.DB.prepare("INSERT OR IGNORE INTO blocks (source, ref, start, end) SELECT 'manuel', 'goliday:' || start || '/' || end, start, end FROM blocks WHERE source='goliday' AND end >= ?").bind(today()).run()).meta.changes;
+    return `${n} réservations Goliday reprises en blocages (exportés vers Abritel / Airbnb).`;
   }
   if (d === 'bloquer') {
     const s = form.get('start'), e = form.get('end');
@@ -187,13 +211,15 @@ async function adminAction(env, form, origin) {
   if (d === 'debloquer') {
     const b = await env.DB.prepare('SELECT source, ref FROM blocks WHERE id=?').bind(Number(form.get('bid'))).first();
     if (!b || !['manuel', 'direct'].includes(b.source)) return 'Rien à libérer.';
+    if (b.source === 'direct' && (await env.DB.prepare('SELECT paid_at FROM requests WHERE id=?').bind(Number(b.ref.slice(3))).first())?.paid_at)
+      return 'Acompte payé pour ce séjour : les dates restent bloquées (annulation et remboursement d’abord).';
     await env.DB.prepare('DELETE FROM blocks WHERE id=?').bind(Number(form.get('bid'))).run();
     if (b.source === 'direct') await env.DB.prepare("UPDATE requests SET status='nouvelle' WHERE id=?").bind(Number(b.ref.slice(3))).run();
     return 'Dates libérées.';
   }
   if (d === 'imports') {
     const urls = String(form.get('imports') || '').split(/\s+/).filter((u) => /^https:\/\/\S+$/.test(u)).slice(0, 10);
-    await setSetting(env, 'ical_imports', urls.map((url, i) => ({ name: (/abritel|vrbo|homeaway/i.test(url) ? 'abritel' : /airbnb/i.test(url) ? 'airbnb' : 'cal') + (i + 1), url })));
+    await setSetting(env, 'ical_imports', await Promise.all([...new Set(urls)].map(async (url) => ({ name: await sourceName(url), url }))));
     await syncAll(env);
     return 'Liens enregistrés, synchronisation faite.';
   }
@@ -221,7 +247,7 @@ async function syncAll(env) {
   };
   if (env.GOLIDAY_URL) {
     try {
-      const r = await fetch(env.GOLIDAY_URL, { headers: { 'user-agent': 'Mozilla/5.0 (rosiere-sync)' } });
+      const r = await fetch(env.GOLIDAY_URL, { headers: { 'user-agent': 'Mozilla/5.0 (rosiere-sync)' }, signal: AbortSignal.timeout(15000) });
       const g = r.ok ? parseGoliday(await r.text()) : null;
       if (g && g.booked.length) { await replace('goliday', g.booked); await setSetting(env, 'seasons', g.seasons); sync['Goliday'] = `${stamp}, ${g.booked.length} périodes`; }
       else sync['Goliday'] = `${stamp}, lecture impossible (rien n’a été effacé)`;
@@ -233,17 +259,22 @@ async function syncAll(env) {
   for (const k of Object.keys(sync)) if (k.startsWith('iCal ') && !imports.some((x) => 'iCal ' + x.name === k)) delete sync[k];
   for (const x of imports) {
     try {
-      const r = await fetch(x.url);
+      const r = await fetch(x.url, { signal: AbortSignal.timeout(15000) });
       const txt = r.ok ? await r.text() : '';
-      if (!txt.includes('BEGIN:VCALENDAR')) { sync['iCal ' + x.name] = `${stamp}, lien illisible (rien n’a été effacé)`; continue; }
+      // un document tronqué n'efface rien
+      if (!txt.includes('BEGIN:VCALENDAR') || !txt.includes('END:VCALENDAR')) { sync['iCal ' + x.name] = `${stamp}, lien illisible (rien n’a été effacé)`; continue; }
       const evs = merge(parseIcs(txt)); await replace('ical:' + x.name, evs); sync['iCal ' + x.name] = `${stamp}, ${evs.length} périodes`;
     } catch { sync['iCal ' + x.name] = `${stamp}, injoignable (rien n’a été effacé)`; }
   }
   await setSetting(env, 'last_sync', sync);
   await setSetting(env, 'last_sync_at', Date.now());
-  // acomptes Stancer en attente
+  // e-mails de demande qui n'étaient pas partis : nouvel essai
+  for (const r of (await env.DB.prepare("SELECT id, mail_subject, mail_body, email FROM requests WHERE mail_error LIKE 'relais%' AND mail_body IS NOT NULL AND created > datetime('now','-3 days')").all()).results) {
+    try { await mailOwner(env, r.mail_subject, r.mail_body, r.email); await env.DB.prepare('UPDATE requests SET mail_error=NULL WHERE id=?').bind(r.id).run(); } catch {}
+  }
+  // acomptes Stancer en attente (seules les demandes confirmées peuvent être payées ; un intent impayé n'expire pas)
   const key = await setting(env, 'stancer_key', '');
-  if (key) for (const r of (await env.DB.prepare("SELECT id, pi_id FROM requests WHERE pi_id IS NOT NULL AND paid_at IS NULL AND created > datetime('now','-30 days')").all()).results) await checkPaid(env, key, r.id, r.pi_id);
+  if (key) for (const r of (await env.DB.prepare("SELECT id, pi_id FROM requests WHERE pi_id IS NOT NULL AND paid_at IS NULL AND departure >= ?").bind(today()).all()).results) await checkPaid(env, key, r.id, r.pi_id);
 }
 
 async function checkPaid(env, key, id, piId) {
@@ -251,13 +282,19 @@ async function checkPaid(env, key, id, piId) {
   const payId = pi && (typeof pi.payment === 'string' ? pi.payment : pi.payment?.id);
   if (!payId) return false;
   const p = await stancer(env, key, 'GET', 'payments/' + payId).catch(() => null);
-  if (!p || !['captured', 'to_capture', 'capture_sent', 'authorized'].includes(p.status)) return false;
+  // « authorized » = carte autorisée mais pas encore débitée : on attend que la capture soit engagée
+  if (!p || !['captured', 'to_capture', 'capture_sent'].includes(p.status)) return false;
   const r = await env.DB.prepare('SELECT * FROM requests WHERE id=?').bind(id).first();
   if (!r || r.paid_at) return true;
-  await env.DB.batch([env.DB.prepare("UPDATE requests SET status='acompte', paid_at=datetime('now') WHERE id=?").bind(id),
-    env.DB.prepare("INSERT OR IGNORE INTO blocks (source, ref, start, end) VALUES ('direct', ?, ?, ?)").bind('req' + id, r.arrival, r.departure)]);
+  const expected = Math.round(r.estimate * DEPOSIT) * 100;
+  if (p.amount !== expected || String(p.currency).toLowerCase() !== 'eur' || r.status !== 'confirmee') {
+    await env.DB.prepare('UPDATE requests SET paid_at=datetime(\'now\'), mail_error=? WHERE id=?').bind('paiement à vérifier', id).run();
+    await mailOwner(env, `Paiement à vérifier : ${r.name}`, `Un paiement par carte de ${eur(p.amount / 100)} (${p.currency}) est arrivé pour la demande de ${r.name} du ${frDate(r.arrival)} au ${frDate(r.departure)}, mais il ne correspond pas à l'acompte attendu (${eur(expected / 100)}) ou la demande n'est pas confirmée (état : ${r.status}).\nRien n'a été bloqué automatiquement : vérifiez dans Stancer.\n\nTéléphone : ${r.phone}\nE-mail : ${r.email}`, r.email).catch(() => {});
+    return true;
+  }
+  await env.DB.prepare("UPDATE requests SET status='acompte', paid_at=datetime('now') WHERE id=?").bind(id).run();
   await mailOwner(env, `Acompte payé : ${r.name}, du ${frDate(r.arrival)} au ${frDate(r.departure)}`,
-    `${r.name} a payé l'acompte de ${eur(p.amount / 100)} par carte (Stancer).\nLes dates du ${frDate(r.arrival)} au ${frDate(r.departure)} sont bloquées sur le site et dans l'export vers Abritel / Airbnb.\n\nTéléphone : ${r.phone}\nE-mail : ${r.email}`, r.email).catch(() => {});
+    `${r.name} a payé l'acompte de ${eur(p.amount / 100)} par carte (Stancer).\nLes dates du ${frDate(r.arrival)} au ${frDate(r.departure)} sont réservées sur le site et dans l'export vers Abritel / Airbnb.\n\nTéléphone : ${r.phone}\nE-mail : ${r.email}`, r.email).catch(() => {});
   return true;
 }
 
@@ -269,7 +306,7 @@ export default {
     if (path === '/disponibilites.json') {
       // filet si le cron tarde : resynchronise en arriere-plan quand la derniere lecture date de plus d'une heure
       if (Date.now() - (await setting(env, 'last_sync_at', 0)) > 3600e3) { await setSetting(env, 'last_sync_at', Date.now()); ctx.waitUntil(syncAll(env)); }
-      return json(env, { booked: await booked(env), seasons: await setting(env, 'seasons', []), payment: { iban: !!(await setting(env, 'iban', '')), card: !!(await setting(env, 'stancer_key', '')) } });
+      return json(env, { booked: await booked(env), seasons: await setting(env, 'seasons', []) });
     }
 
     if (path === '/calendrier.ics') {
@@ -282,47 +319,54 @@ export default {
 
     if (path === '/demande' && req.method === 'POST') {
       let d; try { d = await req.json(); } catch { return json(env, { ok: false, error: 'format' }, 400); }
-      const p = Number(d.people);
-      if (!isoOk(d.arrival) || !isoOk(d.departure) || d.departure <= d.arrival || d.arrival < today() || !(p >= 1 && p <= 50)
-        || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email || '') || String(d.phone || '').replace(/\D/g, '').length < 8 || !oneLine(d.name) || String(d.message || '').trim().length < 3)
+      if (!d || typeof d !== 'object') return json(env, { ok: false, error: 'format' }, 400);
+      const p = Number(d.people), email = oneLine(d.email, 160);
+      if (!isoOk(d.arrival) || !isoOk(d.departure) || d.departure <= d.arrival || d.arrival < today() || d.arrival > addDays(today(), 3 * 366)
+        || !Number.isInteger(p) || p < 1 || p > 50 || nightsBetween(d.arrival, d.departure) > 60
+        || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || String(d.phone || '').replace(/\D/g, '').length < 8 || !oneLine(d.name) || String(d.message || '').trim().length < 3)
         return json(env, { ok: false, error: 'invalide' }, 422);
       if (clash(await booked(env), d.arrival, d.departure)) return json(env, { ok: false, error: 'dates_prises' }, 409);
       const seasons = await setting(env, 'seasons', []);
       const q = price(d.arrival, d.departure, p, !!d.sheets, !!d.towels, seasons);
       if (q.nights < q.min) return json(env, { ok: false, error: 'sejour_minimum', min: q.min }, 422);
-      const recent = await env.DB.prepare("SELECT COUNT(*) n FROM requests WHERE email=? AND created > datetime('now','-1 hour')").bind(oneLine(d.email)).first();
-      if (recent.n >= 5) return json(env, { ok: false, error: 'trop' }, 429);
-      const r = await env.DB.prepare("INSERT INTO requests (arrival, departure, nights, people, kind, name, email, phone, sheets, towels, message, estimate, status, created) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'nouvelle',datetime('now'))")
-        .bind(d.arrival, d.departure, q.nights, p, oneLine(d.type, 40), oneLine(d.name, 120), oneLine(d.email, 160), oneLine(d.phone, 40), d.sheets ? 1 : 0, d.towels ? 1 : 0, String(d.message || '').slice(0, 3000), q.total).run();
+      // anti-abus : 5 demandes par heure et par adresse e-mail, 10 par heure et par connexion
+      const ip = req.headers.get('cf-connecting-ip') || '';
+      const recent = await env.DB.prepare("SELECT SUM(email=?) e, SUM(ip=?) i FROM requests WHERE created > datetime('now','-1 hour')").bind(email, ip).first();
+      if ((recent.e || 0) >= 5 || (ip && (recent.i || 0) >= 10)) return json(env, { ok: false, error: 'trop' }, 429);
+      const subject = `Demande de séjour : ${oneLine(d.name, 60)}, du ${frDate(d.arrival)} au ${frDate(d.departure)}`;
+      const body = `Nouvelle demande depuis le site.\n\nArrivée : ${frDate(d.arrival)}\nDépart : ${frDate(d.departure)} (${q.nights} nuits)\nPersonnes : ${p}\nOccasion : ${oneLine(d.type, 40)}\nDraps : ${d.sheets ? 'oui' : 'non'} · Serviettes : ${d.towels ? 'oui' : 'non'}\nMontant calculé : ${eur(q.total)} (${q.label}), acompte 30 % : ${eur(Math.round(q.total * DEPOSIT))}\n\nNom : ${oneLine(d.name, 120)}\nTéléphone : ${oneLine(d.phone, 40)}\nE-mail : ${email}\n\nMessage :\n${String(d.message).slice(0, 3000)}\n\nPour répondre au client : répondez simplement à cet e-mail.\nPour confirmer et bloquer les dates : ${origin}/admin`;
+      const r = await env.DB.prepare("INSERT INTO requests (arrival, departure, nights, people, kind, name, email, phone, sheets, towels, message, estimate, status, created, ip, mail_subject, mail_body) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'nouvelle',datetime('now'),?,?,?)")
+        .bind(d.arrival, d.departure, q.nights, p, oneLine(d.type, 40), oneLine(d.name, 120), email, oneLine(d.phone, 40), d.sheets ? 1 : 0, d.towels ? 1 : 0, String(d.message).slice(0, 3000), q.total, ip, subject, body).run();
       const id = r.meta.last_row_id;
-      const t = await hmac(env, 'client' + id);
-      try {
-        await mailOwner(env, `Demande de séjour : ${oneLine(d.name, 60)}, du ${frDate(d.arrival)} au ${frDate(d.departure)}`,
-          `Nouvelle demande depuis le site.\n\nArrivée : ${frDate(d.arrival)}\nDépart : ${frDate(d.departure)} (${q.nights} nuits)\nPersonnes : ${p}\nOccasion : ${oneLine(d.type, 40)}\nDraps : ${d.sheets ? 'oui' : 'non'} · Serviettes : ${d.towels ? 'oui' : 'non'}\nMontant calculé : ${eur(q.total)} (${q.label}), acompte 30 % : ${eur(Math.round(q.total * DEPOSIT))}\n\nNom : ${oneLine(d.name)}\nTéléphone : ${oneLine(d.phone)}\nE-mail : ${oneLine(d.email)}\n\nMessage :\n${String(d.message || '—').slice(0, 3000)}\n\nPour répondre au client : répondez simplement à cet e-mail.\nPour confirmer et bloquer les dates : ${origin}/admin`, oneLine(d.email));
-      } catch (e) {
-        await env.DB.prepare('UPDATE requests SET mail_error=? WHERE id=?').bind(String(e.message).slice(0, 300), id).run();
-      }
-      const iban = await setting(env, 'iban', '');
-      return json(env, { ok: true, id, t, total: q.total, deposit: Math.round(q.total * DEPOSIT), iban: iban || null, ref: 'RS-' + id, card: !!(await setting(env, 'stancer_key', '')) });
+      try { await mailOwner(env, subject, body, email); }
+      catch (e) { await env.DB.prepare('UPDATE requests SET mail_error=? WHERE id=?').bind(String(e.message).slice(0, 300), id).run(); } // le cron réessaie
+      return json(env, { ok: true, total: q.total, deposit: Math.round(q.total * DEPOSIT) });
     }
 
-    if ((path === '/acompte' && req.method === 'POST') || path === '/payer') {
-      let id, t;
-      if (path === '/payer') { id = Number(u.searchParams.get('id')); } else { const d = await req.json().catch(() => ({})); id = Number(d.id); t = String(d.t || ''); }
-      if (path === '/acompte' && !eq(t, await hmac(env, 'client' + id))) return json(env, { ok: false }, 403);
+    // Paiement de l'acompte : lien envoyé par le propriétaire APRÈS confirmation (jeton signé obligatoire).
+    if (path === '/payer') {
+      const id = Number(u.searchParams.get('id')), t = u.searchParams.get('t') || '';
+      const stop = (msg) => page('Paiement', `<h1>${msg}</h1><p>Contactez le Domaine La Rosière : <a href="tel:+33771712015">07 71 71 20 15</a>.</p>`);
+      if (!Number.isInteger(id) || !eq(t, await hmac(env, 'client' + id))) return stop('Lien de paiement invalide');
       const key = await setting(env, 'stancer_key', '');
       const r = await env.DB.prepare('SELECT * FROM requests WHERE id=?').bind(id).first();
-      if (!key || !r || r.paid_at || r.status === 'refusee') return path === '/payer' ? page('Paiement', '<h1>Paiement indisponible</h1><p>Contactez le Domaine La Rosière : 07 71 71 20 15.</p>') : json(env, { ok: false }, 409);
-      const others = (await env.DB.prepare("SELECT start, end FROM blocks WHERE NOT (source='direct' AND ref=?)").bind('req' + id).all()).results;
-      if (clash(others, r.arrival, r.departure)) return path === '/payer' ? page('Paiement', '<h1>Ces dates ne sont plus libres</h1><p>Contactez le Domaine La Rosière : 07 71 71 20 15.</p>') : json(env, { ok: false, error: 'dates_prises' }, 409);
-      const back = (env.SITE_URL || 'https://showf68.github.io/domaine-la-rosiere/') + '?acompte=' + id + '#demande';
-      const pi = await stancer(env, key, 'POST', 'payment_intents/', { amount: Math.round(r.estimate * DEPOSIT) * 100, currency: 'eur', methods_allowed: ['card'], description: `Acompte séjour ${r.arrival} au ${r.departure} RS-${id}`.slice(0, 64), return_url: back, metadata: { request: String(id) } });
+      if (r && r.paid_at) return stop('Acompte déjà reçu, merci');
+      if (!key || !r || r.status !== 'confirmee') return stop('Paiement indisponible');
+      // un seul paiement par demande : on reprend celui déjà ouvert s'il n'est pas réglé
+      if (r.pi_id) {
+        const old = await stancer(env, key, 'GET', 'payment_intents/' + r.pi_id).catch(() => null);
+        if (old && old.url && !old.payment && !['canceled', 'unpaid'].includes(old.status)) return Response.redirect(old.url, 303);
+        if (old && old.payment) return stop('Paiement en cours de vérification');
+      }
+      const back = (env.SITE_URL || 'https://showf68.github.io/domaine-la-rosiere/') + `?acompte=${id}&t=${t}#demande`;
+      const pi = await stancer(env, key, 'POST', 'payment_intents/', { amount: Math.round(r.estimate * DEPOSIT) * 100, currency: 'eur', methods_allowed: ['card'], description: `Acompte séjour RS-${id}`, return_url: back, metadata: { request: String(id) } });
       await env.DB.prepare('UPDATE requests SET pi_id=? WHERE id=?').bind(pi.id, id).run();
-      return path === '/payer' ? Response.redirect(pi.url, 303) : json(env, { ok: true, url: pi.url });
+      return Response.redirect(pi.url, 303);
     }
 
     if (path === '/acompte/etat') {
       const id = Number(u.searchParams.get('id'));
+      if (!Number.isInteger(id) || !eq(u.searchParams.get('t') || '', await hmac(env, 'client' + id))) return json(env, { paid: false }, 403);
       const r = await env.DB.prepare('SELECT pi_id, paid_at FROM requests WHERE id=?').bind(id).first();
       if (!r) return json(env, { paid: false });
       if (!r.paid_at && r.pi_id) { const key = await setting(env, 'stancer_key', ''); if (key) return json(env, { paid: await checkPaid(env, key, id, r.pi_id) }); }
@@ -348,6 +392,7 @@ export default {
       }
       if (!(await sessionOk(env, req))) return page('Connexion', `<h1>Domaine La Rosière</h1><p>Espace de gestion du propriétaire.</p><form method="post" action="/admin/lien"><button>Recevoir le lien de connexion par e-mail</button></form><p class="muted">Le lien arrive sur l’adresse e-mail du domaine.</p>`);
       if (path === '/admin/action' && req.method === 'POST') {
+        if (req.headers.get('origin') !== origin) return new Response('Origine refusée', { status: 403 }); // CSRF
         const msg = await adminAction(env, await req.formData(), origin);
         return new Response(null, { status: 303, headers: { location: '/admin?m=' + encodeURIComponent(msg) } });
       }

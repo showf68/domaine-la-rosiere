@@ -18,6 +18,12 @@ fi
 echo "base D1 : $DB_ID"
 python -c "import json;print(json.dumps({'sql':open('schema.sql',encoding='utf-8').read()}))" > .rs_schema.json
 echo "schema : $(call -X POST "$API/accounts/$CF_ACCOUNT/d1/database/$DB_ID/query" -H 'Content-Type: application/json' --data @.rs_schema.json | ok)"
+# Colonnes ajoutees apres coup : un fichier chacune ; « duplicate column » = deja faite.
+for m in migrations/*.sql; do
+  python -c "import json,sys;print(json.dumps({'sql':open(sys.argv[1],encoding='utf-8').read()}))" "$m" > .rs_migr.json
+  echo "$m : $(call -X POST "$API/accounts/$CF_ACCOUNT/d1/database/$DB_ID/query" -H 'Content-Type: application/json' --data @.rs_migr.json | python -c "import json,sys;d=json.load(sys.stdin);e=json.dumps(d.get('errors'));print('ok' if d.get('success') else ('deja faite' if 'duplicate column' in e else e))")"
+done
+rm -f .rs_migr.json
 
 cat > .rs_meta.json <<EOF
 {"main_module":"worker.mjs","compatibility_date":"2025-09-01","keep_bindings":["secret_text"],"bindings":[

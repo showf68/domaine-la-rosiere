@@ -429,9 +429,6 @@ dialog[open]{animation:fade .3s var(--ease)}
 @media (max-width:900px){.cal__months{grid-template-columns:1fr}.cal__m + .cal__m{display:none}.route__form{grid-template-columns:1fr}}
 .ask__tel{font-size:.9rem}.ask__tel a{color:var(--gold)}
 .send:disabled{opacity:.6;cursor:wait}
-.pay{margin:22px auto 0;max-width:46ch;text-align:left;border-top:1px solid var(--line);padding-top:16px}
-.pay p{margin:0 0 10px;color:var(--ink)}.pay .send{width:100%;justify-content:center;margin:4px 0 12px}
-.pay .iban{font-size:.88rem;background:var(--sand);padding:10px 12px;word-break:break-word}.pay .small{font-size:.8rem;color:var(--soft)}
 </style>
 </head>
 <body>
@@ -771,7 +768,7 @@ dialog[open]{animation:fade .3s var(--ease)}
   // API = service du site (voir server/). Vide : le formulaire ouvre un e-mail prérempli (repli).
   var CFG={api:'https://rosiere.boyoss.workers.dev',mail:'domainelarosiere@gmail.com',dest:'116 Grand’Rue, 67430 Diemeringen'};
   // Tarifs du site actuel (relevés le 26/10/2026), mêmes règles que server/worker.mjs ; les saisons viennent du service.
-  var TARIFS={rate1:{n:1200,w:6750,x:30,min:2},high:{n:1300,w:7600,x:26,min:4},very_high:{n:1450,w:10150,x:26,min:4}},INCL=20,SEASONS=[],PAY={};
+  var TARIFS={rate1:{n:1200,w:6750,x:30,min:2},high:{n:1300,w:7600,x:26,min:4},very_high:{n:1450,w:10150,x:26,min:4}},INCL=20,SEASONS=[];
   function tarifOf(iso){for(var i=0;i<SEASONS.length;i++){if(iso>=SEASONS[i].from&&iso<=SEASONS[i].to&&TARIFS[SEASONS[i].t])return TARIFS[SEASONS[i].t]}return TARIFS.rate1}
   var f=document.querySelector('[data-form]'),el=f.elements;
   var t=new Date();t.setMinutes(t.getMinutes()-t.getTimezoneOffset());var iso=t.toISOString().slice(0,10);
@@ -779,8 +776,8 @@ dialog[open]{animation:fade .3s var(--ease)}
   var rA=f.querySelector('[data-r-arr]'),rD=f.querySelector('[data-r-dep]'),rS=f.querySelector('[data-r-stay]'),est=f.querySelector('[data-estim]');
   function fmt(v){var d=new Date(v+'T12:00:00');return d.toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'short',year:'numeric'})}
   function setR(node,txt,empty){node.textContent=txt;node.classList.toggle('empty',!!empty)}
-  function addDays(v,n){var d=new Date(v+'T12:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
-  function nightsBetween(a,b){return Math.round((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/864e5)}
+  function addDays(v,n){return new Date(Date.parse(v+'T12:00:00Z')+n*864e5).toISOString().slice(0,10)}
+  function nightsBetween(a,b){return Math.round((Date.parse(b+'T12:00:00Z')-Date.parse(a+'T12:00:00Z'))/864e5)}
   // nuits déjà réservées (ensemble de dates AAAA-MM-JJ)
   var BUSY={};
   function setBusy(list){BUSY={};(list||[]).forEach(function(r){for(var d=r.start;d<r.end;d=addDays(d,1))BUSY[d]=1})}
@@ -826,7 +823,7 @@ dialog[open]{animation:fade .3s var(--ease)}
   f.querySelectorAll('[data-stepbtn]').forEach(function(x){x.addEventListener('click',function(){el.people.value=Math.min(50,Math.max(1,(parseInt(el.people.value,10)||0)+ +x.dataset.stepbtn));nights()})});
   el.people.addEventListener('input',nights);el.sheets.addEventListener('change',nights);el.towels.addEventListener('change',nights);
   nights();
-  fetch((CFG.api||'../..')+(CFG.api?'/disponibilites.json':'/data/disponibilites.json'),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){setBusy(j.booked);SEASONS=j.seasons||[];PAY=j.payment||{};nights()}).catch(function(){});
+  fetch((CFG.api||'../..')+(CFG.api?'/disponibilites.json':'/data/disponibilites.json'),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){setBusy(j.booked);SEASONS=j.seasons||[];nights()}).catch(function(){});
   function err(input,msg){var fl=input.closest('.fld');var o=fl.querySelector('.err');if(o)o.remove();fl.classList.toggle('bad',!!msg);input.setAttribute('aria-invalid',msg?'true':'false');if(msg){var e=document.createElement('span');e.className='err';e.textContent=msg;fl.appendChild(e)}}
   f.addEventListener('submit',function(ev){ev.preventDefault();var first=null;function bad(i,m){err(i,m);if(!first)first=i}
     ['arrival','departure','people','name','email','phone','message'].forEach(function(n){err(el[n],'')});
@@ -842,25 +839,19 @@ dialog[open]{animation:fade .3s var(--ease)}
     var n=nightsBetween(el.arrival.value,el.departure.value),q=price(n,pp,el.arrival.value);
     var d={arrival:el.arrival.value,departure:el.departure.value,people:pp,type:f.querySelector('[name=type]:checked').value,name:el.name.value.trim(),email:el.email.value.trim(),phone:el.phone.value.trim(),sheets:el.sheets.checked,towels:el.towels.checked,message:el.message.value.trim(),estimate:q.total,nights:n};
     var send=f.querySelector('.send');
-    function done(title,txt,extra){f.querySelector('[data-formbody]').hidden=true;var dn=f.querySelector('[data-done]');dn.hidden=false;f.querySelector('[data-donetitle]').textContent=title;f.querySelector('[data-donetxt]').textContent=txt;var x=dn.querySelector('[data-pay]');if(x)x.remove();if(extra){dn.insertAdjacentHTML('beforeend',extra)}}
+    function done(title,txt){f.querySelector('[data-formbody]').hidden=true;f.querySelector('[data-done]').hidden=false;f.querySelector('[data-donetitle]').textContent=title;f.querySelector('[data-donetxt]').textContent=txt}
     send.disabled=true;send.classList.add('busy');
     fetch(CFG.api+'/demande',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json().then(function(j){return {s:r.status,j:j}})}).then(function(o){
       send.disabled=false;send.classList.remove('busy');var j=o.j;
       if(o.s===409){bad(el.departure,'Diese Tage sind belegt.');el.departure.focus();return}
       if(o.s===422&&j.error==='sejour_minimum'){bad(el.departure,'Mindestaufenthalt: '+j.min+' Nächte.');el.departure.focus();return}
       if(!j.ok)throw 0;
-      var pay='';
-      if(j.iban||j.card){pay='<div class="pay" data-pay><p>Um sofort zu buchen, zahlen Sie die Anzahlung von 30 %: <b>'+eur(j.deposit)+'</b> von '+eur(j.total)+'.</p>'
-        +(j.card?'<button type="button" class="send" data-paycard="'+j.id+'" data-t="'+j.t+'">Anzahlung per Karte zahlen</button>':'')
-        +(j.iban?'<p class="iban">Per Überweisung: IBAN <b>'+j.iban.replace(/[<>&"]/g,'')+'</b>, Verwendungszweck <b>'+j.ref+'</b></p>':'')
-        +'<p class="small">Oder warten Sie unverbindlich auf die Antwort des Eigentümers.</p></div>'}
-      done('Danke, Ihre Anfrage ist verschickt.','Der Eigentümer antwortet Ihnen persönlich, per E-Mail oder Telefon.',pay);
-      var pc=f.querySelector('[data-paycard]');if(pc)pc.addEventListener('click',function(){pc.disabled=true;fetch(CFG.api+'/acompte',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:+pc.dataset.paycard,t:pc.dataset.t})}).then(function(r){return r.json()}).then(function(x){if(x.url)location.href=x.url;else{pc.disabled=false;pc.textContent='Zahlung nicht möglich, bitte +33 7 71 71 20 15 anrufen'}}).catch(function(){pc.disabled=false})});
+      done('Danke, Ihre Anfrage ist verschickt.','Der Eigentümer antwortet Ihnen persönlich. Sobald er Ihre Tage bestätigt, schickt er Ihnen den Link für die Anzahlung von 30 % ('+eur(j.deposit)+'), per Überweisung oder Karte.');
     }).catch(function(){send.disabled=false;send.classList.remove('busy');bad(el.email,'Senden gerade nicht möglich: Schreiben Sie an '+CFG.mail+' oder rufen Sie +33 7 71 71 20 15 an.')})});
   // retour du paiement par carte
-  var qa=(location.search.match(/[?&]acompte=(\d+)/)||[])[1];
+  var qa=(location.search.match(/[?&]acompte=(\d+)/)||[])[1],qt=(location.search.match(/[?&]t=([a-f0-9]+)/)||[])[1]||'';
   if(qa){f.querySelector('[data-formbody]').hidden=true;var dn0=f.querySelector('[data-done]');dn0.hidden=false;f.querySelector('[data-donetitle]').textContent='Zahlung wird geprüft…';f.querySelector('[data-donetxt]').textContent='';
-    var tries=0;(function poll(){fetch(CFG.api+'/acompte/etat?id='+qa).then(function(r){return r.json()}).then(function(x){if(x.paid){f.querySelector('[data-donetitle]').textContent='Danke, Ihre Anzahlung ist eingegangen.';f.querySelector('[data-donetxt]').textContent='Ihre Tage sind gebucht. Der Eigentümer meldet sich wegen des Vertrags.'}else if(++tries<8)setTimeout(poll,3000);else{f.querySelector('[data-donetitle]').textContent='Zahlung nicht bestätigt.';f.querySelector('[data-donetxt]').textContent='Wurde Ihre Karte belastet, sieht es der Eigentümer; sonst rufen Sie +33 7 71 71 20 15 an.'}}).catch(function(){})})();
+    var tries=0;(function poll(){fetch(CFG.api+'/acompte/etat?id='+qa+'&t='+qt).then(function(r){return r.json()}).then(function(x){if(x.paid){f.querySelector('[data-donetitle]').textContent='Danke, Ihre Anzahlung ist eingegangen.';f.querySelector('[data-donetxt]').textContent='Ihre Tage sind gebucht. Der Eigentümer meldet sich wegen des Vertrags.'}else if(++tries<8)setTimeout(poll,3000);else{f.querySelector('[data-donetitle]').textContent='Zahlung nicht bestätigt.';f.querySelector('[data-donetxt]').textContent='Wurde Ihre Karte belastet, sieht es der Eigentümer; sonst rufen Sie +33 7 71 71 20 15 an.'}}).catch(function(){})})();
     setTimeout(function(){document.getElementById('demande').scrollIntoView()},300)}
   // ---- itineraire ----
   var rt=document.querySelector('[data-route]');
