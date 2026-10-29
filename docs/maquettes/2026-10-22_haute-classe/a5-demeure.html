@@ -430,6 +430,9 @@ dialog[open]{animation:fade .3s var(--ease)}
 @media (max-width:359px){.top__in{padding-left:var(--pad);padding-right:var(--pad);gap:10px}.mark b{font-size:.84rem;letter-spacing:.04em}.burger{margin-right:0;width:40px}.lang a{padding:5px 6px}.fgrid .c2{grid-column:1/-1}}
 /* telephone : photos des chambres en 2 colonnes lisibles, avec leur legende */
 @media (max-width:560px){.rooms__pics{grid-template-columns:1fr 1fr;gap:10px}.rooms__pics figcaption{display:block}}
+/* proprietaire 29/10 : tout l'ecran rempli sur tout le site (plus de bandes laterales, contenu plus large sur grand ecran) */
+.frame{width:100%;max-width:none;border-left:0;border-right:0}
+@media (min-width:1500px){:root{--max:min(1640px,calc(100vw - 2*var(--pad) - 88px))}}
 </style>
 </head>
 <body>
