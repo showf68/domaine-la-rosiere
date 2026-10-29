@@ -42,3 +42,8 @@
 /* proprietaire 29/10 : tout l'ecran rempli sur tout le site (plus de bandes laterales, contenu plus large sur grand ecran) */
 .frame{width:100%;max-width:none;border-left:0;border-right:0}
 @media (min-width:1500px){:root{--max:min(1640px,calc(100vw - 2*var(--pad) - 88px))}}
+/* dehors : la grande terrasse avec pergola sur deux colonnes, grille de 3 (proprietaire 29/10) */
+.garden__grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.garden__grid .wide{grid-column:span 2}
+.garden__grid .wide .ph{position:absolute;inset:0;aspect-ratio:auto;height:100%}
+@media (max-width:700px){.garden__grid{grid-template-columns:1fr 1fr}.garden__grid .wide .ph{position:static;aspect-ratio:2/1;height:auto}}

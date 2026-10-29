@@ -23,10 +23,14 @@ rep('Au sous-sol de la villa, un bassin', 'À l’entre-sol de la villa, un bass
 rep('<h2 class="h2">La Rosière, depuis 1947.</h2>', '<h2 class="h2">Une maison de famille, depuis 2014.</h2>')
 rep('<p class="muted">Une grande maison de famille au cœur des Vosges du Nord, louée entière à votre groupe : un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, au sous-sol, la piscine.</p>',
     '<p class="muted">Le Domaine La Rosière vous accueille au cœur des Vosges du Nord, dans une grande maison de famille louée en totalité à votre groupe : un lobby de soixante-dix mètres carrés, des salons ouverts sur le jardin et, à l’entre-sol, la piscine.</p>')
-# dehors : la terrasse couverte s'appelle « le grand chalet » (proprietaire 26/10)
-rep('une terrasse couverte pour les repas de groupe', 'un grand chalet pour les repas de groupe')
-rep('alt="La terrasse couverte" loading="lazy"><figcaption>La terrasse couverte</figcaption>', 'alt="Le grand chalet" loading="lazy"><figcaption>Le grand chalet</figcaption>')
-rep("['terrasse-couverte','La terrasse couverte']", "['terrasse-couverte','Le grand chalet']")
+# dehors : la terrasse couverte s'appelle « le chapiteau des festivités » (proprietaire 26/10 puis 29/10)
+rep('une terrasse couverte pour les repas de groupe', 'un chapiteau des festivités pour les repas de groupe')
+rep('alt="La terrasse couverte" loading="lazy"><figcaption>La terrasse couverte</figcaption>', 'alt="Le chapiteau des festivités" loading="lazy"><figcaption>Le chapiteau des festivités</figcaption>')
+rep("['terrasse-couverte','La terrasse couverte']", "['terrasse-pergola','Grande terrasse avec pergola'],['terrasse-couverte','Le chapiteau des festivités']")
+# dehors : photo de la grande terrasse avec pergola, en tete de la grille, sur deux colonnes (proprietaire 29/10)
+rep('<figure class="zoom"><img class="ph" data-lb src="../../assets/img/terrasse-couverte-s.webp"',
+    '<figure class="zoom wide"><img class="ph" data-lb src="../../assets/img/terrasse-pergola-s.webp" data-full="../../assets/img/terrasse-pergola.webp" alt="Grande terrasse avec pergola" loading="lazy"><figcaption>Grande terrasse avec pergola</figcaption></figure>\n      <figure class="zoom"><img class="ph" data-lb src="../../assets/img/terrasse-couverte-s.webp"')
+rep('<li>Terrasse : 6 tables, 30 fauteuils</li>', '<li>Grande terrasse avec pergola : 6 tables, 30 fauteuils</li><li>Le chapiteau des festivités</li>')
 rep('<b>La Rosière en photos</b>', '<b>Le Domaine La Rosière en photos</b>')
 # vos sejours : chaque photo montre ce que dit son texte (proprietaire 26/10)
 rep('terrasse-table-s.webp" alt="" loading="lazy"></figure><h3 class="h3">Cousinades', 'salon-s.webp" alt="Le grand salon" loading="lazy"></figure><h3 class="h3">Cousinades')

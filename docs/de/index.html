@@ -438,6 +438,11 @@ dialog[open]{animation:fade .3s var(--ease)}
 /* proprietaire 29/10 : tout l'ecran rempli sur tout le site (plus de bandes laterales, contenu plus large sur grand ecran) */
 .frame{width:100%;max-width:none;border-left:0;border-right:0}
 @media (min-width:1500px){:root{--max:min(1640px,calc(100vw - 2*var(--pad) - 88px))}}
+/* dehors : la grande terrasse avec pergola sur deux colonnes, grille de 3 (proprietaire 29/10) */
+.garden__grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.garden__grid .wide{grid-column:span 2}
+.garden__grid .wide .ph{position:absolute;inset:0;aspect-ratio:auto;height:100%}
+@media (max-width:700px){.garden__grid{grid-template-columns:1fr 1fr}.garden__grid .wide .ph{position:static;aspect-ratio:2/1;height:auto}}
 </style>
 </head>
 <body>
@@ -575,17 +580,18 @@ dialog[open]{animation:fade .3s var(--ease)}
 </section>
 
 <section class="sec tint wrap" id="jardins">
-  <div class="head"><div><span class="lab">Draußen</span><h2 class="h2">Viertausend Quadratmeter Garten.</h2></div><p class="muted">Rosen, große Bäume, ein großes Chalet für Gruppenmahlzeiten und genug Beschäftigung für die Kinder bis zum Abend.</p></div>
+  <div class="head"><div><span class="lab">Draußen</span><h2 class="h2">Viertausend Quadratmeter Garten.</h2></div><p class="muted">Rosen, große Bäume, ein Festpavillon für Gruppenmahlzeiten und genug Beschäftigung für die Kinder bis zum Abend.</p></div>
   <div class="garden">
     <figure class="garden__main zoom"><img class="ph" data-lb src="../assets/img/facade-ete-s.webp" data-full="../assets/img/facade-ete.webp" alt="Der Weg zwischen Rosen und Lavendel" loading="lazy"><figcaption>Der Weg, zwischen Rosen und Lavendel</figcaption></figure>
     <div class="garden__grid">
-      <figure class="zoom"><img class="ph" data-lb src="../assets/img/terrasse-couverte-s.webp" alt="Das große Chalet" loading="lazy"><figcaption>Das große Chalet</figcaption></figure>
+      <figure class="zoom wide"><img class="ph" data-lb src="../assets/img/terrasse-pergola-s.webp" data-full="../assets/img/terrasse-pergola.webp" alt="Große Terrasse mit Pergola" loading="lazy"><figcaption>Große Terrasse mit Pergola</figcaption></figure>
+      <figure class="zoom"><img class="ph" data-lb src="../assets/img/terrasse-couverte-s.webp" alt="Der Festpavillon" loading="lazy"><figcaption>Der Festpavillon</figcaption></figure>
       <figure class="zoom"><img class="ph" data-lb src="../assets/img/brasero-s.webp" alt="Die große Feuerschale" loading="lazy"><figcaption>Die große Feuerschale</figcaption></figure>
       <figure class="zoom"><img class="ph" data-lb src="../assets/img/tennis-s.webp" alt="Tennis und Basketball" loading="lazy"><figcaption>Tennis und Basketball</figcaption></figure>
       <figure class="zoom"><img class="ph" data-lb src="../assets/img/jeux-s.webp" alt="Der Spielplatz" loading="lazy"><figcaption>Der Spielplatz</figcaption></figure>
     </div>
   </div>
-  <ul class="pills"><li>Terrasse: 6 Tische, 30 Sessel</li><li>Holzofen, Flammkuchen</li><li>Grill</li><li>Große Feuerschale, Holz gestellt</li><li>Tennis und Basketball</li><li>Schaukeln und Klettergerüste</li><li>Privatparkplatz, 15 Autos</li></ul>
+  <ul class="pills"><li>Große Terrasse mit Pergola: 6 Tische, 30 Sessel</li><li>Der Festpavillon</li><li>Holzofen, Flammkuchen</li><li>Grill</li><li>Große Feuerschale, Holz gestellt</li><li>Tennis und Basketball</li><li>Schaukeln und Klettergerüste</li><li>Privatparkplatz, 15 Autos</li></ul>
 </section>
 
 <section class="sec wrap" id="occasions">
@@ -761,7 +767,7 @@ dialog[open]{animation:fade .3s var(--ease)}
   var sx=null;lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
   lb.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)show(k+(dx<0?1:-1));sx=null});
   // galerie
-  var A=[['piscine','Das Hallenbad'],['piscine-2','Das Becken und seine Lichter'],['piscine-3','Das Hallenbad, Seite Planschbecken'],['facade-roses','Die Fassade mit ihren Rosen'],['facade-nuit','Die Fassade am Abend'],['lobby','Die Eingangshalle mit Eichentreppe'],['lobby-cheminee','Die Eingangshalle mit Kamin'],['escalier','Die Eichentreppe'],['salon','Der große Salon'],['salon-3','Der Fernsehsalon'],['salle-a-manger','Der Speisesaal'],['salle-a-manger-2','Der zweite Speisesaal'],['cuisine','Die Profiküche'],['four-pro','Der Profiofen'],['chambre-double','Doppelzimmer'],['chambre-fleurie','Doppelzimmer mit Blumentapete'],['chambre-verte','Zimmer unter dem Dach'],['chambre-ocre','Familienzimmer'],['chambre-bleue-3','Familienzimmer mit Sitzecke'],['sdb-baignoire','Bad in schwarzem Marmor'],['sdb','Duschbad'],['babyfoot','Das Spielzimmer'],['pingpong','Die Tischtennisplatte'],['terrasse-couverte','Das große Chalet'],['brasero','Die große Feuerschale'],['arche-roses','Der Rosenbogen'],['jardin','Der Garten'],['tennis','Tennis und Basketball'],['jeux','Der Spielplatz'],['vue-aerienne','Luftaufnahme']];
+  var A=[['piscine','Das Hallenbad'],['piscine-2','Das Becken und seine Lichter'],['piscine-3','Das Hallenbad, Seite Planschbecken'],['facade-roses','Die Fassade mit ihren Rosen'],['facade-nuit','Die Fassade am Abend'],['lobby','Die Eingangshalle mit Eichentreppe'],['lobby-cheminee','Die Eingangshalle mit Kamin'],['escalier','Die Eichentreppe'],['salon','Der große Salon'],['salon-3','Der Fernsehsalon'],['salle-a-manger','Der Speisesaal'],['salle-a-manger-2','Der zweite Speisesaal'],['cuisine','Die Profiküche'],['four-pro','Der Profiofen'],['chambre-double','Doppelzimmer'],['chambre-fleurie','Doppelzimmer mit Blumentapete'],['chambre-verte','Zimmer unter dem Dach'],['chambre-ocre','Familienzimmer'],['chambre-bleue-3','Familienzimmer mit Sitzecke'],['sdb-baignoire','Bad in schwarzem Marmor'],['sdb','Duschbad'],['babyfoot','Das Spielzimmer'],['pingpong','Die Tischtennisplatte'],['terrasse-pergola','Große Terrasse mit Pergola'],['terrasse-couverte','Der Festpavillon'],['brasero','Die große Feuerschale'],['arche-roses','Der Rosenbogen'],['jardin','Der Garten'],['tennis','Tennis und Basketball'],['jeux','Der Spielplatz'],['vue-aerienne','Luftaufnahme']];
   var albSet=A.map(function(a){return {src:'../assets/img/'+a[0]+'.webp',alt:a[1]}});
   var alb=document.getElementById('dlg-album');
   alb.querySelector('[data-album]').innerHTML=A.map(function(a,i){return '<button type="button" data-ai="'+i+'"><img src="../assets/img/'+a[0]+'-s.webp" alt="'+a[1]+'" loading="lazy"><span>'+a[1]+'</span></button>'}).join('');
