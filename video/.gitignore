@@ -5,3 +5,4 @@ _ctrl/
 out/
 *.mp4
 mix.wav
+mix_*.wav
